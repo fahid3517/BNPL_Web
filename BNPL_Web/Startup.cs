@@ -53,7 +53,7 @@ namespace BNPL_Web
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.SlidingExpiration = true;
             });
-            RegisterDependancy(services, ServiceLifetime.Scoped);
+         ///   RegisterDependancy(services, ServiceLifetime.Scoped);
             services.AddMvc();
             services.AddDbContext<BNPL_Context>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

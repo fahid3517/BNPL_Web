@@ -1,5 +1,7 @@
 ﻿using BNPL_Web.Common.ViewModels;
+using BNPL_Web.CustomAnnotation;
 using BNPL_Web.DataAccessLayer.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +17,10 @@ namespace BNPL_Web.Controllers.ApiControllers
             service = (IRoleService)provider.GetService(typeof(IRoleService));
 
         }
-        [Route("Post")]
+        [ApiCustomAuthorize]
         [HttpPost]
-        public IActionResult Post(RolesViewModel model)
+        [Route("Add")]
+        public IActionResult Add(RolesViewModel model)
         {
             var response = service.Add(model);
             return StatusCode((int)response.Status, response.obj);

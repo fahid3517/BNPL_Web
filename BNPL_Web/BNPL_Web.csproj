@@ -32,4 +32,8 @@
     <ProjectReference Include="..\BNPL_Web.DataAccessLayer\BNPL_Web.DataAccessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CustomAnnotation\" />
+  </ItemGroup>
+
 </Project>

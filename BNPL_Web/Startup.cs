@@ -1,13 +1,14 @@
 ﻿using BNPL_Web.Authentications;
 using BNPL_Web.Common.Interface;
-
+using BNPL_Web.DatabaseModels.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using Project.DataAccessLayer.Shared;
 using Project.DatabaseModel.DbImplementation;
-using Project.DatabaseModel.Models;
+using System.Configuration;
 using System.Reflection;
 
 
@@ -39,7 +40,7 @@ namespace BNPL_Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(typeof(IFileManager), typeof(FileManager));
 
-            IdentityConfig(services);
+            //IdentityConfig(services);
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -53,9 +54,11 @@ namespace BNPL_Web
             });
             RegisterDependancy(services, ServiceLifetime.Scoped);
             services.AddMvc();
-            // services.AddDbContext<DbService>(options =>
-            // options.UseSqlServer(Configuration.GetConnectionString("JYA_HRMS_2.0")), ServiceLifetime.Scoped);
-
+            services.AddDbContext<BNPL_Context>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<BNPL_Context>()
+                .AddDefaultTokenProviders();
 
         }
 
@@ -145,24 +148,24 @@ namespace BNPL_Web
         }
 
 
-        private void IdentityConfig(IServiceCollection services)
-        {
-            services.AddTransient<IdentityService>();
-            services.AddIdentity<ApplicationUser, IdentityRole>(
-       options =>
-       {
-           options.SignIn.RequireConfirmedAccount = false;
-           options.Password.RequireDigit = true;
-           options.Password.RequireLowercase = true;
-           options.Password.RequireNonAlphanumeric = true;
-           options.Password.RequireUppercase = true;
-           options.Password.RequiredLength = 6;
-           options.Password.RequiredUniqueChars = 1;
-           //Other options go here
-       })
-       .AddEntityFrameworkStores<IdentityService>();
+       // private void IdentityConfig(IServiceCollection services)
+       // {
 
-        }
+       //     services.AddIdentity<ApplicationUser, IdentityRole>(
+       //options =>
+       //{
+       //    options.SignIn.RequireConfirmedAccount = false;
+       //    options.Password.RequireDigit = true;
+       //    options.Password.RequireLowercase = true;
+       //    options.Password.RequireNonAlphanumeric = true;
+       //    options.Password.RequireUppercase = true;
+       //    options.Password.RequiredLength = 6;
+       //    options.Password.RequiredUniqueChars = 1;
+       //    Other options go here
+       //})
+       //.AddEntityFrameworkStores<IdentityService>();
+
+       // }
         private void RegisterDependancy(IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Transient)
         {
             var typesFromAssemblies = Assembly.Load("BNPL_Web.DataAccessLayer").GetTypes().Where(x => x.Name.EndsWith("Service") && !x.IsInterface);

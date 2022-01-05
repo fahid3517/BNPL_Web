@@ -119,20 +119,7 @@ namespace BNPL_Web
                 Path.Combine(Directory.GetCurrentDirectory(), @"Scripts")),
                 RequestPath = new PathString("/Scripts"),
             });
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                ServeUnknownFileTypes = true, // this was needed as IIS would not serve extensionless URLs from the directory without it
-                FileProvider = new PhysicalFileProvider(
-                  Path.Combine(Directory.GetCurrentDirectory(), @"Areas/MasterData/Scripts")),
-                RequestPath = new PathString("/Scripts"),
-            });
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                ServeUnknownFileTypes = true, // this was needed as IIS would not serve extensionless URLs from the directory without it
-                FileProvider = new PhysicalFileProvider(
-                 Path.Combine(Directory.GetCurrentDirectory(), @"Areas/HrPortal/Scripts")),
-                RequestPath = new PathString("/Scripts"),
-            });
+            
             app.UseStaticFiles(new StaticFileOptions()
             {
                 ServeUnknownFileTypes = true, // this was needed as IIS would not serve extensionless URLs from the directory without it
@@ -140,13 +127,13 @@ namespace BNPL_Web
                  Path.Combine(Directory.GetCurrentDirectory(), @"Areas/SelfPortal/Scripts")),
                 RequestPath = new PathString("/Scripts"),
             });
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                ServeUnknownFileTypes = true, // this was needed as IIS would not serve extensionless URLs from the directory without it
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), @"UploadedFiles")),
-                RequestPath = new PathString("/UploadedFiles"),
-            });
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    ServeUnknownFileTypes = true, // this was needed as IIS would not serve extensionless URLs from the directory without it
+            //    FileProvider = new PhysicalFileProvider(
+            //    Path.Combine(Directory.GetCurrentDirectory(), @"UploadedFiles")),
+            //    RequestPath = new PathString("/UploadedFiles"),
+            //});
             app.UseStaticFiles(new StaticFileOptions()
             {
                 ServeUnknownFileTypes = true, // this was needed as IIS would not serve extensionless URLs from the directory without it
@@ -178,7 +165,7 @@ namespace BNPL_Web
         }
         private void RegisterDependancy(IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Transient)
         {
-            var typesFromAssemblies = Assembly.Load("Project.DataAccessLayer").GetTypes().Where(x => x.Name.EndsWith("Service") && !x.IsInterface);
+            var typesFromAssemblies = Assembly.Load("BNPL_Web.DataAccessLayer").GetTypes().Where(x => x.Name.EndsWith("Service") && !x.IsInterface);
             foreach (var type in typesFromAssemblies)
             {
                 var interfaceType = type.GetInterfaces().FirstOrDefault();

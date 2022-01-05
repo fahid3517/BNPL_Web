@@ -1,0 +1,59 @@
+﻿
+<script src="~/Scripts/RolesManagement/Roles.js"></script>
+<link href="~/assets/css/toggle_switches_styling.css" rel="stylesheet"/>
+<div>
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row">
+            <div class="col">
+                <h3 class="page-title">Roles & Permissions</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a>Manage Roles & Permissions</a></li>
+                    <li class="breadcrumb-item active">Roles & Permissions List</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Header -->
+    <div id="error" style="color:#910e0e; font-weight:bold;"></div>
+    <div id="success" style="color:#4ea51f; font-weight:bold;"></div>
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-3">
+      @*      @if (Project.Utilities.AuthorizationUtility.userHasPrivilege(User.Identity.Name, Project.Common.Enums.EnumPrivilegesName.ADD_ROLE))*@
+           @* {*@
+                <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#add_role"><i class="fa fa-plus"></i> Add Roles</a>
+           @* }*@
+
+            <div class="roles-menu" style="height:500px;overflow-y: auto;padding: 0px !important;padding-bottom: 10px !important;">
+                <ul id="rolesList"></ul>
+            </div>
+        </div>
+
+        <div class="col-sm-8 col-md-8 col-lg-8 col-xl-9">
+            <div class="row m-b-35">
+                <h6 class="card-title col-sm-6 col-md-6">Module Access</h6>
+               @* @if (Project.Utilities.AuthorizationUtility.userHasPrivilege(User.Identity.Name, Project.Common.Enums.EnumPrivilegesName.UPDATE_ROLE))
+                {*@
+                    <div class="text-right col-sm-6 col-md-6">
+                        <button type="button" id="btn-role-submit" class="btn btn-primary" onclick="Submit()">Submit</button>
+                    </div>
+                @*}*@
+
+            </div>
+
+            <div id="list-priviliges" class="m-b-30">
+                <ul class="list-group notification-list">
+                    <li>
+                        Loading...
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+        <partial name="~/Areas/SelfPortal/Views/RolesModal/_ModalAdd.cshtml" />;
+        <partial name="~/Areas/SelfPortal/Views/RolesModal/_ModalDelete.cshtml" />;
+        <partial name="~/Areas/SelfPortal/Views/RolesModal/_ModalEdit.cshtml" />;
+                
+    </div>

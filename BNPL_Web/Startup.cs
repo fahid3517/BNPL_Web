@@ -167,7 +167,7 @@ namespace BNPL_Web
                Path.Combine(Directory.GetCurrentDirectory(), @"Areas/SelfPortal/Scripts")),
                 RequestPath = new PathString("/Viwes"),
             });
-            ApplicationDbInitializer.SeedUsers(userManager, roleManager);
+           // ApplicationDbInitializer.SeedUsers(userManager, roleManager);
         }
 
 

@@ -1,4 +1,28 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BNPL_Web.Authentications;
+using BNPL_Web.Common.Interface;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
+using Project.DataAccessLayer.Shared;
+using Project.DatabaseModel.DbImplementation;
+using Project.DatabaseModel.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+
 
 namespace BNPL_Web
 {
@@ -24,7 +48,7 @@ namespace BNPL_Web
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
-            services.AddTransient<IAuthorizationMiddlewareResultHandler, ApiCustomAuthorizeAttribute>();
+           // services.AddTransient<IAuthorizationMiddlewareResultHandler, ApiCustomAuthorizeAttribute>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(typeof(IFileManager), typeof(FileManager));
 
@@ -42,8 +66,8 @@ namespace BNPL_Web
             });
             RegisterDependancy(services, ServiceLifetime.Scoped);
             services.AddMvc();
-            services.AddDbContext<DbService>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("JYA_HRMS_2.0")), ServiceLifetime.Scoped);
+           // services.AddDbContext<DbService>(options =>
+           // options.UseSqlServer(Configuration.GetConnectionString("JYA_HRMS_2.0")), ServiceLifetime.Scoped);
 
 
         }

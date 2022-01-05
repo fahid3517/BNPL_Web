@@ -24,6 +24,7 @@
   <ItemGroup>
     <Folder Include="Areas\SelfPortal\Scripts\" />
     <Folder Include="Areas\SelfPortal\Scripts\" />
+    <Folder Include="Controllers\ViewControllers\" />
     <Folder Include="Controllers\WebApiControllers\" />
   </ItemGroup>
 

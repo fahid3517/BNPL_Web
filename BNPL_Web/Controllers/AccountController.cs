@@ -1,4 +1,5 @@
 ﻿using BNPL_Web.Authentications;
+using BNPL_Web.Common.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

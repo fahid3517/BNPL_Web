@@ -53,7 +53,7 @@ namespace BNPL_Web
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.SlidingExpiration = true;
             });
-         ///   RegisterDependancy(services, ServiceLifetime.Scoped);
+         RegisterDependancy(services, ServiceLifetime.Scoped);
             services.AddMvc();
             services.AddDbContext<BNPL_Context>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -82,7 +82,7 @@ namespace BNPL_Web
 
             app.UseRouting();
             app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthorization();
             //Area Routing
             app.UseEndpoints(endpoints =>
             {

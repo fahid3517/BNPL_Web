@@ -1,4 +1,5 @@
 ﻿using BNPL_Web.Common.ViewModels;
+using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.CustomAnnotation;
 using BNPL_Web.DataAccessLayer.IServices;
 using Microsoft.AspNetCore.Authorization;
@@ -17,12 +18,35 @@ namespace BNPL_Web.Controllers.ApiControllers
             service = (IRoleService)provider.GetService(typeof(IRoleService));
 
         }
-        [ApiCustomAuthorize]
         [HttpPost]
         [Route("Add")]
-        public IActionResult Add(RolesViewModel model)
+        public IActionResult Add(string  role)
         {
-            var response = service.Add(model);
+            RolesViewModel roles = new RolesViewModel();
+            roles.Name = role;
+            var response = service.Add(roles);
+            return StatusCode((int)response.Status, response.obj);
+        }
+        [Route("GetAllPrivilegesAndRole")]
+        [HttpGet]
+        public IActionResult GetAllPrivilegesAndRole()
+        {
+            var response = service.GetAllPrivilegeAndRole();
+            return StatusCode((int)response.Status, response.obj);
+        }
+        [Route("AssignPrivilegeToRole")]
+        [HttpPost]
+        public IActionResult AssignPrivilegeToRole(AssignPrivilegesViewModel[] value)
+        {
+            var response = service.AssignViewsToRole(value);
+            return StatusCode((int)response.Status, response.obj);
+        }
+
+        [Route("GetAssignPrivilegeByRoleId")]
+        [HttpGet]
+        public IActionResult GetAssignPrivilegeByRoleId(string Id)
+        {
+            var response = service.GetAssignPrivilegeByRoleId(Id);
             return StatusCode((int)response.Status, response.obj);
         }
     }

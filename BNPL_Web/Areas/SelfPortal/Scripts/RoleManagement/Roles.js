@@ -229,7 +229,7 @@ function activeMenu(_menuId) {
 function Submit() {
     var _data = [];
     var selectedPrivileges = $(".privilege:checked");
-    if (selectedPrivileges.length > 1 && selectedRole != "") {
+    if (selectedPrivileges.length > 0 && selectedRole != "") {
         ShowLoader();
         $("#btn-role-submit").prop("disabled", true);
         $.each(selectedPrivileges, function (i, item) {
@@ -324,18 +324,19 @@ function DeleteRole() {
 }
 
 function AddRole() {
-    var Role = {
-        Id: "",
-        RoleName: $("#RoleName").val(),
-        allPrivelages: []
-    };
+    var RoleName= $("#RoleName").val();
+    //var Role = {
+    //    Id: "",
+    //    RoleName: $("#RoleName").val(),
+    //    allPrivelages: []
+    //};
     debugger;
-    if (Role.RoleName != undefined && Role.RoleName != "") {
+    if (RoleName != undefined && RoleName != "") {
         ShowModalLoader();
         $.ajax({
-            url: '/api/Roles/Add',
+            url: '/api/Roles/Add?role=' + RoleName,
             type: 'POST',
-            data: JSON.stringify(Role),
+          //  data: JSON.stringify(Role),
             contentType: "application/json;charset=utf-8",
             success: function (data) {
                 toastr.success("Role added successfully", { timeOut: 5000 });

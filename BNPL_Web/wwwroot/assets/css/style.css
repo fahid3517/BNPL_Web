@@ -73,17 +73,12 @@ Version      : 3.5
 64. Responsive
 
 ========================================*/
-
 @font-face {
 	font-family: 'Material Icons';
 	font-style: normal;
 	font-weight: 400;
 	src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
-	src: local('Material Icons'),
-	local('MaterialIcons-Regular'),
-	url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
-	url(../fonts/MaterialIcons-Regular.woff) format('woff'),
-	url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+	src: local('Material Icons'), local('MaterialIcons-Regular'), url(../fonts/MaterialIcons-Regular.woff2) format('woff2'), url(../fonts/MaterialIcons-Regular.woff) format('woff'), url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
 @font-face {
 	font-family: 'CircularStd';
@@ -308,7 +303,7 @@ table.table td h2 a {
 	color: #333;
 }
 table.table td h2 a:hover {
-	color: #00c5fb;
+	color: #476168;
 }
 table.table td h2 span {
 	color: #888;
@@ -464,7 +459,7 @@ table.dataTable thead > tr > td.sorting {
 }
 .bg-primary,
 .badge-primary {
-	background-color: #00c5fb !important;
+	background-color: #476168 !important;
 }
 .bg-success,
 .badge-success {
@@ -487,7 +482,7 @@ table.dataTable thead > tr > td.sorting {
 }
 .text-primary,
 .dropdown-menu > li > a.text-primary {
-	color: #00c5fb !important;
+	color: #476168 !important;
 }
 .text-success,
 .dropdown-menu > li > a.text-success {
@@ -523,8 +518,8 @@ table.dataTable thead > tr > td.sorting {
 	border: 1px solid #482fe9;
 }
 .btn-primary {
-	background-color: #00c5fb;
-	border: 1px solid #00c5fb;
+	background-color: #476168;
+	border: 1px solid #476168;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -559,8 +554,8 @@ table.dataTable thead > tr > td.sorting {
 	box-shadow: unset;
 }
 .btn-primary.disabled, .btn-primary:disabled {
-    background-color: #00c5fb;
-    border-color: #00c5fb;
+    background-color: #476168;
+    border-color: #476168;
     color: #fff;
 }
 .btn-success {
@@ -701,21 +696,21 @@ table.dataTable thead > tr > td.sorting {
     color: #fff;
 }
 .btn-custom {
-	background: #00c5fb;
-	background: -moz-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -webkit-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -ms-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: linear-gradient(to right, #00c5fb 0%, #0253cc 100%);
+	background: #476168;
+	background: -moz-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -webkit-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -ms-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: linear-gradient(to right, #476168 0%, #0253cc 100%);
 	color: #fff;
 }
 .btn-custom.focus,
 .btn-custom:focus,
 .btn-custom:hover {
-	background: #00c5fb;
-	background: -moz-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -webkit-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -ms-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: linear-gradient(to right, #00c5fb 0%, #0253cc 100%);
+	background: #476168;
+	background: -moz-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -webkit-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -ms-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: linear-gradient(to right, #476168 0%, #0253cc 100%);
 	color: #fff;
 }
 .pagination > .active > a, 
@@ -724,22 +719,22 @@ table.dataTable thead > tr > td.sorting {
 .pagination > .active > span,
 .pagination > .active > span:focus,
 .pagination > .active > span:hover {
-	background-color: #00c5fb;
-	border-color: #00c5fb;
+	background-color: #476168;
+	border-color: #476168;
 }
 .pagination > li > a, 
 .pagination > li > span {
-	color: #00c5fb;
+	color: #476168;
 }
 .page-link:hover {
-	color: #00c5fb;
+	color: #476168;
 }
 .page-link:focus {
 	box-shadow: unset;
 }
 .page-item.active .page-link {
-	background-color: #00c5fb;
-	border-color: #00c5fb;
+	background-color: #476168;
+	border-color: #476168;
 }
 .dropdown-menu {
 	border: 1px solid rgba(0, 0, 0, 0.1);
@@ -779,7 +774,7 @@ table.dataTable thead > tr > td.sorting {
 	box-shadow: unset;
 }
 .dropdown-item.active, .dropdown-item:active {
-	background-color: #00c5fb;
+	background-color: #476168;
 }
 .list-group-item {
 	border: 1px solid #e3e3e3;
@@ -1121,11 +1116,11 @@ table.dataTable thead > tr > td.sorting {
 -----------------------*/
 
 .header {
-	background: #00c5fb;
-	background: -moz-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -webkit-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -ms-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: linear-gradient(to right, #00c5fb 0%, #0253cc 100%);
+	background: #476168;
+	background: -moz-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -webkit-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -ms-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: linear-gradient(to right, #476168 0%, #0253cc 100%);
 	border-bottom: 1px solid transparent;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
 	height: 60px;
@@ -1349,7 +1344,7 @@ table.dataTable thead > tr > td.sorting {
 	line-height: 40px;
 }
 .sidebar-menu li.menu-title a {
-    color: #00c5fb;
+    color: #476168;
     display: inline-block;
     margin-left: auto;
     padding: 0;
@@ -1363,7 +1358,7 @@ table.dataTable thead > tr > td.sorting {
     padding: 10px 15px;
 }
 .sidebar-menu ul ul a.active {
-	color: #00c5fb;
+	color: #476168;
 	text-decoration: underline;
 }
 .mobile-user-menu {
@@ -1469,11 +1464,11 @@ table.dataTable thead > tr > td.sorting {
 	content: '';
 	width: 5px;
 	height: 5px;
-	border: 5px solid #00c5fb;
+	border: 5px solid #476168;
 	-webkit-border-radius: 30px;
 	-moz-border-radius: 30px;
 	border-radius: 30px;
-	background-color: #00c5fb;
+	background-color: #476168;
 	z-index: 10;
 	position: absolute;
 	right: 37px;
@@ -1481,7 +1476,7 @@ table.dataTable thead > tr > td.sorting {
 }
 .noti-dot:after {
 	content: '';
-	border: 4px solid #00c5fb;
+	border: 4px solid #476168;
 	background: transparent;
 	-webkit-border-radius: 60px;
 	-moz-border-radius: 60px;
@@ -1569,7 +1564,7 @@ table.dataTable thead > tr > td.sorting {
 	transition: all .3s ease-in;
 }
 	.notificationcard:hover {
-		background-image: linear-gradient(to right, #00c5fb 0%, #0253cc 100%);
+		background-image: linear-gradient(to right, #476168 0%, #0253cc 100%);
 		color: white;
 		transform: scale( 0.97 );
 		box-shadow: 0px 5px 10px 0px rgb( 0, 0, 0, .2 );
@@ -1612,8 +1607,8 @@ table.dataTable thead > tr > td.sorting {
 	margin-bottom: 20px;
 }
 .add-btn {
-    background-color: #00c5fb;
-    border: 1px solid #00c5fb;
+    background-color: #476168;
+    border: 1px solid #476168;
     border-radius: 50px;
     color: #fff;
     float: right;
@@ -1698,11 +1693,11 @@ table.dataTable thead > tr > td.sorting {
 	margin-bottom: 25px;
 }
 .account-box .account-btn {
-	background: #00c5fb;
-	background: -moz-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -webkit-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -ms-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: linear-gradient(to right, #00c5fb 0%, #0253cc 100%);
+	background: #476168;
+	background: -moz-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -webkit-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -ms-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: linear-gradient(to right, #476168 0%, #0253cc 100%);
 	border: 0;
     border-radius: 4px;
     display: block;
@@ -1737,10 +1732,10 @@ table.dataTable thead > tr > td.sorting {
     margin-bottom: 0;
 }
 .account-footer a {
-	color: #00c5fb;
+	color: #476168;
 }
 .account-footer a:hover {
-	color: #00c5fb;
+	color: #476168;
 }
 
 /*-----------------
@@ -1789,7 +1784,7 @@ table.dataTable thead > tr > td.sorting {
 .dash-widget-icon {
 	background-color: rgba(0, 197, 251, 0.2);
 	border-radius: 100%;
-	color: #00c5fb;
+	color: #476168;
 	display: inline-block;
 	float: left;
 	font-size: 30px;
@@ -1985,7 +1980,7 @@ table.dataTable thead > tr > td.sorting {
 	line-height: 42px;
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-	background-color: #00c5fb;
+	background-color: #476168;
 }
 
 /*-----------------
@@ -2022,8 +2017,8 @@ table.dataTable thead > tr > td.sorting {
 .nav-tabs.nav-tabs-solid > li > a.active,
 .nav-tabs.nav-tabs-solid > li > a.active:hover,
 .nav-tabs.nav-tabs-solid > li > a.active:focus {
-	background-color: #00c5fb;
-	border-color: #00c5fb;
+	background-color: #476168;
+	border-color: #476168;
 	color: #fff;
 }
 
@@ -2102,9 +2097,9 @@ table.dataTable thead > tr > td.sorting {
 }
 .continue-btn {
     background-color: #fff;
-    border: 1px solid #00c5fb;
+    border: 1px solid #476168;
     border-radius: 50px;
-    color: #00c5fb;
+    color: #476168;
     display: block;
     font-size: 18px;
     font-weight: 600;
@@ -2114,15 +2109,15 @@ table.dataTable thead > tr > td.sorting {
 .continue-btn:hover,
 .continue-btn:focus,
 .continue-btn:active {
-	background-color: #00c5fb;
-	border: 1px solid #00c5fb;
+	background-color: #476168;
+	border: 1px solid #476168;
 	color: #fff;
 }
 .cancel-btn {
     background-color: #fff;
-    border: 1px solid #00c5fb;
+    border: 1px solid #476168;
     border-radius: 50px;
-    color: #00c5fb;
+    color: #476168;
     display: block;
     font-size: 18px;
     font-weight: 600;
@@ -2132,8 +2127,8 @@ table.dataTable thead > tr > td.sorting {
 .cancel-btn:hover,
 .cancel-btn:focus,
 .cancel-btn:active {
-	background-color: #00c5fb;
-	border: 1px solid #00c5fb;
+	background-color: #476168;
+	border: 1px solid #476168;
 	color: #fff;
 }
 
@@ -2274,7 +2269,7 @@ table.dataTable thead > tr > td.sorting {
 	text-transform: uppercase;
 }
 .typing-text {
-	color: #00c5fb;
+	color: #476168;
 	font-size: 12px;
 	text-transform: lowercase;
 }
@@ -2711,7 +2706,7 @@ table.dataTable thead > tr > td.sorting {
 	font-size: 12px;
 }
 .file-author a {
-	color: #00c5fb;
+	color: #476168;
 	font-size: 12px;
 	text-decoration: underline;
 }
@@ -3179,7 +3174,7 @@ table.dataTable thead > tr > td.sorting {
 .fc-state-down,
 .fc-state-active,
 .fc-state-disabled {
-	background-color: #00c5fb !important;
+	background-color: #476168 !important;
 	color: #fff !important;
 	text-shadow: none !important;
 }
@@ -3328,8 +3323,8 @@ table.dataTable thead > tr > td.sorting {
     width: 26px;
 }
 .edit-icon:hover {
-	background-color: #00c5fb;
-	border-color: #00c5fb;
+	background-color: #476168;
+	border-color: #476168;
     color: #fff;
 }
 .delete-icon {
@@ -3435,7 +3430,7 @@ table.dataTable thead > tr > td.sorting {
     padding: 10px 15px;
 }
 .add-more a {
-	color: #00c5fb;
+	color: #476168;
 }
 .add-more a:hover {
 	color: #00b7ed;
@@ -3609,12 +3604,12 @@ table.dataTable thead > tr > td.sorting {
     position: relative;
 }
 .roles-menu > ul > li.active a {
-	border-color: #00c5fb;
-	color: #00c5fb;
+	border-color: #476168;
+	color: #476168;
 }
 .roles-menu > ul > li a:hover {
     background-color: #eee;
-	border-color: #00c5fb;
+	border-color: #476168;
 }
 .role-action {
 	float: right;
@@ -4656,7 +4651,7 @@ html.menu-opened body {
 	height: 10px;
 	left: -30px;
 	top: 0px;
-	border: 2px solid #00c5fb;
+	border: 2px solid #476168;
 	margin-right: 15px;
 	z-index: 2;
 	background: #fff;
@@ -4748,7 +4743,7 @@ html.menu-opened body {
 	padding: 10px;
 }
 .mail-list > li.active > a {
-	color: #00c5fb;
+	color: #476168;
 	font-weight: bold;
 }
 .unread .name,
@@ -5105,11 +5100,11 @@ table.table-inbox tbody tr.checked {
 
 .call-box {
 	display: block;
-	background: #00c5fb;
-	background: -moz-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -webkit-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -ms-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: linear-gradient(to right, #00c5fb 0%, #0253cc 100%);
+	background: #476168;
+	background: -moz-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -webkit-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -ms-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: linear-gradient(to right, #476168 0%, #0253cc 100%);
 	position: sticky;
 	top: 0;
 	z-index: 99;
@@ -5407,11 +5402,11 @@ table.table-inbox tbody tr.checked {
 -----------------------*/
 
 .apply-btn {
-	background: #00c5fb;
-	background: -moz-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -webkit-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: -ms-linear-gradient(left, #00c5fb 0%, #0253cc 100%);
-	background: linear-gradient(to right, #00c5fb 0%, #0253cc 100%);
+	background: #476168;
+	background: -moz-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -webkit-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: -ms-linear-gradient(left, #476168 0%, #0253cc 100%);
+	background: linear-gradient(to right, #476168 0%, #0253cc 100%);
 	border-color: transparent;
 	box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);
 	color: #fff;
@@ -5478,8 +5473,8 @@ table.table-inbox tbody tr.checked {
 }
 .job-types {
 	background-color: transparent;
-	border: 1px solid #00c5fb;
-	color: #00c5fb;
+	border: 1px solid #476168;
+	color: #476168;
 	border-radius: 4px;
 	display: inline-block;
 	padding: 6px 12px;
@@ -5540,7 +5535,7 @@ table.table-inbox tbody tr.checked {
 	padding-top: 20px;
 }
 .info-list span {
-	color: #00c5fb;
+	color: #476168;
 	float: left;
 	font-size: 20px;
 	line-height: 14px;
@@ -5562,8 +5557,8 @@ table.table-inbox tbody tr.checked {
 	font-size: 13px;
 }
 .job-btn {
-    border: 2px solid #00c5fb;
-    color: #00c5fb;
+    border: 2px solid #476168;
+    color: #476168;
     display: block;
     font-size: 16px;
     font-weight: 600;
@@ -5573,7 +5568,7 @@ table.table-inbox tbody tr.checked {
     transition: all 0.3s ease 0s;
 }
 .job-btn:hover {
-	background-color: #00c5fb;
+	background-color: #476168;
 	color: #fff;
 }
 .job-widget {
@@ -5618,7 +5613,7 @@ table.table-inbox tbody tr.checked {
 	font-family: fontawesome;
 	margin: 0;
 	position: relative;
-	color: #00c5fb;
+	color: #476168;
 	float: left;
 	margin-left: -20px;
 	display: block;
@@ -5757,7 +5752,7 @@ table.table-inbox tbody tr.checked {
 	margin-right: 5px;
 }
 .bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
-	background-color: #00c5fb;
+	background-color: #476168;
 	text-shadow: unset;
 }
 
@@ -5848,7 +5843,7 @@ span.k-widget.k-invalid-msg {
 	background: #404040;  
 }
 .loader-ellips__dot:nth-child(2) { 
-	background: #00c5fb;  
+	background: #476168;  
 }
 .loader-ellips__dot:nth-child(3) { 
 	background: #404040;  
@@ -5904,7 +5899,7 @@ span.k-widget.k-invalid-msg {
     width: 100%;
 }
 .error-box h1 {
-    color: #00c5fb;
+    color: #476168;
     font-size: 10em;
 }
 .error-box p {
@@ -6004,7 +5999,7 @@ span.k-widget.k-invalid-msg {
 	height: 18px;
 }
 .stickyside .sidebar-menu > ul > li > a.active {
-	color: #00c5fb;
+	color: #476168;
 }
 .comp-section {
     margin-bottom: 30px;
@@ -7679,7 +7674,7 @@ ul.comment-list li ul.children {
 	.nav-tabs.nav-tabs-top > li > a.active,
 	.nav-tabs.nav-tabs-top > li > a.active:hover,
 	.nav-tabs.nav-tabs-top > li > a.active:focus {
-		border-top-color: #00c5fb;
+		border-top-color: #476168;
 	}
 	.nav-tabs.nav-tabs-bottom > li {
 		margin-bottom: -1px;
@@ -7689,7 +7684,7 @@ ul.comment-list li ul.children {
 	.nav-tabs.nav-tabs-bottom > li > a.active:focus {
 		border-bottom-width: 2px;
 		border-color: transparent;
-		border-bottom-color: #00c5fb;
+		border-bottom-color: #476168;
 		background-color: transparent;
 		transition: none 0s ease 0s; 
 		-moz-transition: none 0s ease 0s; 
@@ -7963,7 +7958,7 @@ ul.comment-list li ul.children {
 	.nav-tabs.nav-justified > li > a.active,
 	.nav-tabs.nav-justified > li > a.active:hover,
 	.nav-tabs.nav-justified > li > a.active:focus {
-		border-color: transparent transparent transparent #00c5fb;
+		border-color: transparent transparent transparent #476168;
 		border-left-width: 2px;
 	}
 	.nav-tabs {
@@ -7994,7 +7989,7 @@ ul.comment-list li ul.children {
 	.nav-tabs> li > a.active:hover,
 	.nav-tabs> li > a.active:focus {
 		background-color: #f5f5f5;
-		border-color: transparent transparent transparent #00c5fb;
+		border-color: transparent transparent transparent #476168;
 		border-left-width: 2px;
 	}
 	.nav-tabs > li.open:not(.active) > a,
@@ -8018,7 +8013,7 @@ ul.comment-list li ul.children {
 	.nav-tabs-justified > li > a.active:hover,
 	.nav-tabs-justified > li > a.active:focus {
 		border-width: 0 0 0 2px;
-		border-left-color: #00c5fb;
+		border-left-color: #476168;
 	}
 	.my-video ul li {
 		width: 80px;

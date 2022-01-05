@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.DatabaseModels.Authentication;
+using BNPL_Web.DatabaseModels.DbImplementation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Project.Utilities;

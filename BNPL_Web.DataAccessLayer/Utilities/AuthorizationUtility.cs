@@ -8,42 +8,43 @@ using Project.DatabaseModel.DbImplementation;
 using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.DatabaseModels.Authentication;
 using BNPL_Web.DatabaseModels.DbImplementation;
+using BNPL_Web.DatabaseModels.DTOs;
 
 namespace Project.Utilities
 {
     public static class AuthorizationUtility
     {
-        //public static bool userHasPrivilege(string userName, string privilege)
-        //{
-        //    if (!String.IsNullOrEmpty(userName))
-        //    {
-        //        HttpContextAccessor context = new HttpContextAccessor();
-        //        var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
+        public static bool userHasPrivilege(string userName, string privilege)
+        {
+            if (!String.IsNullOrEmpty(userName))
+            {
+                HttpContextAccessor context = new HttpContextAccessor();
+                var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
 
-        //        var user = unitofwork.AspNetUserRepository.Get(x => x.UserName == userName);
-        //        DbDevPrivilege privilegeDb = unitofwork.PrivilegeRepository.Get(a => a.Privilege == privilege);
+                var user = unitofwork.AspNetUser.Get(x => x.UserName == userName);
+                Privilages privilegeDb = unitofwork.Privilages.Get(a => a.Privilege == privilege);
 
-        //        //Get Role of user
-        //        var aspnet_Role = unitofwork.AspNetUserRepository.Get(x => x.UserName == userName, "AspNetUserRoles.Role.DbRolePrivileges").AspNetUserRoles.FirstOrDefault();
-        //        if (aspnet_Role != null)
-        //        {
-        //            foreach (DbRolePrivilege emp_privilege in aspnet_Role.Role.DbRolePrivileges)
-        //            {
-        //                //if (emp_privilege.PrivilegeId.Equals(privilegeDb.Id))
-        //                {
-        //                    return true;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
+                //Get Role of user
+                var aspnet_Role = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles.Role.DbRolePrivileges");
+                if (aspnet_Role != null)
+                {
+                    //foreach (RolePrivilages emp_privilege in aspnet_Role.Role.DbRolePrivileges)
+                    //{
+                    //    //if (emp_privilege.PrivilegeId.Equals(privilegeDb.Id))
+                    //    {
+                    //        return true;
+                    //    }
+                    //}
+                }
+            }
+            return false;
+        }
         //public static IEnumerable<AssignPrivilegesViewModel> Getuserivilege(string userName)
         //{
         //    HttpContextAccessor context = new HttpContextAccessor();
         //    var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
         //    string RoleId = null;
-        //    var user = unitofwork.AspNetUserRepository.Get(x => x.UserName == userName, "AspNetUserRoles");
+        //    var user = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles");
 
         //    if (user.AspNetUserRoles != null && user.AspNetUserRoles.Count() > 0)
         //    {
@@ -61,39 +62,39 @@ namespace Project.Utilities
         //    });
         //    return _data;
         //}
-        //public static bool userHasPrivilege(List<AssignPrivilegesViewModel> privileges, string privilege)
-        //{
-        //    bool hasPrivilege = false;
-        //    if (privileges.Count > 0)
-        //    {
-        //        foreach (var prev in privileges)
-        //        {
-        //            if (prev.Name == privilege)
-        //            {
-        //                hasPrivilege = true;
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    return hasPrivilege;
-        //}
+        public static bool userHasPrivilege(List<AssignPrivilegesViewModel> privileges, string privilege)
+        {
+            bool hasPrivilege = false;
+            if (privileges.Count > 0)
+            {
+                foreach (var prev in privileges)
+                {
+                    if (prev.Name == privilege)
+                    {
+                        hasPrivilege = true;
+                        break;
+                    }
+                }
+            }
+            return hasPrivilege;
+        }
 
-        //public static bool userHasPrivilegeCategory(List<AssignPrivilegesViewModel> privileges, string category)
-        //{
-        //    bool hasCategory = false;
-        //    if (privileges.Count > 0)
-        //    {
-        //        foreach (var prev in privileges)
-        //        {
-        //            if (prev.Category == category)
-        //            {
-        //                hasCategory = true;
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    return hasCategory;
-        //}
+        public static bool userHasPrivilegeCategory(List<AssignPrivilegesViewModel> privileges, string category)
+        {
+            bool hasCategory = false;
+            if (privileges.Count > 0)
+            {
+                foreach (var prev in privileges)
+                {
+                    if (prev.Category == category)
+                    {
+                        hasCategory = true;
+                        break;
+                    }
+                }
+            }
+            return hasCategory;
+        }
 
         public static bool userHasPrivilegePortal(List<AssignPrivilegesViewModel> privileges, string portal)
         {

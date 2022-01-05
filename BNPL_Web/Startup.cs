@@ -12,7 +12,6 @@ using Project.DataAccessLayer.Shared;
 using Project.DatabaseModel.DbImplementation;
 using System.Configuration;
 using System.Reflection;
-using ApplicationUser = BNPL_Web.DatabaseModels.Authentication.ApplicationUser;
 
 namespace BNPL_Web
 {
@@ -54,7 +53,7 @@ namespace BNPL_Web
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.SlidingExpiration = true;
             });
-            RegisterDependancy(services, ServiceLifetime.Scoped);
+         ///   RegisterDependancy(services, ServiceLifetime.Scoped);
             services.AddMvc();
             services.AddDbContext<BNPL_Context>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -168,7 +167,7 @@ namespace BNPL_Web
        //.AddEntityFrameworkStores<IdentityService>();
 
        // }
-        private void RegisterDependancy(IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Transient)
+        private void RegisterDependancy(IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
             var typesFromAssemblies = Assembly.Load("BNPL_Web.DataAccessLayer").GetTypes().Where(x => x.Name.EndsWith("Service") && !x.IsInterface);
             foreach (var type in typesFromAssemblies)

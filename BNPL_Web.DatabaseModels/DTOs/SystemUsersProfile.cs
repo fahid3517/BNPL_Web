@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BNPL_Web.DatabaseModels.Authentication;
+using BNPL_Web.DatabaseModels.DbImplementation;
 
 namespace BNPL_Web.DatabaseModels.DTOs
 {

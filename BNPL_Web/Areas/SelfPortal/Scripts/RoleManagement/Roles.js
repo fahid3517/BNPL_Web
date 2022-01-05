@@ -329,10 +329,11 @@ function AddRole() {
         RoleName: $("#RoleName").val(),
         allPrivelages: []
     };
+    debugger;
     if (Role.RoleName != undefined && Role.RoleName != "") {
         ShowModalLoader();
         $.ajax({
-            url: '/api/Roles/Post/',
+            url: '/api/Roles/Add',
             type: 'POST',
             data: JSON.stringify(Role),
             contentType: "application/json;charset=utf-8",

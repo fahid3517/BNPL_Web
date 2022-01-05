@@ -1,0 +1,73 @@
+﻿ <!-- Header -->
+<div class="header">
+
+    <!-- Logo -->
+    <div class="header-left">
+        <a href="../Home/Index" class="logo">
+            <img src="~/assets/img/logo.png" width="40" height="40" alt="">
+        </a>
+    </div>
+    <!-- /Logo -->
+
+    <a id="toggle_btn" href="javascript:void(0);">
+        <span class="bar-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </a>
+
+    <a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i></a>
+    @using (Html.BeginForm("LogOff", "../Self/Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <!-- Header Menu -->
+        <ul class="nav user-menu">
+
+            <li class="nav-item dropdown">
+                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-bell-o"></i> <span class="badge badge-pill" id="notificationCount"></span>
+                </a>
+                <div class="dropdown-menu notifications" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 60px, 0px);">
+                    <div class="topnav-dropdown-header">
+                        <span class="notification-title">Notifications</span>
+                    </div>
+                    <div class="noti-content">
+                        <ul class="notification-list" id="notificationBar"></ul>
+                    </div>
+                    <div class="topnav-dropdown-footer">
+                        <a href="../NotificationManagement/Index">View all Notifications</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li class="nav-item dropdown has-arrow main-drop">
+                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                    <span class="user-img">
+                        <img src="~/assets/img/profiles/avatar-21.jpg" alt="" id="user-image">
+                        <span class="status online"></span>
+                    </span>
+                    <span>@User.Identity.Name</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="../Home/Profile">Profile</a>
+                    <a class="dropdown-item" href="../EmployeeManagement/ChangePassword">Change Password</a>
+                    <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                </div>
+            </li>
+        </ul>
+        <!-- /Header Menu -->
+        <!-- Mobile Menu -->
+        <div class="dropdown mobile-user-menu">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="../Home/Index">My Profile</a>
+                <a class="dropdown-item" href="../Home/Index">Settings</a>
+                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+            </div>
+        </div>
+        <!-- /Mobile Menu -->
+    }
+</div>
+<!-- /Header -->

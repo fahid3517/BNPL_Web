@@ -1,0 +1,208 @@
+﻿
+<div class="page-wrapper" style="min-height: 395px;">
+    <!-- Page Content -->
+    <div id="content" class="content container-fluid">
+
+
+
+        <script src="/Scripts/Views/AdminPortal/CompanyManagement/CompanyManagement.js"></script>
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col">
+                    <h3 class="page-title">Company</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a>Company</a>
+                        </li>
+                        <li class="breadcrumb-item active">Manage </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Company</h4>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Company Information</h4>
+                        <input type="hidden" id="CompanyId" value="3">
+                        <form id="form">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group row">
+                                        <label for="Name" class="col-lg-5 col-form-label">Name<span class="text-danger">*</span></label>
+                                        <div class="col-lg-7">
+                                            <input id="Name" name="Name" type="text" class="form-control" required="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="Industry" class="col-lg-5 col-form-label">Industry<span class="text-danger">*</span></label>
+                                        <div class="col-lg-7">
+                                            <select id="Industry" class="form-control">
+                                                <option value="">-- Select Industry --</option>
+                                                <option class="black" value="Accounting / Taxation">Accounting / Taxation</option>
+                                                <option class="black" value="Advertising / PR">Advertising / PR</option>
+                                                <option class="black" value="Agriculture / Fertilizer / Pesticide">Agriculture / Fertilizer / Pesticide</option>
+                                                <option class="black" value="Apparel/Clothing">Apparel/Clothing</option>
+                                                <option class="black" value="Architecture/Interior Design">Architecture/Interior Design</option>
+                                                <option class="black" value="Arts / Entertainment">Arts / Entertainment</option>
+                                                <option class="black" value="AutoMobile">AutoMobile</option>
+                                                <option class="black" value="Aviation">Aviation</option>
+                                                <option class="black" value="Banking/Financial Services">Banking/Financial Services</option>
+                                                <option class="black" value="BPO">BPO</option>
+                                                <option class="black" value="Broadcasting">Broadcasting</option>
+                                                <option class="black" value="Business Development">Business Development</option>
+                                                <option class="black" value="Call Center">Call Center</option>
+                                                <option class="black" value="Chemicals">Chemicals</option>
+                                                <option class="black" value="Construction/Cement/Metals">Construction/Cement/Metals</option>
+                                                <option class="black" value="Consultants">Consultants</option>
+                                                <option class="black" value="Courier / Logistics">Courier / Logistics</option>
+                                                <option class="black" value="Distribution and Logistics">Distribution and Logistics</option>
+                                                <option class="black" value="Education/Training">Education/Training</option>
+                                                <option class="black" value="Electronics">Electronics</option>
+                                                <option class="black" value="Engineering">Engineering</option>
+                                                <option class="black" value="Event Management">Event Management</option>
+                                                <option class="black" value="Fashion">Fashion</option>
+                                                <option class="black" value="Fast Moving Consumer Goods (FMCG)">Fast Moving Consumer Goods (FMCG)</option>
+                                                <option class="black" value="Food &amp; Beverages">Food &amp; Beverages</option>
+                                                <option class="black" value="Gems &amp; Jewelery">Gems &amp; Jewelery</option>
+                                                <option class="black" value="Government">Government</option>
+                                                <option class="black" value="Health &amp; Fitness">Health &amp; Fitness</option>
+                                                <option class="black" value="Healthcare / Hospital / Medical">Healthcare / Hospital / Medical</option>
+                                                <option class="black" value="Hospitality">Hospitality</option>
+                                                <option class="black" value="Hotel Management / Restaurants">Hotel Management / Restaurants</option>
+                                                <option class="black" value="Importers / Distributors/Exporters">Importers / Distributors/Exporters</option>
+                                                <option class="black" value="Information Technology">Information Technology</option>
+                                                <option class="black" value="Insurance / Takaful">Insurance / Takaful</option>
+                                                <option class="black" value="Investments">Investments</option>
+                                                <option class="black" value="Law Firms/Legal">Law Firms/Legal</option>
+                                                <option class="black" value="Manufacturing">Manufacturing</option>
+                                                <option class="black" value="Media/Communications">Media/Communications</option>
+                                                <option class="black" value="Mining/Oil &amp; Gas / Petroleum">Mining/Oil &amp; Gas / Petroleum</option>
+                                                <option class="black" value="N.G.O./Social Services">N.G.O./Social Services</option>
+                                                <option class="black" value="Packaging">Packaging</option>
+                                                <option class="black" value="Personal Care and Services">Personal Care and Services</option>
+                                                <option class="black" value="Pharmaceuticals / Clinical Research">Pharmaceuticals / Clinical Research</option>
+                                                <option class="black" value="Power / Energy">Power / Energy</option>
+                                                <option class="black" value="Project Management">Project Management</option>
+                                                <option class="black" value="Plastic Industry">Plastic Industry</option>
+                                                <option class="black" value="Publishing/Printing">Publishing/Printing</option>
+                                                <option class="black" value="Real Estate/Property">Real Estate/Property</option>
+                                                <option class="black" value="Recruitment / Employment Firms">Recruitment / Employment Firms</option>
+                                                <option class="black" value="Retail">Retail</option>
+                                                <option class="black" value="Security / Law Enforcement">Security / Law Enforcement</option>
+                                                <option class="black" value="Services">Services</option>
+                                                <option class="black" value="Shipping / Marine">Shipping / Marine</option>
+                                                <option class="black" value="Telecommunication / ISP">Telecommunication / ISP</option>
+                                                <option class="black" value="Textiles / Garments">Textiles / Garments</option>
+                                                <option class="black" value="Tiles &amp; Ceramics">Tiles &amp; Ceramics</option>
+                                                <option class="black" value="Travel/Tourism/Transportation">Travel/Tourism/Transportation</option>
+                                                <option class="black" value="Warehousing">Warehousing</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-5">
+                                    <div class="profile-img-wrap edit-img float-right" style="height:130px; width:130px; margin: 0 0 0 50%">
+                                        <img class="inline-block" src="../ImagesStorageDB/ecafa727-d2f7-4dcf-8880-56e5e1b4c388.png" alt="user" id="userImg" style="height:130px; width:130px;">
+                                        <div class="fileupload btn">
+                                            <span class="btn-text">Edit</span>
+                                            <input class="upload form-control" type="file" name="fileupload" value="fileupload" id="fileupload" accept="image/*" style="cursor:pointer;" onclick="$('#File').click()">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group row">
+                                        <label for="NoOfEmployee" class="col-lg-5 col-form-label">No Of Employee<span class="text-danger">*</span></label>
+                                        <div class="col-lg-7">
+                                            <input id="NoOfEmployee" name="NoOfEmployee" type="number" class="form-control" required="">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="OperatingSince" class="col-lg-5 col-form-label">Operation Since<span class="text-danger">*</span></label>
+                                        <div class="col-lg-7">
+                                            <input id="OperatingSince" name="OperatingSince" type="number" class="form-control" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group row">
+                                        <label for="UAN" class="col-lg-5 col-form-label">UAN<span class="text-danger">*</span></label>
+                                        <div class="col-lg-7">
+                                            <input id="UAN" name="UAN" type="text" class="form-control" required="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6">
+                                    <div class="form-group row">
+                                        <label for="Phone" class="col-lg-4 col-form-label">Phone<span class="text-danger">*</span></label>
+                                        <div class="col-lg-8">
+                                            <input id="Phone" name="Phone" type="text" class="form-control" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group row">
+                                        <label for="Email" class="col-lg-5 col-form-label">Email<span class="text-danger">*</span></label>
+                                        <div class="col-lg-7">
+                                            <input id="Email" name="Email" type="email" class="form-control" required="" onchange="ValidateEmail()">
+                                            <span id="emailError" style="color:#910e0e"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group row">
+                                        <label for="Website" class="col-lg-4 col-form-label">Website<span class="text-danger">*</span></label>
+                                        <div class="col-lg-8">
+                                            <input id="Website" name="Website" type="url" class="form-control" required="">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="form-group row">
+                                        <label for="Description" class="col-lg-2 col-form-label">Description</label>
+                                        <div class="col-lg-10">
+                                            <textarea id="Description" name="Description" rows="4" style="margin-left:5%; width:95%" class="form-control" required=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="text-right">
+                                <button type="button" class="btn btn-primary" onclick="Add()">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <!-- /Page Content -->
+
+</div>

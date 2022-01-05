@@ -1,0 +1,137 @@
+﻿
+.message-error {
+    clear: both;
+    color: #e80c4d;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0px 0 10px 0;
+}
+
+.message-success {
+    color: #1d6c27;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0px 0 10px 0;
+}
+
+select {
+    max-width: 800px;
+}
+
+.subHeadingFont {
+    color: #3971cc;
+    font-size: 14px;
+    font-weight: bold;
+}
+ .zeroTopMargin {
+        margin-top: 0px;
+    }
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+    /* Style the buttons inside the tab */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+
+.pt15{
+    padding-top:15px;
+}
+
+/*#loader {
+  position: absolute;
+  left: 55%;
+  top: 50%;
+}*/
+/*#loader {
+  position: absolute;
+  left: 55%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+
+
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+/*#myDiv {
+  display: none;
+  text-align: center;
+}*/
+
+
+.mdl-spinner {
+    width: 84px !important;
+    height: 84px !important;
+}
+
+.mdl-spinner__circle {
+    border-width: 9px !important;
+}

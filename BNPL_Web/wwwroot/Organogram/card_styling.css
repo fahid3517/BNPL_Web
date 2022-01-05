@@ -1,0 +1,166 @@
+﻿.row {
+    display: block;
+    width: 100%;
+}
+.employee-card {
+    transition: all 0.5s ease;
+    border-radius: 3px;
+}
+    .employee-card.active a img {
+        transition: all 0.5s ease;
+        width: 80px;
+        border-radius:100%;
+        box-shadow:0 0 3px white;
+    }
+    .employee-card a > div {
+        padding: 7px 5px;
+        border-radius: 5px;
+        color: white !important;
+        display:inline-block;
+    }
+    .employee-card a img {
+        width: 50px;
+        display: inline;
+        transition: all 0.5s ease;
+        border-radius: 100%;
+    }
+
+    .employee-card a .name {
+        margin-top: 3px;
+        margin-bottom: 0;
+        text-transform: capitalize;
+    }
+    .employee-card a .allocation {
+        position: absolute;
+        top: -20px;
+        font-size: 11px;
+        right: 40%;
+        right: auto;
+        color: orangered;
+        left: 40%;
+    }
+    .employee-card a .empcode {
+        position: absolute;
+      
+        font-size: 11px;
+        right: 40%;
+        right: auto;
+        color: orangered;
+        left: 40%;
+    }
+.employee-card a .designation {
+    font-size: 10px;
+    display: block;
+    text-transform: capitalize;
+    margin-bottom: 1px;
+    color: white;
+    font-weight:100;
+}
+
+
+.emp-card {
+    width: 120px;
+    height: 100px;
+    padding-top: 10px;
+    background-color: #444;
+    color: white !important;
+    position: absolute;
+    border-radius: 4px;
+    box-shadow: 2px 2px 3px grey;
+    transition: all 0.4s ease;
+}
+.dir-card {
+    position: relative;
+    height: 70px;
+    top: 0;
+    padding-top: 20px;
+    background-color: darkred;
+    color: white !important;
+    border-radius: 4px;
+    transition: all 0.4s ease;
+}
+    .dir-card a {
+        color: white;
+        text-decoration: none;
+    }
+    .emp-card:hover {
+        cursor: pointer;
+        background-color: #000;
+    }
+    .emp-card .div-img {
+        background-color: white;
+        width: 40px;
+        height: 40px;
+        border: 2px solid white;
+        border-radius: 50%;
+        display: none;
+        margin: auto;
+    }
+    .emp-card .div-first {
+        width: 40px;
+        height: 32px;
+        border: 2px solid white;
+        border-radius: 50%;
+        background-color: white;
+        color: crimson;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 8px;
+        display: block;
+        margin: auto;
+    }
+        .emp-card .div-img img {
+            width: 100%;
+            height: 100%;
+        }
+
+    .emp-card .div-content {
+        margin-top: 5px;
+    }
+
+        .emp-card .div-content .name {
+            color: white !important;
+            display: block;
+            font-size: 13px;
+            text-align: center;
+            padding: 2px 5px;
+        }
+        .emp-card .div-content .experience {
+            color: white !important;
+            font-size: 12px;
+            font-weight: bold;
+            float: right;
+            padding: 2px 5px;
+        }
+        .emp-card .post {
+            font-size: 13px;
+            border-radius: 4px;
+            text-align: center;
+            padding: 2px 4px;
+            background-color: crimson;
+            color: white;
+            position: absolute;
+            top: -7px;
+            right: -10px;
+            z-index: 9;
+        }
+.emp-card .experience_count, .dir-card .experience_count {
+    font-size: 12px;
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    bottom: -5px;
+    right: -10px;
+    z-index: 9;
+}
+
+.img-vacancy {
+    margin: 10px;
+}
+

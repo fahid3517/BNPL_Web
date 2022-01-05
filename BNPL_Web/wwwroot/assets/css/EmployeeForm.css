@@ -1,0 +1,21 @@
+﻿.field-icon {
+    float: right;
+    padding-right: 12px;
+    margin-top: -29px;
+    position: relative;
+    z-index: 2;
+    font-size: 25px;
+}
+
+.weak-password {
+    color: red;
+}
+
+.strong-password {
+    color: green;
+}
+
+.medium-password {
+    color: orange;
+}
+

@@ -1,0 +1,61 @@
+﻿.absentDetails .absentDetails-list {
+   
+    list-style-type: none;
+    margin-bottom: 0;
+    overflow-y: auto;
+    padding-left: 30px;
+    position: relative;
+}
+
+    .absentDetails .absentDetails-list li {
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+        .absentDetails .absentDetails-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .absentDetails .absentDetails-list li:before {
+            width: 10px;
+            height: 10px;
+            left: -30px;
+            top: 0px;
+            border: 2px solid #00c5fb;
+            margin-right: 15px;
+            z-index: 2;
+            background: #fff;
+        }
+
+        .absentDetails .absentDetails-list li:before {
+            content: "";
+            position: absolute;
+            border-radius: 100%;
+        }
+
+    .absentDetails .absentDetails-list:after {
+        content: "";
+        border: 1px solid #e5e5e5;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 4px;
+    }
+
+
+.absentDetails h5 {
+    line-height: 10px;
+    margin-bottom: 5px;
+    margin-top: -10px;
+}
+
+.absentDetails p {
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+.chartHeight{
+    height:413px;
+}
+
+

@@ -1,0 +1,111 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>JYA-HRMS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="JYA HRMS">
+    <meta name="keywords" content="">
+    <meta name="author" content="Faizan Romail">
+    <meta name="robots" content="noindex, nofollow">
+
+    
+
+    @*@Styles.Render("~/bundles/kendoStyle")
+    @Scripts.Render("~/bundles/views/Common")
+    @Scripts.Render("~/bundles/kendo")*@
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/assets/img/favicon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/bootstrap.min.css">
+
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/font-awesome.min.css">
+
+    <!-- Lineawesome CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/line-awesome.min.css">
+    <link href="~/Content/assets/line-awesome-1.3.0/1.3.0/css/line-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custome CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/custome.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/style.css">
+
+
+
+    <!-- Scroll -->
+    <link href="~/Content/assets/css/scrollbar.css" rel="stylesheet" />
+
+    <!-- toastr -->
+    <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
+
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- jQuery -->
+    <script src="~/Content/assets/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="~/Content/assets/js/popper.min.js"></script>
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+
+
+    <!-- Form Validation JS -->
+    <script src="~/Scripts/Views/ValidateForm.js"></script>
+
+    <!-- Slimscroll JS -->
+    <script src="~/Content/assets/js/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/Content/assets/js/app.js"></script>
+    <script src="~/Content/assets/js/Activenavbar.js"></script>
+
+    <!-- Mask JS -->
+
+    <script src="~/Content/assets/js/jquery.maskedinput.min.js"></script>
+    <script src="~/Content/assets/js/mask.js"></script>
+
+
+    <!-- toastr -->
+    <script src="~/Content/toastr/toastr.min.js"></script>
+
+    <!-- Moment JS -->
+    <script src="~/Content/assets/js/moment.min.js"></script>
+
+</head>
+
+<body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        @*@{ Html.RenderPartial("~/Views/Shared/PartialLayout/Layout/_LayoutHeader.cshtml"); }*@
+        <!-- /Header -->
+        <!-- Sidebar -->
+       
+          
+
+            <!-- /Sidebar -->
+            <!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <!-- Page Content -->
+                <div id="content" class="content container-fluid">
+                    @RenderBody()
+                </div>
+                <!-- /Page Content -->
+
+            </div>
+            <!-- /Page Wrapper -->
+
+        
+    </div>
+    <!-- /Main Wrapper -->
+
+</body>
+</html>
+

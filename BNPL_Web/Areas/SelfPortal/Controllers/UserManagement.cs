@@ -9,5 +9,9 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         {
             return View();
         }
+        public IActionResult Registor()
+        {
+            return View();
+        }
     }
 }

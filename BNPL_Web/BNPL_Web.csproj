@@ -21,10 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\SelfPortal\Views\" />
     <Folder Include="Areas\SelfPortal\Scripts\" />
     <Folder Include="Areas\SelfPortal\Scripts\" />
-    <Folder Include="Areas\SelfPortal\Views\Account\" />
     <Folder Include="Controllers\WebApiControllers\" />
   </ItemGroup>
 

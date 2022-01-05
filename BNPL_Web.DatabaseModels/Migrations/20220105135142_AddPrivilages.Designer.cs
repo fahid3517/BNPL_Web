@@ -4,6 +4,7 @@ using BNPL_Web.DatabaseModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BNPL_Web.DatabaseModels.Migrations
 {
     [DbContext(typeof(BNPL_Context))]
-    partial class BNPL_ContextModelSnapshot : ModelSnapshot
+    [Migration("20220105135142_AddPrivilages")]
+    partial class AddPrivilages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,30 +160,6 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.ToTable("Privilages");
                 });
 
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.RolePrivilages", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("PrivilegeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PrivilegeId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RolePrivilages");
-                });
-
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.SystemUsersProfile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -211,10 +189,6 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -231,8 +205,6 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -341,13 +313,6 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BNPL_Web.Authentications.ApplicationRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.HasDiscriminator().HasValue("ApplicationRole");
-                });
-
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.BackOfficeUserProfile", b =>
                 {
                     b.HasOne("BNPL_Web.DatabaseModels.Authentication.ApplicationUser", "UserId")
@@ -364,25 +329,6 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .HasForeignKey("UserIdId");
 
                     b.Navigation("UserId");
-                });
-
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.RolePrivilages", b =>
-                {
-                    b.HasOne("BNPL_Web.DatabaseModels.DTOs.Privilages", "Privilege")
-                        .WithMany("DbRolePrivileges")
-                        .HasForeignKey("PrivilegeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BNPL_Web.Authentications.ApplicationRole", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Privilege");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.SystemUsersProfile", b =>
@@ -443,11 +389,6 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.Privilages", b =>
-                {
-                    b.Navigation("DbRolePrivileges");
                 });
 #pragma warning restore 612, 618
         }

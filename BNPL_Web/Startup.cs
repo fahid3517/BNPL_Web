@@ -1,5 +1,7 @@
 ﻿using BNPL_Web.Authentications;
 using BNPL_Web.Common.Interface;
+using BNPL_Web.DatabaseModels.Authentication;
+using BNPL_Web.DatabaseModels.DbImplementation;
 using BNPL_Web.DatabaseModels.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +12,7 @@ using Project.DataAccessLayer.Shared;
 using Project.DatabaseModel.DbImplementation;
 using System.Configuration;
 using System.Reflection;
-
+using ApplicationUser = BNPL_Web.DatabaseModels.Authentication.ApplicationUser;
 
 namespace BNPL_Web
 {

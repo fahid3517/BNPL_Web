@@ -23,5 +23,6 @@ namespace BNPL_Web.DatabaseModels.Models
         public DbSet<CustomerProfile> CustomerProfile { get; set; }
         public DbSet<BackOfficeUserProfile> BackOfficeUserProfile { get; set; }
         public DbSet<SystemUsersProfile> SystemUsersProfile { get; set; }
+        public DbSet<Privilages> Privilages { get; set; }
     }
 }

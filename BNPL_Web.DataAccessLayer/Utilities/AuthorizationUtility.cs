@@ -7,6 +7,7 @@ using System.Net.Http;
 using Project.DatabaseModel.DbImplementation;
 using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.DatabaseModels.Authentication;
+using BNPL_Web.DatabaseModels.DbImplementation;
 
 namespace Project.Utilities
 {

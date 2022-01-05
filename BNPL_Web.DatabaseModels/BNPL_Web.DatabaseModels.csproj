@@ -6,4 +6,22 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="IUnitService.cs" />
+    <Compile Remove="UnitService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DbImplementation\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BNPL_Web.Models\BNPL_Web.Common.csproj" />
+  </ItemGroup>
+
 </Project>

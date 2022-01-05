@@ -26,4 +26,8 @@
     <Folder Include="Controllers\WebApiControllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BNPL_Web.DataAccessLayer\BNPL_Web.DataAccessLayer.csproj" />
+  </ItemGroup>
+
 </Project>

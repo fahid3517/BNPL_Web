@@ -20,11 +20,10 @@ namespace BNPL_Web.Controllers.ApiControllers
         }
         [HttpPost]
         [Route("Add")]
-        public IActionResult Add(string  role)
+        public IActionResult Add(RolesViewModel role)
         {
-            RolesViewModel roles = new RolesViewModel();
-            roles.Name = role;
-            var response = service.Add(roles);
+            
+            var response = service.Add(role);
             return StatusCode((int)response.Status, response.obj);
         }
         [Route("GetAllPrivilegesAndRole")]
@@ -49,5 +48,27 @@ namespace BNPL_Web.Controllers.ApiControllers
             var response = service.GetAssignPrivilegeByRoleId(Id);
             return StatusCode((int)response.Status, response.obj);
         }
+        [Route("Put")]
+        [HttpPost]
+        public IActionResult Put(RolesViewModel value)
+        {
+            var response = service.Update(value);
+            return StatusCode((int)response.Status, response.obj);
+        }
+        [Route("Delete")]
+        [HttpDelete]
+        public IActionResult Delete(string Id)
+        {
+            var response = service.Delete(Id);
+            return StatusCode((int)response.Status, response.obj);
+        }
+        [Route("GetAllRole")]
+        [HttpGet]
+        public IActionResult GetAllRole()
+        {
+            var response = service.GetAllRole();
+            return StatusCode((int)response.Status, response.obj);
+        }
+
     }
 }

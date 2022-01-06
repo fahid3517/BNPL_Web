@@ -323,20 +323,20 @@ function DeleteRole() {
 
 }
 
+
 function AddRole() {
-    var RoleName= $("#RoleName").val();
-    //var Role = {
-    //    Id: "",
-    //    RoleName: $("#RoleName").val(),
-    //    allPrivelages: []
-    //};
+    var Role = {
+        Id: "",
+        RoleName: $("#RoleName").val(),
+        allPrivelages: []
+    };
     debugger;
-    if (RoleName != undefined && RoleName != "") {
+    if (Role.RoleName != undefined && Role.RoleName != "") {
         ShowModalLoader();
         $.ajax({
-            url: '/api/Roles/Add?role=' + RoleName,
+            url: '/api/Roles/Add',
             type: 'POST',
-          //  data: JSON.stringify(Role),
+            data: JSON.stringify(Role),
             contentType: "application/json;charset=utf-8",
             success: function (data) {
                 toastr.success("Role added successfully", { timeOut: 5000 });
@@ -371,7 +371,7 @@ function UpdateRole() {
     ShowModalLoader();
     $.ajax({
         url: '/api/Roles/Put/',
-        type: 'PUT',
+        type: 'POST',
         data: JSON.stringify(Role),
         contentType: "application/json;charset=utf-8",
         success: function (data) {

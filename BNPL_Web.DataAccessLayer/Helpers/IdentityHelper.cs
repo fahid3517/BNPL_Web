@@ -21,8 +21,9 @@ namespace BNPL_Web.DataAccessLayer.Helpers
         {
             HttpContextAccessor context = new HttpContextAccessor();
             UserManager<ApplicationUser> userManager = (UserManager<ApplicationUser>)context.HttpContext.RequestServices.GetService(typeof(UserManager<ApplicationUser>));
-            ApplicationUser appuser = new ApplicationUser { UserName = user.UserName, PhoneNumber = user.PhoneNumber, Email = user.Email };
+            ApplicationUser appuser = new ApplicationUser { UserName = user.UserName.Trim(), PhoneNumber = user.PhoneNumber};
             IdentityResult result = await userManager.CreateAsync(appuser, user.Password);
+           
             try
             {
                 if (result.Succeeded)

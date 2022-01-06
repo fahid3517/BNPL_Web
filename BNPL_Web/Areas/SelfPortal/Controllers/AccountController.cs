@@ -76,7 +76,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
 
 
             if (result.Succeeded)
-                return RedirectToLocal(ReturnUrl);
+                return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
             else
                 ModelState.AddModelError(nameof(model.Password), "Invalid login attempt.");
             return View(model);

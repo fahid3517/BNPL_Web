@@ -13,7 +13,8 @@ namespace BNPL_Web.DatabaseModels.DTOs
     {
         [Key]
         public Guid Id { get; set; }
-        public virtual ApplicationUser UserId { get; set; }
+        public string UserId { get; set; }
+        public string RoleId { get; set; }
         public string FullName { get; set; }
     }
 }

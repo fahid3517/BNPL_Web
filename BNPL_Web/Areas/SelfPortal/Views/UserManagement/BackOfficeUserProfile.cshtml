@@ -1,0 +1,93 @@
+﻿<script src="~/Scripts/UserManagement/BackOfficeUserProfile.js"></script>
+
+<style>
+    .toggle-password {
+        position: relative;
+        cursor: pointer;
+        font-size: 18px !important;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<link rel="stylesheet" href="~/assets/css/EmployeeForm.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js" integrity="sha512-6Jym48dWwVjfmvB0Hu3/4jn4TODd6uvkxdi9GNbBHwZ4nGcRxJUCaTkL3pVY6XUQABqFo3T58EMXFQztbjvAFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<form id="form-1">
+    <!--Employee Basic Information form starts -->
+    <div class="card-title">
+    <div class="card-title mt-3 ml-2">
+       BackOffice-User Basic Information
+    </div>
+    <hr style="margin-top: -1rem;" />
+    <br />
+    <div class="row ml-2">
+        <div class="col-xl-6">
+            <div class="form-group row">
+                <label for="UserName" class="col-lg-5 col-form-label">User Name<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                    <input id="UserName" name="UserName" type="text" class="form-control" required>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="form-group row">
+                <label for="Role" class="col-lg-5 col-form-label">Role<span class="text-danger">*</span></label>
+                <div class="defaultDropdown  col-lg-7">
+                    <input id="Role" name="Role" style="width: 100%; z-index: 4;" required data-required-msg="The Role field is required" />
+                    <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" data-for="Role" role="alert" style="display:none;"></span>
+                    <span id="RoleError" style="color:#910e0e"></span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row ml-2">
+        <div class="col-xl-6">
+            <div class="form-group row">
+                <label for="Email" class="col-lg-5 col-form-label">Email<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                    <input id="Email" name="Dob" type="email" class="form-control" required>
+                    <span id="Email" style="color:#910e0e"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="form-group row">
+                <label for="Password" class="col-lg-5 col-form-label">Password<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                    <input id="Password" name="Password" type="password" class="form-control" required>
+                 @*   <span toggle="#Password" class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>*@
+                </div>
+            </div>
+        </div>
+         
+    </div>
+    </div>
+       <div class="row ml-2">
+      
+
+            <div class="col-xl-6">
+            <div class="form-group row">
+                <label for="Mobile" class="col-lg-5 col-form-label">Mobile<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                    <input id="Mobile" name="Mobile" type="tel" class="form-control" required>
+                </div>
+            </div>
+        </div>
+
+
+        
+
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+        </div>
+    </div>
+    <!--Employee Basic Information form Ends -->
+    <div class="text-right">
+        <button class="btn btn-primary" id="basic-button-enab" type="button" onclick="Add()">Save</button>
+       
+    </div>
+</form>
+

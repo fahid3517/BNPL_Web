@@ -22,7 +22,30 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.Authentication.ApplicationUser", b =>
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.Authentication.ApplicationUserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ApplicationUserRole");
+                });
+
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DbImplementation.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -97,12 +120,15 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserIdId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserIdId");
 
                     b.ToTable("BackOfficeUserProfile");
                 });
@@ -117,15 +143,16 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserIdId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserIdId");
 
                     b.ToTable("CustomerProfile");
                 });
@@ -189,15 +216,17 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserIdId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserIdId");
 
                     b.ToTable("SystemUsersProfile");
                 });
@@ -348,22 +377,19 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.HasDiscriminator().HasValue("ApplicationRole");
                 });
 
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.BackOfficeUserProfile", b =>
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.Authentication.ApplicationUserRole", b =>
                 {
-                    b.HasOne("BNPL_Web.DatabaseModels.Authentication.ApplicationUser", "UserId")
+                    b.HasOne("BNPL_Web.Authentications.ApplicationRole", "Role")
                         .WithMany()
-                        .HasForeignKey("UserIdId");
+                        .HasForeignKey("RoleId");
 
-                    b.Navigation("UserId");
-                });
+                    b.HasOne("BNPL_Web.DatabaseModels.DbImplementation.ApplicationUser", "User")
+                        .WithMany("AspNetUserRoles")
+                        .HasForeignKey("UserId");
 
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.CustomerProfile", b =>
-                {
-                    b.HasOne("BNPL_Web.DatabaseModels.Authentication.ApplicationUser", "UserId")
-                        .WithMany()
-                        .HasForeignKey("UserIdId");
+                    b.Navigation("Role");
 
-                    b.Navigation("UserId");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.RolePrivilages", b =>
@@ -375,7 +401,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .IsRequired();
 
                     b.HasOne("BNPL_Web.Authentications.ApplicationRole", "Role")
-                        .WithMany()
+                        .WithMany("DbRolePrivileges")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -383,15 +409,6 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.Navigation("Privilege");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.SystemUsersProfile", b =>
-                {
-                    b.HasOne("BNPL_Web.DatabaseModels.Authentication.ApplicationUser", "UserId")
-                        .WithMany()
-                        .HasForeignKey("UserIdId");
-
-                    b.Navigation("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -405,7 +422,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("BNPL_Web.DatabaseModels.Authentication.ApplicationUser", null)
+                    b.HasOne("BNPL_Web.DatabaseModels.DbImplementation.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -414,7 +431,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BNPL_Web.DatabaseModels.Authentication.ApplicationUser", null)
+                    b.HasOne("BNPL_Web.DatabaseModels.DbImplementation.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -429,7 +446,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BNPL_Web.DatabaseModels.Authentication.ApplicationUser", null)
+                    b.HasOne("BNPL_Web.DatabaseModels.DbImplementation.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -438,14 +455,24 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("BNPL_Web.DatabaseModels.Authentication.ApplicationUser", null)
+                    b.HasOne("BNPL_Web.DatabaseModels.DbImplementation.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DbImplementation.ApplicationUser", b =>
+                {
+                    b.Navigation("AspNetUserRoles");
+                });
+
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.Privilages", b =>
+                {
+                    b.Navigation("DbRolePrivileges");
+                });
+
+            modelBuilder.Entity("BNPL_Web.Authentications.ApplicationRole", b =>
                 {
                     b.Navigation("DbRolePrivileges");
                 });

@@ -1,11 +1,5 @@
-﻿
+﻿<script src="~/Scripts/UserManagement/CustomerProfile.js"></script>
 
-<script>
-    $(function () {
-        initializeForm();
-       
-    });
-</script>
 <style>
     .toggle-password {
         position: relative;
@@ -53,7 +47,7 @@
                 <label for="Password" class="col-lg-5 col-form-label">Password<span class="text-danger">*</span></label>
                 <div class="col-lg-7">
                     <input id="Password" name="Password" type="password" class="form-control" required>
-                    <span toggle="#Password" class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>
+                 @*   <span toggle="#Password" class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>*@
                 </div>
             </div>
         </div>
@@ -87,7 +81,7 @@
     </div>
     <!--Employee Basic Information form Ends -->
     <div class="text-right">
-        <button class="btn btn-primary" id="basic-button-enab" type="button" onclick="AddBasic()">Save</button>
+        <button class="btn btn-primary" id="basic-button-enab" type="button" onclick="Add()">Save</button>
        
     </div>
 </form>

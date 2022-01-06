@@ -9,7 +9,15 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         {
             return View();
         }
-        public IActionResult Registor()
+        public IActionResult BackOfficeUserProfile()
+        {
+            return View();
+        }
+        public IActionResult SystemUser()
+        {
+            return View();
+        }
+        public IActionResult Manage()
         {
             return View();
         }

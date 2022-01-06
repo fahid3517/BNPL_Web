@@ -13,8 +13,15 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
     public interface IUnitOfWork
     {
         IRepository<ApplicationUser> AspNetUser { get; }
+
         IRepository<ApplicationRole> AspNetRole { get; }
+        IRepository<ApplicationUserRole> AspNetUserRole { get; }
+        
         IRepository<Privilages> Privilages { get; }
         IRepository<RolePrivilages> RolePrivilages { get; }
+        IRepository<CustomerProfile> CustomerProfile { get; }
+        IRepository<BackOfficeUserProfile> BackOfficeUserProfile { get; }
+        IRepository<SystemUsersProfile> SystemUsersProfile { get; }
+
     }
 }

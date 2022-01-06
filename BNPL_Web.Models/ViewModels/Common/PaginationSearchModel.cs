@@ -8,7 +8,6 @@ namespace BNPL_Web.Common.ViewModels.Common
 {
    public class PaginationSearchModel
     {
-        public int EmployeeId { get; set; }
         public string User { get; set; }
         public string Search { get; set; }
         public int PageStart { get; set; }
@@ -19,6 +18,5 @@ namespace BNPL_Web.Common.ViewModels.Common
         public int Year { get; set; }
         public int month { get; set; }
         public int type { get; set; }
-        public int location { get; set; }
     }
 }

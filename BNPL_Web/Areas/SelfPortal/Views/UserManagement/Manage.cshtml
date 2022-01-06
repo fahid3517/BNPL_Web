@@ -1,0 +1,121 @@
+﻿
+<style>
+	td.details-control {
+		background: url('/assets/img/icons/plus_green.png') no-repeat center center;
+		cursor: pointer;
+	}
+
+	tr.shown td.details-control {
+		background: url('/assets/img/icons/minus_red.png') no-repeat center center;
+	}
+
+	.table-details td {
+		border-top: none;
+	}
+
+	.table-details .left p span:first-child, .table-details .right p span:first-child {
+		min-width: 150px;
+		display: inline-block;
+	}
+
+	.table-details .left {
+		border-right: 1px solid lightgrey;
+	}
+
+	/*    tfoot {
+				display: table-header-group;
+			}*/
+	tfoot input {
+		width: 100%;
+		padding: 3px;
+		box-sizing: border-box;
+	}
+</style>
+@*<link rel="stylesheet" href="~/Content/assets/css/EmployeeManageForm.css">*@
+
+
+<!-- Page Header -->
+<div class="page-header">
+	<div class="row">
+		<div class="col">
+			<h3 class="page-title">Employees</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item"><a>Manage Employees</a></li>
+				<li class="breadcrumb-item active">Employees List</li>
+			</ul>
+		</div>
+		<div class="col-auto float-right ml-auto">
+			<a asp-action="EmployeeManagement" asp-controller="EmployeeManagement" class="btn add-btn"><i class="fa fa-plus"></i> Add Employee</a>
+		</div>
+	</div>
+</div>
+<!-- /Page Header -->
+<!-- Employee List View -->
+<div id="employee-list" class="row">
+	<div class="col-sm-12">
+		<div class="card mb-0">
+			<div class="card-header">
+				<h4 class="card-title mb-0">Users List</h4>
+				
+				<div class="card-body">
+
+					<div class="table-responsive">
+						<table class="table table-stripped mb-0" style="width:100%" id="UserTable">
+							<thead id="tableheader">
+								<tr>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Role</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@*@{
+		<partial name="~/Views/Shared/PartialLayout/Modal/_ModalActive.cshtml" />
+		<partial name="~/Views/Shared/PartialLayout/Modal/_ModalInactive.cshtml" />
+	}*@
+</div>
+<!-- Employee List View End -->
+
+<script>
+	$(function () {
+		debugger;
+	InitializeDatatable();
+	});
+
+	function InitializeDatatable(Role, LocationId, departmentId) {
+		var dtCommonParam = {
+			getDataUrl: '/api/User/GetAll',
+			tableId: 'UserTable'
+		};
+
+		var table = $('#UserTable').DataTable({
+			processing: true,
+			serverSide: true,
+			destroy:true,
+			oLanguage: { sProcessing: "<div id='loading' class='loader'>Loading<span></span></div>" },
+			ajax:
+			{
+				url: dtCommonParam.getDataUrl,
+				type: "POST",
+				dataSrc: "data"
+			},
+			"columns": [
+				{ "data": "UserName", className: "text-center" },
+				{ "data": "Email", className: "text-center" },
+				{ "data": "RoleId", className: "text-center" }
+
+			],
+			
+			"pagingType": "full_numbers",
+			"order": [[0, "dsc"]]
+		});
+		// Add event listener for opening and closing details
+
+	}
+</script>

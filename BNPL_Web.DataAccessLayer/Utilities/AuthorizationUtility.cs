@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 using Project.DatabaseModel.DbImplementation;
 using BNPL_Web.Common.ViewModels.Authorization;
-using BNPL_Web.DatabaseModels.Authentication;
-using BNPL_Web.DatabaseModels.DbImplementation;
+
 using BNPL_Web.DatabaseModels.DTOs;
+using BNPL_Web.DatabaseModels.DbImplementation;
+using BNPL_Web.DatabaseModels.Authentication;
+using BNPL_Web.Authentications;
 
 namespace Project.Utilities
 {
@@ -112,7 +114,29 @@ namespace Project.Utilities
             }
             return hasPortal;
         }
+        public static IEnumerable<AssignPrivilegesViewModel> Getuserivilege(string userName)
+        {
+            HttpContextAccessor context = new HttpContextAccessor();
+            var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
+            string RoleId = "";
+            var user = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles");
 
+            var privilage = unitofwork.BNPL_Context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();
+          
+            if (privilage != null)
+            {
+                RoleId = privilage.RoleId;
+            }
+            IEnumerable<AssignPrivilegesViewModel> _data = unitofwork.RolePrivilages.GetMany(p => p.RoleId == RoleId).Select(p => new AssignPrivilegesViewModel()
+            {
+                RoleId = p.RoleId,
+                Name = p.Privilege.Privilege,
+                PrivilegeId = p.PrivilegeId,
+                Category = p.Privilege.Category,
+                Portal = p.Privilege.Portal
+            });
+            return _data;
+        }
         public static Credentials GetUserCredentialsFromAuthorizationHeader(HttpContext request)
         {
             try
@@ -177,9 +201,9 @@ namespace Project.Utilities
 
             if (!string.IsNullOrEmpty(roleId))
             {
-                /*AspNetRole*/var role ="";/* unitofwork.RoleRepository.Get(p => p.Id == roleId);*/
+                var role = unitofwork.AspNetRole.Get(p => p.Id == roleId);
                 if (role != null)
-                    return "";
+                    return role.Name;
                 else
                     return null;
             }

@@ -11,5 +11,10 @@ namespace BNPL_Web.DataAccessLayer.IServices
     public interface IUserService
     {
         ResponseViewModel Add(UserViewModel value);
+        ResponseViewModel AddBackOfficeUserProfile(UserViewModel value);
+        ResponseViewModel SystemUserProfile(UserViewModel value);
+        PaginatedRecordModel<UserViewModel> GetPaginatedRecords(PaginationSearchModel model);
+
+
     }
 }

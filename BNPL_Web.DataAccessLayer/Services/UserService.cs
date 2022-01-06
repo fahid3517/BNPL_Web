@@ -31,7 +31,7 @@ namespace BNPL_Web.DataAccessLayer.Services
                 data.UserId = value.UserId;
                 data.RoleId = value.RoleId;
                 data.FullName = value.UserName;
-                data.DateOfBirth = value.DateOfBirth;
+                data.DateOfBirth = (DateTime)value.DateOfBirth;
 
                 unitOfWork.CustomerProfile.Add(data);
                 unitOfWork.CustomerProfile.Commit();

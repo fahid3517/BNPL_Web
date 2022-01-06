@@ -23,11 +23,22 @@ namespace Project.Utilities.SiteMap
             if (AuthorizationUtility.userHasPrivilegeCategory(privileges, EnumPrivilegeCategory.USER_MANAGEMENT))
             {
                 html = html + MenuUtility.Sub_Menu_li_ListStart("#", "las la-user-circle", "Profile");
-                if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_USER))
+                if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_CUSTOMER_USER_PROFILE))
                 {
-                    html = html + MenuUtility.Sub_Menu_li_List_ul("/HR/EmployeeManagement/EmployeeManagement", "Add Employee");
+                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/CustomerProfile", "Add Customer Profile");
                 }
-
+                if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_SYSTEM_USER_PROFILE))
+                {
+                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/SystemUser", "Add System User Profile");
+                }
+                if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_BACK_USER_PROFILE))
+                {
+                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/BackOfficeUserProfile", "Add System User Profile");
+                }
+                if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.MANAGE_USER))
+                {
+                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/Manage", "View User");
+                }
                 html = html + MenuUtility.Sub_Menu_li_ListEnd();
             }
             return html;

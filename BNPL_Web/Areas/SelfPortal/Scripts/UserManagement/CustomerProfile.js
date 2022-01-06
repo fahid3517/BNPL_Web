@@ -9,6 +9,7 @@ function Add() {
     var Password = $("#Password").val();
     var Mobile = $("#Mobile").val();
     var Dob = $("#Dob").val();
+    var Email = $("#Email").val();
 
     if (FullName == "" || FullName == undefined) {
         toastr.warning("Please Enter Full Name", { timeOut: 5000 });
@@ -16,6 +17,10 @@ function Add() {
     }
     if (Role == "" || Role == undefined) {
         toastr.warning("Please Select Role", { timeOut: 5000 });
+        return false;
+    }
+    if (Email == "" || Email == undefined) {
+        toastr.warning("Please Enter Email", { timeOut: 5000 });
         return false;
     }
     if (Password == "" || Password == undefined) {
@@ -35,7 +40,8 @@ function Add() {
         RoleId: Role,
         Password: Password,
         PhoneNumber: Mobile,
-        DateOfBirth: Dob
+        DateOfBirth: Dob,
+        Email: Email
     }
     $.ajax({
         url: '/api/User/Post',

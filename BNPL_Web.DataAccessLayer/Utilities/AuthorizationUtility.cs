@@ -122,12 +122,12 @@ namespace Project.Utilities
             var user = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles");
 
             var privilage = unitofwork.BNPL_Context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();
-          
+
             if (privilage != null)
             {
                 RoleId = privilage.RoleId;
             }
-            IEnumerable<AssignPrivilegesViewModel> _data = unitofwork.RolePrivilages.GetMany(p => p.RoleId == RoleId).Select(p => new AssignPrivilegesViewModel()
+            IEnumerable<AssignPrivilegesViewModel> _data = unitofwork.RolePrivilages.GetMany(p => p.RoleId == RoleId, "Privilege").Select(p => new AssignPrivilegesViewModel()
             {
                 RoleId = p.RoleId,
                 Name = p.Privilege.Privilege,
@@ -135,13 +135,14 @@ namespace Project.Utilities
                 Category = p.Privilege.Category,
                 Portal = p.Privilege.Portal
             });
+            int counbt = _data.Count();
             return _data;
         }
         public static Credentials GetUserCredentialsFromAuthorizationHeader(HttpContext request)
         {
             try
             {
-               var authHeader = request.Request.Headers["Authorization"].ToString();
+                var authHeader = request.Request.Headers["Authorization"].ToString();
                 if (!string.IsNullOrEmpty(authHeader))
                 {
                     var token = authHeader.Substring("Basic ".Length).Trim();
@@ -192,7 +193,7 @@ namespace Project.Utilities
             {
                 return false;
             }
-            }
+        }
 
         public static string getUserRoleNamebyRoleId(string roleId)
         {

@@ -2,7 +2,6 @@
 using BNPL_Web.Common.Interface;
 using BNPL_Web.DatabaseModels.Authentication;
 using BNPL_Web.DatabaseModels.DbImplementation;
-using BNPL_Web.DatabaseModels.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -17,6 +16,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using BNPL_Web.DatabaseModels.Models;
 
 namespace BNPL_Web
 {

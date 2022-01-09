@@ -22,6 +22,79 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DbImplementation.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("FirstLogin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDisable")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastLogin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastLogout")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("SuccessFullLogin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AspNetUsers");
+                });
+
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetMembership", b =>
                 {
                     b.Property<Guid>("Id")
@@ -45,7 +118,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetMembership");
+                    b.ToTable("AspNetMemberships");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetProfile", b =>
@@ -62,7 +135,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("ProfileId");
 
-                    b.ToTable("AspNetProfile");
+                    b.ToTable("AspNetProfiles");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetProfileRoles", b =>
@@ -73,25 +146,20 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ClaimId")
+                    b.Property<int?>("AspNetRolesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProfileId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ProfileId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RolesId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfileId");
-
-                    b.HasIndex("RolesId");
+                    b.HasIndex("AspNetRolesId");
 
                     b.ToTable("AspNetProfileRoles");
                 });
@@ -192,22 +260,27 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerProfile");
+                    b.ToTable("CustomerProfiles");
                 });
 
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.SystemUsers", b =>
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.SystemUsersProfile", b =>
                 {
-                    b.Property<Guid>("SystemUserId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SystemUserId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("SystemUsers");
                 });
@@ -233,21 +306,9 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetProfileRoles", b =>
                 {
-                    b.HasOne("BNPL_Web.DatabaseModels.DTOs.AspNetProfile", "Profile")
-                        .WithMany()
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BNPL_Web.DatabaseModels.DTOs.AspNetRoles", "Roles")
+                    b.HasOne("BNPL_Web.DatabaseModels.DTOs.AspNetRoles", null)
                         .WithMany("DbRolePrivileges")
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Profile");
-
-                    b.Navigation("Roles");
+                        .HasForeignKey("AspNetRolesId");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetRoles", b =>

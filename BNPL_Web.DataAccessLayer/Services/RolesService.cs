@@ -32,69 +32,60 @@ namespace BNPL_Web.DataAccessLayer.Services
             try
             {
                 string message = "";
-//                if (!value.Id.Equals(""))
-//                {
-//                    var role = unitOfWork.AspNetProfile.GetMany(a => a.ProfileId.ToString() == value.Id).FirstOrDefault();
-//                    List<AspNetProfile> priviliges = unitOfWork.UserPrivilages.GetMany(p => p.RoleId == role.ProfileId).ToList();
+                if (!value.Id.Equals(""))
+                {
+                    var role = unitOfWork.AspNetProfile.GetMany(a => a.ProfileId.ToString() == value.Id).FirstOrDefault();
+                    List<AspNetProfileRoles> priviliges = unitOfWork.AspNetProfileRoles.GetMany(p => p.RoleId == role.ProfileId.ToString()).ToList();
 
-//                    foreach (var privilege in priviliges)
-//                    {
-//                        unitOfWork.RolePrivilages.Delete(privilege);
-//                    }
+                    foreach (var privilege in priviliges)
+                    {
+                        unitOfWork.AspNetProfileRoles.Delete(privilege);
+                    }
 
-//                    unitOfWork.RolePrivilages.Commit();
+                    unitOfWork.AspNetProfileRoles.Commit();
 
-//#pragma warning disable CS8602 // Dereference of a possibly null reference.
-//                    foreach (var privilege in role.DbRolePrivileges.ToList())
-//#pragma warning restore CS8602 // Dereference of a possibly null reference.
-//                    {
-//                        unitOfWork.RolePrivilages.Delete(privilege);
-//                    }
-
-
-//                    foreach (var privilege in value.allPrivelages)
-//                    {
-//                        long id = 0;
-//                        long.TryParse(privilege.Value, out id);
-//                        AspNetRoles a = unitOfWork.Privilages.GetById(id);
-//                        var temp = new RolePrivilages()
-//                        {
-//                            PrivilegeId = a.Id,
-//                            RoleId = role.Id
-//                        };
-//                        unitOfWork.RolePrivilages.Add(temp);
-//                    }
-//                    message = "Role Updated Successfully.";
-//                    unitOfWork.RolePrivilages.Commit();
+                    foreach (var privilege in value.allPrivelages)
+                    {
+                        long id = 0;
+                        long.TryParse(privilege.Value, out id);
+                        AspNetRoles a = unitOfWork.AspNetRoles.GetById(id);
+                        var temp = new AspNetProfileRoles()
+                        {
+                            ProfileId = a.Id.ToString(),
+                            RoleId = role.ProfileId.ToString(), 
+                        };
+                        unitOfWork.AspNetProfileRoles.Add(temp);
+                    }
+                    message = "Role Updated Successfully.";
+                    unitOfWork.AspNetProfileRoles.Commit();
 
 
-//                }
-//                else if (value.Id.Equals(""))
-//                {
-//                    ApplicationRole role = new ApplicationRole();
+                }
+                else if (value.Id.Equals(""))
+                {
+                    AspNetProfile role = new AspNetProfile();
 
-//                    role.Name = value.RoleName;
-//                    role.NormalizedName = value.RoleName.ToUpper();
-//                    role.Id = Guid.NewGuid().ToString();
+                    role.ProfileName = value.RoleName;
+                    role.Description = value.RoleName.ToUpper();
 
 
 
-//                    foreach (var privilege in value.allPrivelages)
-//                    {
-//                        long id = 0;
-//                        long.TryParse(privilege.Value, out id);
-//                        AspNetRoles a = unitOfWork.Privilages.GetById(id);
-//                        var temp = new RolePrivilages()
-//                        {
-//                            PrivilegeId = a.Id,
-//                            RoleId = role.Id
-//                        };
-//                        role.DbRolePrivileges.Add(temp);
-//                    }
-//                    message = "Role Added Successfully.";
-//                    unitOfWork.AspNetRole.Add(role);
-//                    unitOfWork.AspNetRole.Commit();
-//                }
+                    foreach (var privilege in value.allPrivelages)
+                    {
+                        long id = 0;
+                        long.TryParse(privilege.Value, out id);
+                        AspNetProfile a = unitOfWork.AspNetProfile.GetById(id);
+                        var temp = new AspNetProfileRoles()
+                        {
+                            RoleId = a.ProfileId.ToString(),
+                            ProfileId = role.ProfileId.ToString()
+                        };
+                        ///role..Add(temp);
+                    }
+                    message = "Role Added Successfully.";
+                    unitOfWork.AspNetProfile.Add(role);
+                    unitOfWork.AspNetProfile.Commit();
+                }
 
                 response.Status = HttpStatusCode.OK;
                 response.Message = message;
@@ -126,26 +117,26 @@ namespace BNPL_Web.DataAccessLayer.Services
             try
             {
                 string RoleId = value[0].RoleId;
-                //List<RolePrivilages> _data = unitOfWork.AspNetProfileRoles.GetMany(p => p.role == RoleId).ToList();
-                //if (_data.Count() > 0)
-                //{
-                //    foreach (var data in _data)
-                //    {
-                //        unitOfWork.RolePrivilages.Delete(data);
-                //    }
-                //}
+                List<AspNetProfileRoles> _data = unitOfWork.AspNetProfileRoles.GetMany(p => p.RoleId == RoleId).ToList();
+                if (_data.Count() > 0)
+                {
+                    foreach (var data in _data)
+                    {
+                        unitOfWork.AspNetProfileRoles.Delete(data);
+                    }
+                }
 
-                //for (int i = 0; i < value.Length; i++)
-                //{
-                //    RolePrivilages db_role_privileges = new RolePrivilages();
+                for (int i = 0; i < value.Length; i++)
+                {
+                    AspNetProfileRoles db_role_privileges = new AspNetProfileRoles();
 
-                //    db_role_privileges.RoleId = value[i].RoleId;
-                //    db_role_privileges.PrivilegeId = value[i].PrivilegeId;
+                    db_role_privileges.RoleId = value[i].RoleId;
+                    db_role_privileges.ProfileId = value[i].PrivilegeId.ToString();
 
-                //    unitOfWork.RolePrivilages.Add(db_role_privileges);
+                    unitOfWork.AspNetProfileRoles.Add(db_role_privileges);
 
-                //}
-                //unitOfWork.RolePrivilages.Commit();
+                }
+                unitOfWork.AspNetProfileRoles.Commit();
                 response.Status = HttpStatusCode.Created;
                 response.Message = "Privileges Assign Successfully!";
                 return response;
@@ -167,27 +158,27 @@ namespace BNPL_Web.DataAccessLayer.Services
             try
             {
 
-                //ApplicationRole role = unitOfWork.AspNetRole.GetMany(a => a.Id.Equals(Id)).FirstOrDefault();
-                //if (role != null)
-                //{
-                //    var role_Priviliges = unitOfWork.RolePrivilages.GetMany(x => x.RoleId == role.Id);
-                //    foreach (var privilege in role_Priviliges)
-                //    {
-                //        unitOfWork.RolePrivilages.Delete(privilege);
+                var role = unitOfWork.AspNetProfile.GetMany(a => a.ProfileId.Equals(Id)).FirstOrDefault();
+                if (role != null)
+                {
+                    var role_Priviliges = unitOfWork.AspNetProfileRoles.GetMany(x => x.RoleId == role.ProfileId.ToString());
+                    foreach (var privilege in role_Priviliges)
+                    {
+                        unitOfWork.AspNetProfileRoles.Delete(privilege);
 
-                //    }
-                //    unitOfWork.RolePrivilages.Commit();
-                //    unitOfWork.AspNetRole.Delete(role);
-                //    unitOfWork.AspNetRole.Commit();
-                //}
-                //else
-                //{
-                //    response.Status = HttpStatusCode.BadRequest;
-                //    response.Message = "Role Not Found.";
-                //    response.obj = "Role Not Found";
+                    }
+                    unitOfWork.AspNetProfileRoles.Commit();
+                    unitOfWork.AspNetProfile.Delete(role);
+                    unitOfWork.AspNetProfile.Commit();
+                }
+                else
+                {
+                    response.Status = HttpStatusCode.BadRequest;
+                    response.Message = "Role Not Found.";
+                    response.obj = "Role Not Found";
 
-                //    return response;
-                //}
+                    return response;
+                }
 
                 response.Status = HttpStatusCode.OK;
                 response.Message = "Role Deleted Successfully.";

@@ -19,6 +19,5 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
         IRepository<CustomerProfile> CustomerProfile { get; }
         IRepository<UserProfiles> UserProfiles { get; }
         IRepository<SystemUsers> SystemUsers { get; }
-       // IRepository<BackOfficeUserProfile> BackOfficeUserProfile { get; set; }
     }
 }

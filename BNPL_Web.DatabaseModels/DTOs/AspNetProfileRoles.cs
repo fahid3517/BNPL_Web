@@ -12,8 +12,6 @@ namespace BNPL_Web.DatabaseModels.DTOs
         [Key]
         public int Id { get; set; }
         public string RoleId { get; set; }
-        public string ClaimId { get; set; }
-        public virtual AspNetRoles Roles { get; set; }
-        public virtual AspNetProfile Profile { get; set; }
+        public string ProfileId { get; set; }
     }
 }

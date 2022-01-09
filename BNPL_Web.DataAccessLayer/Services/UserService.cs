@@ -6,7 +6,7 @@ using BNPL_Web.DataAccessLayer.IServices;
 using BNPL_Web.DatabaseModels.Authentication;
 using BNPL_Web.DatabaseModels.DbImplementation;
 using BNPL_Web.DatabaseModels.DTOs;
-using BNPL_Web.DatabaseModels.Models;
+//using BNPL_Web.DatabaseModels.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,11 +15,11 @@ namespace BNPL_Web.DataAccessLayer.Services
     public class UserService : IUserService
     {
         public IUnitOfWork unitOfWork { get; set; }
-        private readonly BNPL_Context _db;
-        public UserService(IUnitOfWork unitOfWork, BNPL_Context _db)
+       // private readonly BNPL_Context _db;
+        public UserService(IUnitOfWork unitOfWork/*, BNPL_Context _db*/)
         {
             this.unitOfWork = unitOfWork;
-            this._db = _db;
+            //this._db = _db;
         }
         public ResponseViewModel Add(UserViewModel value)
         {

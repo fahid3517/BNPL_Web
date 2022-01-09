@@ -28,8 +28,11 @@ namespace BNPL_Web.DatabaseModels.DTOs
         public DateTime? DateOfBirth { get; set; }
         public string? Language { get; set; }
         public string? ContractNumber { get; set; }
+
+        public bool VerifiedContact { get; set; }
         public string? Email { get; set; }
         public bool? VerifiedEmail { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

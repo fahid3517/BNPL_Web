@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BNPL_Web.DatabaseModels.DTOs
 {
-    public class UserMembership
+    public class AspNetMembership
     {
         [Key]
         public Guid Id { get; set; }
@@ -15,6 +15,8 @@ namespace BNPL_Web.DatabaseModels.DTOs
         public string? Email { get; set; }
         public string? UserName { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public bool ForceResetPassword { get; set; }
 
     }
 }

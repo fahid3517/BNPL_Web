@@ -22,9 +22,12 @@ namespace BNPL_Web.DatabaseModels.Models
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<CustomerProfile> CustomerProfile { get; set; }
-        public DbSet<BackOfficeUserProfile> BackOfficeUserProfile { get; set; }
-        public DbSet<SystemUsersProfile> SystemUsersProfile { get; set; }
-        public DbSet<Privilages> Privilages { get; set; }
-        public DbSet<UserMembership> UserMemberships { get; set; }
+       // public DbSet<BackOfficeUserProfile> BackOfficeUserProfile { get; set; }
+        public DbSet<SystemUsers> SystemUsers { get; set; }
+        public DbSet<AspNetRoles> Privilages { get; set; }
+        public DbSet<AspNetProfile> Roles   { get; set; }
+        public DbSet<AspNetProfileRoles> RolePrivigaes { get; set; }
+        public DbSet<UserProfiles> UserRoles { get; set; }
+        public DbSet<AspNetMembership> UserMemberships { get; set; }
     }
 }

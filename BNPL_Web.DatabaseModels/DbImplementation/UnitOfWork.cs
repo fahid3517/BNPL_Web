@@ -20,7 +20,7 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
 
         public IRepository<ApplicationUser> AspNetUser { get; set; }
 
-        public IRepository<Privilages> Privilages { get; set; }
+        public IRepository<AspNetRoles> Privilages { get; set; }
 
         public IRepository<RolePrivilages> RolePrivilages { get; set; }
 
@@ -33,7 +33,7 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
         public IRepository<SystemUsersProfile> SystemUsersProfile { get; set; }
 
         public UnitOfWork(BNPL_Context BNPL_Context, IRepository<ApplicationRole> AspNetRole, IRepository<ApplicationUser> AspNetUser
-            , IRepository<Privilages> Privilages, IRepository<RolePrivilages> RolePrivilages, IRepository<ApplicationUserRole> AspNetUserRole
+            , IRepository<AspNetRoles> Privilages, IRepository<RolePrivilages> RolePrivilages, IRepository<ApplicationUserRole> AspNetUserRole
             , IRepository<CustomerProfile> CustomerProfile, IRepository<BackOfficeUserProfile> BackOfficeUserProfile
             , IRepository<SystemUsersProfile> SystemUsersProfile)
         {

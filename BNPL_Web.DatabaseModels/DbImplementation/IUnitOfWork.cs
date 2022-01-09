@@ -17,7 +17,7 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
         IRepository<ApplicationRole> AspNetRole { get; }
         IRepository<ApplicationUserRole> AspNetUserRole { get; }
         
-        IRepository<Privilages> Privilages { get; }
+        IRepository<AspNetRoles> Privilages { get; }
         IRepository<RolePrivilages> RolePrivilages { get; }
         IRepository<CustomerProfile> CustomerProfile { get; }
         IRepository<BackOfficeUserProfile> BackOfficeUserProfile { get; }

@@ -56,7 +56,7 @@ namespace BNPL_Web.DataAccessLayer.Services
                     {
                         long id = 0;
                         long.TryParse(privilege.Value, out id);
-                        Privilages a = unitOfWork.Privilages.GetById(id);
+                        AspNetRoles a = unitOfWork.Privilages.GetById(id);
                         var temp = new RolePrivilages()
                         {
                             PrivilegeId = a.Id,
@@ -83,7 +83,7 @@ namespace BNPL_Web.DataAccessLayer.Services
                     {
                         long id = 0;
                         long.TryParse(privilege.Value, out id);
-                        Privilages a = unitOfWork.Privilages.GetById(id);
+                        AspNetRoles a = unitOfWork.Privilages.GetById(id);
                         var temp = new RolePrivilages()
                         {
                             PrivilegeId = a.Id,

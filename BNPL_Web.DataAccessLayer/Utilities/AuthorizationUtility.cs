@@ -24,7 +24,7 @@ namespace Project.Utilities
                 var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
 
                 var user = unitofwork.AspNetUser.Get(x => x.UserName == userName);
-                Privilages privilegeDb = unitofwork.Privilages.Get(a => a.Privilege == privilege);
+                AspNetRoles privilegeDb = unitofwork.Privilages.Get(a => a.Privilege == privilege);
 
                 //Get Role of user
                 var aspnet_Role = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles.Role.DbRolePrivileges");

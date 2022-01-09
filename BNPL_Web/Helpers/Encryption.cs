@@ -86,15 +86,15 @@ namespace BNPL_Web.Helpers
             return cipherText;
         }
 
-        public string GetToken(string EncryptionKey)
+        public string GetToken(object authToken, string UserId, string EncryptionKey)
         {
             var handeler = new JwtSecurityTokenHandler();
-            //ClaimsIdentity identity = new ClaimsIdentity(
-            //    new GenericIdentity(userId.ToString(), "Token"),
-            //    new[]
-            //    {
-            //        new Claim("token" , JsonConvert.SerializeObject(authToken)),
-            //    });
+            ClaimsIdentity identity = new ClaimsIdentity(
+                new GenericIdentity(UserId ,"Token"),
+                new[]
+                {
+                    new Claim("token" , JsonConvert.SerializeObject(authToken)),
+                });
             var keyByteArray = Encoding.ASCII.GetBytes(EncryptionKey);
             var signinKey = new SymmetricSecurityKey(keyByteArray);
             var securityToken = handeler.CreateToken(

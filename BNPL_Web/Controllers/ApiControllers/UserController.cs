@@ -4,6 +4,7 @@ using BNPL_Web.Common.ViewModels.Common;
 using BNPL_Web.DataAccessLayer.Helpers;
 using BNPL_Web.DataAccessLayer.IServices;
 using BNPL_Web.DatabaseModels.DbImplementation;
+using BNPL_Web.DatabaseModels.Models;
 using BNPL_Web.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -20,11 +21,15 @@ namespace BNPL_Web.Controllers.ApiControllers
         private readonly IUserService UserService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
-        public UserController(IServiceProvider provider, IConfiguration configuration, SignInManager<ApplicationUser> signInManager)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly BNPL_Context _DB;
+        public UserController(IServiceProvider provider, IConfiguration configuration, SignInManager<ApplicationUser> signInManager, IUnitOfWork unitOfWork, BNPL_Context DB)
         {
             UserService = (IUserService)provider.GetService(typeof(IUserService));
             _configuration = configuration;
             _signInManager = signInManager;
+            _unitOfWork = unitOfWork;
+            _DB = DB;
         }
 
 
@@ -108,6 +113,7 @@ namespace BNPL_Web.Controllers.ApiControllers
         {
             try
             {
+                var authToken = "";
                 var response = new AdminLoginResponse();
                 string tokenKey = _configuration.GetValue<string>("Tokens:Key");
 
@@ -125,23 +131,41 @@ namespace BNPL_Web.Controllers.ApiControllers
                 return StatusCode(StatusCodes.Status403Forbidden, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
             }
             var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-            var authToken = new Encryption().GetToken(tokenKey);
-                response = new AdminLoginResponse
-                {
-                    AccessToken = authToken,
-                };
-
                 if (result.Succeeded)
-                   
-                return Ok(response);
-            else
-                return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+                {
+
+                    var user = _unitOfWork.AspNetUser.Get(x => x.UserName == model.Username);
+                    if (user != null)
+                    {
+                        var role = _DB.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();
+                        if (role != null)
+                        {
+                            authToken = new Encryption().GetToken(new AdminAuthToken { UserId = user.Id, RoleId = role.RoleId }, user.Id, tokenKey);
+                            response = new AdminLoginResponse
+                            {
+                                AccessToken = authToken,
+                            };
+
+                            return Ok(response);
+                        }
+                        else
+                        {
+                            return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+                        }
+
+                    }
+
+                }
+               
+
+                    return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+                
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        
         }
     }
 }

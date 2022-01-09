@@ -1,5 +1,6 @@
 ﻿using BNPL_Web.Authentications;
 using BNPL_Web.Common.ViewModels;
+using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.DatabaseModels.Authentication;
 using BNPL_Web.DatabaseModels.DbImplementation;
 using BNPL_Web.Helpers;
@@ -75,7 +76,8 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
             }
             var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
             
-            var authToken = new Encryption().GetToken( tokenKey);
+            //var authToken = new Encryption().GetToken( tokenKey);
+           // var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = model.Username }, tokenKey);
 
             if (result.Succeeded)
                 return RedirectToAction("Index", "Home", new { area = "SelfPortal" });

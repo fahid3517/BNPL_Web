@@ -6,7 +6,6 @@ using BNPL_Web.DatabaseModels.DTOs;
 using Microsoft.AspNetCore.Identity;
 namespace BNPL_Web.DatabaseModels.DbImplementation
 {
-    //[TypeConverter(typeof(Converter))]
     public class ApplicationUser : IdentityUser
     {
         public string? CreatedBy { get; set; }
@@ -16,7 +15,5 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
         public DateTime? LastLogin { get; set; }
         public DateTime? SuccessFullLogin { get; set; }
         public DateTime? LastLogout  { get; set; }
-
-        public virtual ApplicationUserRole AspNetUserRoles { get; set; }
     }
 }

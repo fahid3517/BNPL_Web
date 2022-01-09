@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BNPL_Web.DatabaseModels.Models
 {
-    public class BNPL_Context : IdentityDbContext<ApplicationUser>
+    public class BNPL_Context : DbContext
     {
         public BNPL_Context(DbContextOptions<BNPL_Context> options) : base(options)
         {
@@ -22,12 +22,11 @@ namespace BNPL_Web.DatabaseModels.Models
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<CustomerProfile> CustomerProfile { get; set; }
-       // public DbSet<BackOfficeUserProfile> BackOfficeUserProfile { get; set; }
         public DbSet<SystemUsers> SystemUsers { get; set; }
-        public DbSet<AspNetRoles> Privilages { get; set; }
-        public DbSet<AspNetProfile> Roles   { get; set; }
-        public DbSet<AspNetProfileRoles> RolePrivigaes { get; set; }
-        public DbSet<UserProfiles> UserRoles { get; set; }
-        public DbSet<AspNetMembership> UserMemberships { get; set; }
+        public DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public DbSet<AspNetProfile> AspNetProfile { get; set; }
+        public DbSet<AspNetProfileRoles> AspNetProfileRoles { get; set; }
+        public DbSet<UserProfiles> UserProfiles { get; set; }
+        public DbSet<AspNetMembership> AspNetMembership { get; set; }
     }
 }

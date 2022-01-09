@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BNPL_Web.Authentications;
 
 namespace BNPL_Web.DatabaseModels.DTOs
 {
     public class AspNetProfileRoles
     {
-        public Guid RoleId { get; set; }
-        public Guid ProfileId { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public string RoleId { get; set; }
+        public string ClaimId { get; set; }
         public virtual AspNetRoles Roles { get; set; }
         public virtual AspNetProfile Profile { get; set; }
     }

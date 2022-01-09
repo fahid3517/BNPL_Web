@@ -4,6 +4,7 @@ using BNPL_Web.DatabaseModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BNPL_Web.DatabaseModels.Migrations
 {
     [DbContext(typeof(BNPL_Context))]
-    partial class BNPL_ContextModelSnapshot : ModelSnapshot
+    [Migration("20220109135639_tablesupdate")]
+    partial class tablesupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +47,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetMembership");
+                    b.ToTable("UserMemberships");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetProfile", b =>
@@ -62,7 +64,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("ProfileId");
 
-                    b.ToTable("AspNetProfile");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetProfileRoles", b =>
@@ -73,16 +75,11 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ClaimId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("RolesId")
                         .HasColumnType("int");
@@ -93,7 +90,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasIndex("RolesId");
 
-                    b.ToTable("AspNetProfileRoles");
+                    b.ToTable("RolePrivigaes");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetRoles", b =>
@@ -121,7 +118,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("Privilages");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.CustomerProfile", b =>
@@ -228,7 +225,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserProfiles");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetProfileRoles", b =>

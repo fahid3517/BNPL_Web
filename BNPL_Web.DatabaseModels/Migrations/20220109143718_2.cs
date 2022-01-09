@@ -4,20 +4,20 @@
 
 namespace BNPL_Web.DatabaseModels.Migrations
 {
-    public partial class tblupdate1212111 : Migration
+    public partial class _2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "RoleId",
-                table: "SystemUsersProfile",
+                name: "ClaimId",
+                table: "AspNetProfileRoles",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
                 name: "RoleId",
-                table: "BackOfficeUserProfile",
+                table: "AspNetProfileRoles",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
@@ -26,12 +26,12 @@ namespace BNPL_Web.DatabaseModels.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "RoleId",
-                table: "SystemUsersProfile");
+                name: "ClaimId",
+                table: "AspNetProfileRoles");
 
             migrationBuilder.DropColumn(
                 name: "RoleId",
-                table: "BackOfficeUserProfile");
+                table: "AspNetProfileRoles");
         }
     }
 }

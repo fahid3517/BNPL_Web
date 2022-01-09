@@ -24,7 +24,7 @@ namespace Project.Utilities
                 var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
 
                 var user = unitofwork.AspNetUser.Get(x => x.UserName == userName);
-                AspNetRoles privilegeDb = unitofwork.Privilages.Get(a => a.Privilege == privilege);
+                //AspNetRoles privilegeDb = unitofwork.Privilages.Get(a => a.Privilege == privilege);
 
                 //Get Role of user
                 var aspnet_Role = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles.Role.DbRolePrivileges");
@@ -116,27 +116,28 @@ namespace Project.Utilities
         }
         public static IEnumerable<AssignPrivilegesViewModel> Getuserivilege(string userName)
         {
-            HttpContextAccessor context = new HttpContextAccessor();
-            var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
-            string RoleId = "";
-            var user = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles");
+            IEnumerable<AssignPrivilegesViewModel> assignPrivilegesViewModels= new List<AssignPrivilegesViewModel>();
+            //HttpContextAccessor context = new HttpContextAccessor();
+            //var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
+            //string RoleId = "";
+            //var user = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles");
 
-            var privilage = unitofwork.BNPL_Context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();
+            //var privilage = unitofwork.BNPL_Context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();
 
-            if (privilage != null)
-            {
-                RoleId = privilage.RoleId;
-            }
-            IEnumerable<AssignPrivilegesViewModel> _data = unitofwork.RolePrivilages.GetMany(p => p.RoleId == RoleId, "Privilege").Select(p => new AssignPrivilegesViewModel()
-            {
-                RoleId = p.RoleId,
-                Name = p.Privilege.Privilege,
-                PrivilegeId = p.PrivilegeId,
-                Category = p.Privilege.Category,
-                Portal = p.Privilege.Portal
-            });
-            int counbt = _data.Count();
-            return _data;
+            //if (privilage != null)
+            //{
+            //    RoleId = privilage.RoleId;
+            //}
+            //IEnumerable<AssignPrivilegesViewModel> _data = unitofwork.RolePrivilages.GetMany(p => p.RoleId == RoleId, "Privilege").Select(p => new AssignPrivilegesViewModel()
+            //{
+            //    RoleId = p.RoleId,
+            //    Name = p.Privilege.Privilege,
+            //    PrivilegeId = p.PrivilegeId,
+            //    Category = p.Privilege.Category,
+            //    Portal = p.Privilege.Portal
+            //});
+            //int counbt = _data.Count();
+            return assignPrivilegesViewModels;
         }
         public static Credentials GetUserCredentialsFromAuthorizationHeader(HttpContext request)
         {
@@ -197,18 +198,19 @@ namespace Project.Utilities
 
         public static string getUserRoleNamebyRoleId(string roleId)
         {
-            HttpContextAccessor context = new HttpContextAccessor();
-            var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
+            //HttpContextAccessor context = new HttpContextAccessor();
+            //var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
 
-            if (!string.IsNullOrEmpty(roleId))
-            {
-                var role = unitofwork.AspNetRole.Get(p => p.Id == roleId);
-                if (role != null)
-                    return role.Name;
-                else
-                    return null;
-            }
-            return null;
+            //if (!string.IsNullOrEmpty(roleId))
+            //{
+            //    var role = unitofwork.AspNetRole.Get(p => p.Id == roleId);
+            //    if (role != null)
+            //        return role.Name;
+            //    else
+            //        return null;
+            //}
+            //return null;
+            return "";
         }
     }
     //public static bool LoginLog(string username)

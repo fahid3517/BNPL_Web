@@ -137,14 +137,14 @@ namespace BNPL_Web.Controllers.ApiControllers
                     var user = _unitOfWork.AspNetUser.Get(x => x.UserName == model.Username);
                     if (user != null)
                     {
-                        var role = _DB.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();
+                        var role = ""; /*_DB.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();*/
                         if (role != null)
                         {
-                            authToken = new Encryption().GetToken(new AdminAuthToken { UserId = user.Id, RoleId = role.RoleId }, user.Id, tokenKey);
-                            response = new AdminLoginResponse
-                            {
-                                AccessToken = authToken,
-                            };
+                            //authToken = new Encryption().GetToken(new AdminAuthToken { UserId = user.Id, RoleId = role.RoleId }, user.Id, tokenKey);
+                            //response = new AdminLoginResponse
+                            //{
+                            //    AccessToken = authToken,
+                            //};
 
                             return Ok(response);
                         }

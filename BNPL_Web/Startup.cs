@@ -11,7 +11,12 @@ using Newtonsoft.Json.Serialization;
 using Project.DataAccessLayer.Shared;
 using Project.DatabaseModel.DbImplementation;
 using System.Configuration;
+using System.Net;
 using System.Reflection;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BNPL_Web
 {
@@ -34,6 +39,36 @@ namespace BNPL_Web
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
 
             });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = async context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    await context.Response.WriteAsync("Some custom error message if required");
+                };
+            });
+
+            services.AddAuthentication(sharedOptions =>
+            {
+                sharedOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                sharedOptions.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+               .AddJwtBearer(options =>
+               {
+                   var keyByteArray = Encoding.ASCII.GetBytes(this.Configuration.GetValue<String>("Tokens:Key"));
+                   var signinKey = new SymmetricSecurityKey(keyByteArray);
+
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       IssuerSigningKey = signinKey,
+                       ValidAudience = "Audience",
+                       ValidIssuer = "Issuer",
+                       ValidateIssuerSigningKey = true,
+                       ValidateLifetime = true,
+                       ClockSkew = TimeSpan.FromMinutes(0)
+                   };
+               });
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));

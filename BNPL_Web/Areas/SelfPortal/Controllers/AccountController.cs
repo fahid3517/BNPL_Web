@@ -2,6 +2,7 @@
 using BNPL_Web.Common.ViewModels;
 using BNPL_Web.DatabaseModels.Authentication;
 using BNPL_Web.DatabaseModels.DbImplementation;
+using BNPL_Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +58,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string? ReturnUrl)
         {
-
+            string  tokenKey = _configuration.GetValue<string>("Tokens:Key");
 
             if (!ModelState.IsValid)
             {
@@ -73,7 +74,8 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 return View(model);
             }
             var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
-
+            
+            var authToken = new Encryption().GetToken( tokenKey);
 
             if (result.Succeeded)
                 return RedirectToAction("Index", "Home", new { area = "SelfPortal" });

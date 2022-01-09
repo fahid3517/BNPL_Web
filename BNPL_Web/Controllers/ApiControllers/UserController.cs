@@ -4,7 +4,9 @@ using BNPL_Web.Common.ViewModels.Common;
 using BNPL_Web.DataAccessLayer.Helpers;
 using BNPL_Web.DataAccessLayer.IServices;
 using BNPL_Web.DatabaseModels.DbImplementation;
+using BNPL_Web.Helpers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project.DataAccessLayer.Utilities;
 using System.Net;
@@ -16,11 +18,15 @@ namespace BNPL_Web.Controllers.ApiControllers
     public class UserController : ControllerBase
     {
         private readonly IUserService UserService;
-        public UserController(IServiceProvider provider)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IConfiguration _configuration;
+        public UserController(IServiceProvider provider, IConfiguration configuration, SignInManager<ApplicationUser> signInManager)
         {
             UserService = (IUserService)provider.GetService(typeof(IUserService));
-
+            _configuration = configuration;
+            _signInManager = signInManager;
         }
+
 
         [HttpPost]
         [Route("Post")]
@@ -93,6 +99,48 @@ namespace BNPL_Web.Controllers.ApiControllers
             {
 
                 return StatusCode((int)HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult> Login(LoginViewModel model)
+        {
+            try
+            {
+                var response = new AdminLoginResponse();
+                string tokenKey = _configuration.GetValue<string>("Tokens:Key");
+
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+            }
+
+            // This doesn't count login failures towards lockout only two factor authentication
+            // To enable password failures to trigger lockout, change to shouldLockout: true
+            bool isActive = true;
+            if (!isActive)
+            {
+                ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
+                return StatusCode(StatusCodes.Status403Forbidden, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+            }
+            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+            var authToken = new Encryption().GetToken(tokenKey);
+                response = new AdminLoginResponse
+                {
+                    AccessToken = authToken,
+                };
+
+                if (result.Succeeded)
+                   
+                return Ok(response);
+            else
+                return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

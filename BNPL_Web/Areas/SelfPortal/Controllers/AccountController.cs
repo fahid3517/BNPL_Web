@@ -22,14 +22,16 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IUnitOfWork unitOfWork;
 
-        public AccountController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
+        public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
             IConfiguration configuration, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _signInManager = signInManager;
+            this.unitOfWork = unitOfWork;
         }
 
         // GET: /Account/Login
@@ -59,7 +61,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string? ReturnUrl)
         {
-            string  tokenKey = _configuration.GetValue<string>("Tokens:Key");
+            string tokenKey = _configuration.GetValue<string>("Tokens:Key");
 
             if (!ModelState.IsValid)
             {
@@ -74,13 +76,26 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
                 return View(model);
             }
-            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
-            
+            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password,true,false);
+
             //var authToken = new Encryption().GetToken( tokenKey);
-           // var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = model.Username }, tokenKey);
+            // var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = model.Username }, tokenKey);
 
             if (result.Succeeded)
+            {
+                var ApplicationUser = unitOfWork.AspNetUser.Get(x => x.UserName == model.Username);
+                if (ApplicationUser != null)
+                {
+                    ApplicationUser.FirstLogin = DateTime.Now;
+                    ApplicationUser.LastLogin = DateTime.Now;
+                    ApplicationUser.SuccessFullLogin = DateTime.Now;
+
+                    unitOfWork.AspNetUser.Update(ApplicationUser);
+                    unitOfWork.AspNetUser.Commit();
+                  
+                }
                 return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
+            }
             else
                 ModelState.AddModelError(nameof(model.Password), "Invalid login attempt.");
             return View(model);

@@ -9,6 +9,14 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
     //[TypeConverter(typeof(Converter))]
     public class ApplicationUser : IdentityUser
     {
+        public string? CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public bool IsDisable { get; set; }
+        public DateTime? FirstLogin { get; set; }
+        public DateTime? LastLogin { get; set; }
+        public DateTime? SuccessFullLogin { get; set; }
+        public DateTime? LastLogout  { get; set; }
+
         public virtual ApplicationUserRole AspNetUserRoles { get; set; }
     }
 }

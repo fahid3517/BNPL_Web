@@ -4,6 +4,7 @@ using BNPL_Web.DatabaseModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BNPL_Web.DatabaseModels.Migrations
 {
     [DbContext(typeof(BNPL_Context))]
-    partial class BNPL_ContextModelSnapshot : ModelSnapshot
+    [Migration("20220109105917_aspnetuser")]
+    partial class aspnetuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +61,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
@@ -72,16 +74,16 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("FirstLogin")
+                    b.Property<DateTime>("FirstLogin")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDisable")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("LastLogin")
+                    b.Property<DateTime>("LastLogin")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("LastLogout")
+                    b.Property<DateTime>("LastLogout")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")
@@ -110,7 +112,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("SuccessFullLogin")
+                    b.Property<DateTime>("SuccessFullLogin")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("TwoFactorEnabled")

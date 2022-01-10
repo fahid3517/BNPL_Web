@@ -15,10 +15,10 @@ function Add() {
         toastr.warning("Please Enter Full Name", { timeOut: 5000 });
         return false;
     }
-    if (Role == "" || Role == undefined) {
-        toastr.warning("Please Select Role", { timeOut: 5000 });
-        return false;
-    }
+    //if (Role == "" || Role == undefined) {
+    //    toastr.warning("Please Select Role", { timeOut: 5000 });
+    //    return false;
+    //}
     if (Email == "" || Email == undefined) {
         toastr.warning("Please Enter Email", { timeOut: 5000 });
         return false;

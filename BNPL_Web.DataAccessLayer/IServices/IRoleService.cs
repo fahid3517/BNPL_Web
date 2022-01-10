@@ -18,7 +18,7 @@ namespace BNPL_Web.DataAccessLayer.IServices
         ResponseViewModel GetAllPrivilegeAndRole();
         ResponseViewModel GetAllRole();
         ResponseViewModel Update(RolesViewModel value);
-        ResponseViewModel Delete(string Id);
+        ResponseViewModel Delete(Guid Id);
         ResponseViewModel AssignViewsToRole(AssignPrivilegesViewModel[] value);
     }
 }

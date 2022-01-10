@@ -57,7 +57,7 @@ namespace BNPL_Web.Controllers.ApiControllers
         }
         [Route("Delete")]
         [HttpDelete]
-        public IActionResult Delete(string Id)
+        public IActionResult Delete(Guid Id)
         {
             var response = service.Delete(Id);
             return StatusCode((int)response.Status, response.obj);

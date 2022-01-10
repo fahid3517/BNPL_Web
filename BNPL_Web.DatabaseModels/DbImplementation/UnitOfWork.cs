@@ -15,34 +15,34 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
     {
         public BNPL_Context BNPL_Context;
 
-        public IRepository<ApplicationUser> AspNetUser { get; set; }
+        public IRepository<AspNetUser> AspNetUser { get; set; }
 
-        public IRepository<AspNetRoles> AspNetRoles { get; set; }
-
-        public IRepository<AspNetProfileRoles> AspNetProfileRoles { get; set; }
-
-        public IRepository<UserProfiles> UserProfiles { get; set; }
-
-        public IRepository<SystemUsers> SystemUsers { get; set; }
+        public IRepository<AspNetRole> AspNetRole { get; set; }
 
         public IRepository<AspNetProfile> AspNetProfile { get; set; }
 
-        public IRepository<AspNetMembership> AspNetMembership { get; set; }
+        public IRepository<AspNetProfileRole> AspNetProfileRole { get; set; }
 
+        public IRepository<AspNetMembership> AspNetMembership { get; set; }
         public IRepository<CustomerProfile> CustomerProfile { get; set; }
-        public UnitOfWork(BNPL_Context BNPL_Context, IRepository<ApplicationUser> AspNetUser
-            , IRepository<AspNetProfileRoles> AspNetProfileRoles, IRepository<UserProfiles> UserProfiles
-            , IRepository<SystemUsers> SystemUsers, IRepository<AspNetProfile> AspNetProfile
-            , IRepository<AspNetMembership> AspNetMembership, IRepository<CustomerProfile> CustomerProfile)
+        public IRepository<UserProfile> UserProfile { get; set; }
+
+        public IRepository<SystemUser> SystemUsers { get; set; }
+        public UnitOfWork(BNPL_Context BNPL_Context, IRepository<AspNetRole> AspNetRole, IRepository<AspNetUser> AspNetUser
+            , IRepository<AspNetProfile> AspNetProfile, IRepository<AspNetProfileRole> AspNetProfileRole
+            , IRepository<AspNetMembership> AspNetMembership, IRepository<CustomerProfile> CustomerProfile
+            , IRepository<UserProfile> UserProfile, IRepository<SystemUser> SystemUsers)
         {
-            this.BNPL_Context = BNPL_Context;
+            this.BNPL_Context=BNPL_Context;
             this.AspNetUser=AspNetUser;
-            this.AspNetProfileRoles=AspNetProfileRoles;
-            this.UserProfiles=UserProfiles;
-            this.SystemUsers=SystemUsers;
-            this.AspNetProfile=AspNetProfile;
+            this.AspNetRole=AspNetRole;
+            this.AspNetProfile = AspNetProfile;
+            this.AspNetProfileRole = AspNetProfileRole;
             this.AspNetMembership = AspNetMembership;
-            this.CustomerProfile = CustomerProfile;
+            this.CustomerProfile=CustomerProfile;
+            this.UserProfile=UserProfile;
+            this.SystemUsers = SystemUsers;
         }
+
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BNPL_Web.DatabaseModels.Migrations
 {
     [DbContext(typeof(BNPL_Context))]
-    [Migration("20220109145952_4")]
-    partial class _4
+    [Migration("20220109214832_Fir")]
+    partial class Fir
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,7 +94,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("AspNetUser");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetMembership", b =>
@@ -125,7 +125,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetProfile", b =>
                 {
-                    b.Property<Guid>("ProfileId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -135,33 +135,24 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.Property<string>("ProfileName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ProfileId");
+                    b.HasKey("Id");
 
-                    b.ToTable("AspNetProfiles");
+                    b.ToTable("AspNetProfile");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetProfileRoles", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("AspNetRolesId")
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ProfileId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AspNetRolesId");
 
                     b.ToTable("AspNetProfileRoles");
                 });
@@ -262,19 +253,33 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerProfiles");
+                    b.ToTable("CustomerProfile");
                 });
 
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.SystemUsersProfile", b =>
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.SystemUsers", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("SystemUserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("SystemUserId");
+
+                    b.ToTable("SystemUsers");
+                });
+
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.UserProfiles", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProfileId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -284,38 +289,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SystemUsers");
-                });
-
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.UserProfiles", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("ProfileId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
                     b.ToTable("UserProfiles");
-                });
-
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetProfileRoles", b =>
-                {
-                    b.HasOne("BNPL_Web.DatabaseModels.DTOs.AspNetRoles", null)
-                        .WithMany("DbRolePrivileges")
-                        .HasForeignKey("AspNetRolesId");
-                });
-
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.AspNetRoles", b =>
-                {
-                    b.Navigation("DbRolePrivileges");
                 });
 #pragma warning restore 612, 618
         }

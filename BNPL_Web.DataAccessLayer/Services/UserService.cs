@@ -28,7 +28,7 @@ namespace BNPL_Web.DataAccessLayer.Services
             {
                 CustomerProfile data = new CustomerProfile();
 
-                data.UserId = value.UserId;
+                data.UserId = value.UserId.ToString();
                 data.RoleId = value.RoleId;
                 data.FullName = value.UserName;
                 data.DateOfBirth = (DateTime)value.DateOfBirth;
@@ -55,7 +55,7 @@ namespace BNPL_Web.DataAccessLayer.Services
             ResponseViewModel response = new ResponseViewModel();
             try
             {
-                BackOfficeUserProfile data = new BackOfficeUserProfile();
+                //BackOfficeUserProfile data = new BackOfficeUserProfile();
 
                 //data.UserId = value.UserId;
                 //data.RoleId = value.RoleId;
@@ -78,14 +78,14 @@ namespace BNPL_Web.DataAccessLayer.Services
             }
         }
 
-        public ResponseViewModel SystemUserProfile(UserViewModel value)
+        public ResponseViewModel SystemUserProfile(SystemUserModel value)
         {
             ResponseViewModel response = new ResponseViewModel();
             try
             {
-                SystemUsersProfile data = new SystemUsersProfile();
+                SystemUser data = new SystemUser();
 
-                data.UserId = value.UserId;
+                data.UserId = (Guid)value.UserId;
 
                 //data.FullName = value.UserName;
                 //data.RoleId = value.RoleId;

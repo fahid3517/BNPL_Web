@@ -35,9 +35,9 @@ namespace BNPL_Web.Controllers.ApiControllers
 
         [HttpPost]
         [Route("Post")]
-        public async Task<IActionResult> Post(UserViewModel model)
+        public  IActionResult Post(UserViewModel model)
         {
-            FunctionResult result = await IdentityHelper.createUser(model);
+            FunctionResult result =  IdentityHelper.createUser(model);
             if (!result.success)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, result.message);
@@ -49,9 +49,9 @@ namespace BNPL_Web.Controllers.ApiControllers
         }
         [HttpPost]
         [Route("BackOfficeUserProfile")]
-        public async Task<IActionResult> BackOfficeUserProfile(UserViewModel model)
+        public IActionResult BackOfficeUserProfile(UserViewModel model)
         {
-            FunctionResult result = await IdentityHelper.createUser(model);
+            FunctionResult result = IdentityHelper.createUser(model);
             if (!result.success)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, result.message);
@@ -63,14 +63,14 @@ namespace BNPL_Web.Controllers.ApiControllers
         }
         [HttpPost]
         [Route("SystemUserProfile")]
-        public async Task<IActionResult> SystemUserProfile(UserViewModel model)
+        public async Task<IActionResult> SystemUserProfile(SystemUserModel model)
         {
-            FunctionResult result = await IdentityHelper.createUser(model);
+            FunctionResult result = await IdentityHelper.SystemcreateUser(model);
             if (!result.success)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, result.message);
             }
-            model.UserId = result.message;
+            model.UserId = result.Respoinsemessage;
 
             var response = UserService.SystemUserProfile(model);
             return StatusCode((int)response.Status, response.obj);

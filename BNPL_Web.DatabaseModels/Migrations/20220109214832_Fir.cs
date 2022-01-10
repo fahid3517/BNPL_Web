@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BNPL_Web.DatabaseModels.Migrations
 {
-    public partial class _3 : Migration
+    public partial class Fir : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,16 +26,29 @@ namespace BNPL_Web.DatabaseModels.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetProfiles",
+                name: "AspNetProfile",
                 columns: table => new
                 {
-                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProfileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetProfiles", x => x.ProfileId);
+                    table.PrimaryKey("PK_AspNetProfile", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetProfileRoles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProfileId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoleId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetProfileRoles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,7 +68,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "AspNetUser",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -83,11 +96,11 @@ namespace BNPL_Web.DatabaseModels.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUser", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomerProfiles",
+                name: "CustomerProfile",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -114,61 +127,34 @@ namespace BNPL_Web.DatabaseModels.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomerProfiles", x => x.Id);
+                    table.PrimaryKey("PK_CustomerProfile", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "SystemUsers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SystemUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SystemUsers", x => x.Id);
+                    table.PrimaryKey("PK_SystemUsers", x => x.SystemUserId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserProfiles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfileId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserProfiles", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetProfileRoles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfileId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AspNetRolesId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetProfileRoles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetProfileRoles_AspNetRoles_AspNetRolesId",
-                        column: x => x.AspNetRolesId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetProfileRoles_AspNetRolesId",
-                table: "AspNetProfileRoles",
-                column: "AspNetRolesId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -177,25 +163,25 @@ namespace BNPL_Web.DatabaseModels.Migrations
                 name: "AspNetMemberships");
 
             migrationBuilder.DropTable(
+                name: "AspNetProfile");
+
+            migrationBuilder.DropTable(
                 name: "AspNetProfileRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetProfiles");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AspNetUser");
 
             migrationBuilder.DropTable(
-                name: "CustomerProfiles");
+                name: "CustomerProfile");
 
             migrationBuilder.DropTable(
                 name: "SystemUsers");
 
             migrationBuilder.DropTable(
                 name: "UserProfiles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
         }
     }
 }

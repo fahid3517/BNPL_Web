@@ -91,10 +91,11 @@ namespace BNPL_Web
          RegisterDependancy(services, ServiceLifetime.Scoped);
             services.AddMvc();
             services.AddDbContext<BNPL_Context>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<BNPL_Context>()
                 .AddDefaultTokenProviders();
+            RegisterDependancy(services, ServiceLifetime.Scoped);
 
         }
 

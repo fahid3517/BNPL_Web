@@ -25,13 +25,14 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         {
             string TokenCookie = Request.Cookies["Key"];
 
-            if (true)
+            if (TokenCookie!=null)
             {
                 var handeler = new JwtSecurityTokenHandler();
                 var temp1 = handeler.ReadJwtToken(TokenCookie);
                 var tokenData = JsonConvert.DeserializeObject<AdminAuthToken>(temp1.Claims.FirstOrDefault(x => x.Type.Equals("token"))?.Value);
                 return View();
             }
+            return RedirectToAction("Login", "Account");
 
         }
         public IActionResult Privacy()

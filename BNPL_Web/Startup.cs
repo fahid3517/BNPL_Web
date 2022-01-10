@@ -118,7 +118,7 @@ namespace BNPL_Web
 
             app.UseRouting();
             app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthorization();
             //Area Routing
             app.UseEndpoints(endpoints =>
             {

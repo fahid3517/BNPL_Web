@@ -27,16 +27,18 @@ namespace Project.Utilities
                 AspNetRole privilegeDb = unitofwork.AspNetRole.Get(a => a.Privilege == privilege);
 
                 //Get Role of user
-                var aspnet_Role = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles.Role.DbRolePrivileges");
+                var aspnet_Role = unitofwork.AspNetUser.Get(x => x.UserName == userName);
+                var UserRole = unitofwork.UserProfile.Get(x => x.UserId == user.Id);
+                var RoleClaims = unitofwork.AspNetProfileRole.GetMany(x => x.RoleId ==Guid.Parse(UserRole.ProfileId.ToString()));
                 if (aspnet_Role != null)
                 {
-                    //foreach (RolePrivilages emp_privilege in aspnet_Role.Role.DbRolePrivileges)
-                    //{
-                    //    //if (emp_privilege.PrivilegeId.Equals(privilegeDb.Id))
-                    //    {
-                    //        return true;
-                    //    }
-                    //}
+                    foreach (var emp_privilege in RoleClaims)
+                    {
+                        if (emp_privilege.ProfileId.Equals(privilegeDb.Id))
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
             return false;

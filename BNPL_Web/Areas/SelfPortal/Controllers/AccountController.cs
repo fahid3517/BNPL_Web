@@ -102,7 +102,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 Response.Cookies.Append("Key", authToken, cookieOptions);
 
 
-                var ApplicationUser = unitOfWork.AspNetUser.Get(x => x.Email == model.Email);
+                var ApplicationUser = unitOfWork.AspNetUser.Get(x => x.Email == CaustomerData.Email);
                 if (ApplicationUser != null)
                 {
                     ApplicationUser.FirstLogin = DateTime.Now;
@@ -136,7 +136,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult BackOfficeLogin(LoginViewModel model, string? ReturnUrl)
+        public ActionResult BackOfficeLogin(AdminLoginViewModel model, string? ReturnUrl)
         {
             string tokenKey = _configuration.GetValue<string>("Tokens:Key");
             var pass = IdentityHelper.GetM5Hash(model.Password);

@@ -123,7 +123,7 @@ namespace BNPL_Web.Controllers.ApiControllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(AdminLoginViewModel model)
         {
             try
             {

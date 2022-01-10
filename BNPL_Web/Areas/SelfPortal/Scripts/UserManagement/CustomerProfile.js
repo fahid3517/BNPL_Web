@@ -98,6 +98,8 @@ function Add() {
         success: function (data) {
             debugger;
             toastr.success("User added successfully", { timeOut: 5000 });
+            Reset();
+            location.href = '/Account/Login';
         },
         error: function (data) {
             var response = data.responseText.replace(/"/g, '');
@@ -106,4 +108,23 @@ function Add() {
 
         }
     });
+}
+function Reset() {
+
+    $("#UserName").val('');
+    $("#Password").val('');
+    $("#Mobile").val('');
+    $("#Dob").val('');
+    $("#Email").val('');
+    $("#FirstNameAr").val('');
+    $("#MiddleNameAr").val('');
+    $("#LastNameAr").val('');
+    $("#FirstNameEn").val('');
+    $("#MiddleNameEn").val('');
+    $("#LastNameEn").val('');
+    $("#Language").val('');
+    $("#Gender").val('');
+    $("#CivilId").val('');
+    $("#TitleId").val('');
+
 }

@@ -29,9 +29,21 @@ namespace BNPL_Web.DataAccessLayer.Services
                 CustomerProfile data = new CustomerProfile();
 
                 data.UserId = value.UserId.ToString();
-                data.RoleId = value.RoleId;
-                data.FullName = value.UserName;
-                data.DateOfBirth = (DateTime)value.DateOfBirth;
+                data.RoleId = "DFDFFA39-3048-447A-F78C-08D9D408F6DC";
+                data.FirstNameAr=value.FirstNameAr;
+                data.MiddleNameAr = value.LastNameAr;
+                data.LastNameAr=value.LastNameAr;
+                data.FirstNameEn = value.FirstNameEn;
+                data.LastNameEn = value.LastNameEn;
+                data.MiddleNameEn = value.MiddlelNameEn;
+
+                data.Language = value.Language;
+                data.Gender = value.Gender;
+                data.ContractNumber = value.PhoneNumber;
+                data.DateOfBirth = value.DateOfBirth;
+                data.Email = value.Email;
+                data.Titile = value.Title;
+                data.CivilId = value.CivilId;
 
                 unitOfWork.CustomerProfile.Add(data);
                 unitOfWork.CustomerProfile.Commit();
@@ -128,7 +140,7 @@ namespace BNPL_Web.DataAccessLayer.Services
             {
                 UserName = p.UserName,
                 Email = p.Email == null ? "N/A" : p.Email,
-                RoleId = GetRoleName(p.UserName),
+                RoleId = GetRoleName(p.Id),
             });
 
 
@@ -167,24 +179,21 @@ namespace BNPL_Web.DataAccessLayer.Services
             dataObject.recordsFiltered = recordsFiltered;
             return dataObject;
         }
-        public string GetRoleName(string UserName)
+        public string GetRoleName(string UserId)
         {
             string RoleName = "";
-            //var UserData = unitOfWork.AspNetUser.Get(x => x.UserName == UserName);
-            //if (UserData != null)
-            //{
-            //    ApplicationUserRole role1 = unitOfWork.AspNetUserRole.Get(x => x.UserId == UserData.Id);
-            //    var Result = _db.UserRoles.Where(x => x.UserId == UserData.Id).FirstOrDefault();
-            //    if (Result != null)
-            //    {
-            //        var role = unitOfWork.AspNetRole.Get(x => x.Id == Result.RoleId);
-            //        if(role!=null)
-            //            return RoleName = role.Name;
-            //    }
-
-            //}
+            var UserData = unitOfWork.UserProfile.Get(x => x.UserId == UserId);
+            if (UserData != null)
+            {
+                var role1 = unitOfWork.AspNetProfile.Get(x => x.Id == Guid.Parse(UserData.ProfileId.ToString()));
            
-            var result = "";
+                if (role1 != null)
+                {
+                  
+                        return RoleName = role1.ProfileName;
+                }
+
+            }
             return RoleName;
         }
     }

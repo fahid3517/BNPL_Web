@@ -1,8 +1,4 @@
 ﻿
-
-$(function () {
-    LoadKendoDropDown('Role', '-- Please Select Role --', '/api/Roles/GetAllRole');
-});
 function Add() {
     var FullName = $("#UserName").val();
     var Password = $("#Password").val();
@@ -79,11 +75,20 @@ function Add() {
     }
     var User = {
         UserName: FullName,
-        RoleId: Role,
+        FirstNameEn: FirstNameEn,
+        LastNameEn: LastNameEn,
+        MiddlelNameEn: MiddleNameEn,
+        FirstNameAr: FirstNameEn,
+        LastNameAr: LastNameEn,
+        MiddlelNameAr: MiddleNameEn,
+        Title: TitleId,
+        Gender: Gender,
+        CivilId: CivilId,
         Password: Password,
         PhoneNumber: Mobile,
         DateOfBirth: Dob,
-        Email: Email
+        Email: Email,
+        Language: Language
     }
     $.ajax({
         url: '/api/User/Post',
@@ -91,6 +96,7 @@ function Add() {
         data: JSON.stringify(User),
         contentType: "application/json;charset=utf-8",
         success: function (data) {
+            debugger;
             toastr.success("User added successfully", { timeOut: 5000 });
         },
         error: function (data) {

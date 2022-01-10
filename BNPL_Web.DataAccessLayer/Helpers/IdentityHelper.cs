@@ -48,6 +48,8 @@ namespace BNPL_Web.DataAccessLayer.Helpers
                // IdentityResult result = await userManager.CreateAsync(appuser, user.Password);
                 if (appuser!=null)
                 {
+
+
                     var usesrProfile = new UserProfile();
                     usesrProfile.UserId = appuser.Id;
                     usesrProfile.ProfileId = "DFDFFA39-3048-447A-F78C-08D9D408F6DC";

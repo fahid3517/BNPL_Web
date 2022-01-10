@@ -1,5 +1,7 @@
 ﻿using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.Common.ViewModels.Common;
+using BNPL_Web.DatabaseModels.DbImplementation;
+using BNPL_Web.DatabaseModels.DTOs;
 using BNPL_Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -46,20 +48,42 @@ namespace BNPL_Web.Authorizations
 
                     SecurityToken validatedToken;
                     var handeler = new JwtSecurityTokenHandler();
-                    var we = handeler.ValidateToken(token, new TokenValidationParameters
-                    {
-                        IssuerSigningKey = signinKey,
-                        ValidAudience = "Audience",
-                        ValidIssuer = "Issuer",
-                        ValidateIssuerSigningKey = true,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.FromMinutes(0)
-                    }, out validatedToken);
+                    //var we = handeler.ValidateToken(token, new TokenValidationParameters
+                    //{
+                    //    IssuerSigningKey = signinKey,
+                    //    ValidAudience = "Audience",
+                    //    ValidIssuer = "Issuer",
+                    //    ValidateIssuerSigningKey = true,
+                    //    ValidateLifetime = true,
+                    //    ClockSkew = TimeSpan.FromMinutes(0)
+                    //}, out validatedToken);
 
                     var temp = handeler.ReadJwtToken(token);
                     tokenData = JsonConvert.DeserializeObject<AdminAuthToken>(temp.Claims.FirstOrDefault(x => x.Type.Equals("token"))?.Value);
-                    context.RouteData.Values.Add("userId", tokenData.UserId);
-                    context.RouteData.Values.Add("roleIdd", tokenData.RoleId);
+
+                    if (tokenData != null)
+                    {
+                        var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
+
+                        AspNetRole privilegeDb = unitofwork.AspNetRole.Get(a => a.Privilege == rightId.ToString());
+
+                        //Get Role of user
+                        var aspnet = unitofwork.AspNetUser.Get(x => x.Id == tokenData.UserId);
+                        var UserRole = unitofwork.UserProfile.Get(x => x.UserId == aspnet.Id);
+                        var RoleClaims = unitofwork.AspNetProfileRole.GetMany(x => x.RoleId == Guid.Parse(UserRole.ProfileId.ToString()));
+                        if (aspnet != null)
+                        {
+                            foreach (var emp_privilege in RoleClaims)
+                            {
+                                if (emp_privilege.ProfileId.Equals(privilegeDb.Id))
+                                {
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+
                 }
                 catch (Exception ex)
                 {

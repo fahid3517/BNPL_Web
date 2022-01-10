@@ -1,6 +1,5 @@
 ﻿
 function Add() {
-    var FullName = $("#UserName").val();
     var Password = $("#Password").val();
     var Mobile = $("#Mobile").val();
     var Dob = $("#Dob").val();
@@ -24,13 +23,9 @@ function Add() {
         toastr.warning("Please Enter Middle Name Ar", { timeOut: 5000 });
         return false;
     }
-    if (FullName == "" || FullName == undefined) {
-        toastr.warning("Please Enter Full Name Ar", { timeOut: 5000 });
-        return false;
-    }
-
+   
     if (FirstNameEn == "" || FirstNameEn == undefined) {
-        toastr.warning("Please Enter Firs Name En", { timeOut: 5000 });
+        toastr.warning("Please Enter First Name En", { timeOut: 5000 });
         return false;
     }
     if (MiddleNameEn == "" || MiddleNameEn == undefined) {

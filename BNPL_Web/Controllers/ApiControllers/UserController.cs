@@ -54,7 +54,7 @@ namespace BNPL_Web.Controllers.ApiControllers
         }
         [HttpPost]
         [Route("BackOfficeUserProfile")]
-        [AdminAuthorize("5bb20bf7-30fe-473f-8967-009f1f16c9d6")]
+        [AdminAuthorize(EnumPrivilegesName.ADD_BACK_USER_PROFILE)]
         public IActionResult BackOfficeUserProfile(UserViewModel model)
         {
 

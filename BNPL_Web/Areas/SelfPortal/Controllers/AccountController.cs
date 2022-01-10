@@ -78,7 +78,15 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
                 return View(model);
             }
-            var result = unitOfWork.AspNetUser.Get(x => x.Email == model.Email && x.PasswordHash == pass);
+            var CaustomerData = unitOfWork.CustomerProfile.Get(x => x.CivilId == model.CivilId);
+            if (CaustomerData==null)
+            {
+                ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
+                return View(model);
+            }
+
+
+            var result = unitOfWork.AspNetUser.Get(x => x.Email == CaustomerData.Email && x.PasswordHash == pass);
             // var result = await _signInManager.PasswordSignInAsync(model.Username, pass, true,false);
           
 

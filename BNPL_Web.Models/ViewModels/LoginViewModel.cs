@@ -12,7 +12,9 @@ namespace BNPL_Web.Common.ViewModels
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
-
+        [Required]
+        [Display(Name = "CivilId")]
+        public string CivilId { get; set; }
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

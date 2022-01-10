@@ -24,7 +24,7 @@ namespace Project.Utilities
                 var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
 
                 var user = unitofwork.AspNetUser.Get(x => x.UserName == userName);
-                //AspNetRoles privilegeDb = unitofwork.Privilages.Get(a => a.Privilege == privilege);
+                AspNetRole privilegeDb = unitofwork.AspNetRole.Get(a => a.Privilege == privilege);
 
                 //Get Role of user
                 var aspnet_Role = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles.Role.DbRolePrivileges");
@@ -116,7 +116,7 @@ namespace Project.Utilities
         }
         public static IEnumerable<AssignPrivilegesViewModel> Getuserivilege(string userName)
         {
-            IEnumerable<AssignPrivilegesViewModel> assignPrivilegesViewModels= new List<AssignPrivilegesViewModel>();
+            IEnumerable<AssignPrivilegesViewModel> assignPrivilegesViewModels = new List<AssignPrivilegesViewModel>();
             //HttpContextAccessor context = new HttpContextAccessor();
             //var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
             //string RoleId = "";

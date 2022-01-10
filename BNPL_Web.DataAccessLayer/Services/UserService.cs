@@ -38,7 +38,7 @@ namespace BNPL_Web.DataAccessLayer.Services
                 CustomerProfile data = new CustomerProfile();
 
                 data.UserId = value.UserId.ToString();
-                data.RoleId = "DFDFFA39-3048-447A-F78C-08D9D408F6DC";
+                data.RoleId = "a14e56e7-77ba-4296-31fe-08d9d4383b5b";
                 data.FirstNameAr = value.FirstNameAr;
                 data.MiddleNameAr = value.LastNameAr;
                 data.LastNameAr = value.LastNameAr;

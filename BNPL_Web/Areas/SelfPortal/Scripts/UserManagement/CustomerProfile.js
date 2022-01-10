@@ -33,7 +33,7 @@ function Add() {
         return false;
     }
     if (LastNameEn == "" || LastNameEn == undefined) {
-        toastr.warning("Please Enter Full Name En", { timeOut: 5000 });
+        toastr.warning("Please Enter Last Name En", { timeOut: 5000 });
         return false;
     }
     if (Email == "" || Email == undefined) {
@@ -69,7 +69,7 @@ function Add() {
         return false;
     }
     var User = {
-        UserName: FullName,
+       // UserName: FullName,
         FirstNameEn: FirstNameEn,
         LastNameEn: LastNameEn,
         MiddlelNameEn: MiddleNameEn,

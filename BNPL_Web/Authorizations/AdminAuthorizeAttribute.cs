@@ -22,7 +22,7 @@ namespace BNPL_Web.Authorizations
         private Guid rightId = Guid.Empty;
         public AdminAuthorizeAttribute(string rightId)
         {
-            this.rightId = Guid.Parse(rightId);
+            //this.rightId = Guid.Parse(rightId);
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)

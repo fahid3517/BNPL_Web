@@ -30,7 +30,7 @@ namespace BNPL_Web.DataAccessLayer.Helpers
 
 
                 var appuser = new AspNetUser();
-                appuser.UserName = user.UserName.Trim();
+                appuser.UserName = user.CivilId.Trim();
                 appuser.PhoneNumber = user.PhoneNumber;
                 appuser.Email = user.Email;
                 appuser.CreatedBy = user.UserName;

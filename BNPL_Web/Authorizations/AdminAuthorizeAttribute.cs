@@ -19,10 +19,10 @@ namespace BNPL_Web.Authorizations
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class AdminAuthorizeAttribute : Attribute, IAuthorizationFilter
     {
-        private Guid rightId = Guid.Empty;
+        private string rightId = Guid.Empty.ToString();
         public AdminAuthorizeAttribute(string rightId)
         {
-            //this.rightId = Guid.Parse(rightId);
+            this.rightId = rightId.ToString();
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)

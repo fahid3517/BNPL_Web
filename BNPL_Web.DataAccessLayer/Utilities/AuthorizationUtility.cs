@@ -119,25 +119,25 @@ namespace Project.Utilities
         public static IEnumerable<AssignPrivilegesViewModel> Getuserivilege(string userName)
         {
             IEnumerable<AssignPrivilegesViewModel> assignPrivilegesViewModels = new List<AssignPrivilegesViewModel>();
-            //HttpContextAccessor context = new HttpContextAccessor();
-            //var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
-            //string RoleId = "";
-            //var user = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles");
+            HttpContextAccessor context = new HttpContextAccessor();
+            var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
+            string RoleId = "";
+            var user = unitofwork.AspNetUser.Get(x => x.UserName == userName);
 
-            //var privilage = unitofwork.BNPL_Context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();
+            var privilage = unitofwork.UserProfile.Get(x => x.UserId == user.Id);
 
-            //if (privilage != null)
-            //{
-            //    RoleId = privilage.RoleId;
-            //}
-            //IEnumerable<AssignPrivilegesViewModel> _data = unitofwork.RolePrivilages.GetMany(p => p.RoleId == RoleId, "Privilege").Select(p => new AssignPrivilegesViewModel()
-            //{
-            //    RoleId = p.RoleId,
-            //    Name = p.Privilege.Privilege,
-            //    PrivilegeId = p.PrivilegeId,
-            //    Category = p.Privilege.Category,
-            //    Portal = p.Privilege.Portal
-            //});
+            if (privilage != null)
+            {
+                RoleId = privilage.ProfileId;
+            }
+            IEnumerable<AssignPrivilegesViewModel> _data = unitofwork.AspNetProfileRole.GetMany(p => p.RoleId ==Guid.Parse(RoleId.ToString()), "Profile").Select(p => new AssignPrivilegesViewModel()
+            {
+                RoleId = p.RoleId,
+                Name = p.Profile.Privilege,
+                PrivilegeId = p.Profile.Id,
+                Category = p.Profile.Category,
+                Portal = p.Profile.Portal
+            });
             //int counbt = _data.Count();
             return assignPrivilegesViewModels;
         }

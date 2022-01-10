@@ -16,21 +16,21 @@ namespace Project.Utilities
 {
     public static class AuthorizationUtility
     {
-        public static bool userHasPrivilege(string userName, string privilege)
+        public static bool userHasPrivilege(string Id, string privilege)
         {
-            if (!String.IsNullOrEmpty(userName))
+            if (!String.IsNullOrEmpty(Id))
             {
                 HttpContextAccessor context = new HttpContextAccessor();
                 var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
 
-                var user = unitofwork.AspNetUser.Get(x => x.UserName == userName);
+               
                 AspNetRole privilegeDb = unitofwork.AspNetRole.Get(a => a.Privilege == privilege);
 
                 //Get Role of user
-                var aspnet_Role = unitofwork.AspNetUser.Get(x => x.UserName == userName);
-                var UserRole = unitofwork.UserProfile.Get(x => x.UserId == user.Id);
+                var aspnet = unitofwork.AspNetUser.Get(x => x.Id == Id);
+                var UserRole = unitofwork.UserProfile.Get(x => x.UserId == aspnet.Id);
                 var RoleClaims = unitofwork.AspNetProfileRole.GetMany(x => x.RoleId ==Guid.Parse(UserRole.ProfileId.ToString()));
-                if (aspnet_Role != null)
+                if (aspnet != null)
                 {
                     foreach (var emp_privilege in RoleClaims)
                     {

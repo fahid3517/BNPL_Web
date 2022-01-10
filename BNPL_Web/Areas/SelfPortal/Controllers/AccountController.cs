@@ -60,7 +60,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public  ActionResult Login(LoginViewModel model, string? ReturnUrl)
+        public ActionResult Login(LoginViewModel model, string? ReturnUrl)
         {
             string tokenKey = _configuration.GetValue<string>("Tokens:Key");
             var pass = IdentityHelper.GetM5Hash(model.Password);
@@ -78,14 +78,22 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
                 return View(model);
             }
-            var result =  unitOfWork.AspNetUser.Get(x => x.UserName == model.Username && x.PasswordHash == pass);
-           // var result = await _signInManager.PasswordSignInAsync(model.Username, pass, true,false);
-
-            //var authToken = new Encryption().GetToken( tokenKey);
-            // var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = model.Username }, tokenKey);
+            var result = unitOfWork.AspNetUser.Get(x => x.UserName == model.Username && x.PasswordHash == pass);
+            // var result = await _signInManager.PasswordSignInAsync(model.Username, pass, true,false);
+          
 
             if (result != null)
             {
+                var UserRole = unitOfWork.UserProfile.Get(x => x.UserId == result.Id);
+                ///var authToken = new Encryption().GetToken( tokenKey);
+                var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = result.Id,RoleId= UserRole.ProfileId}, result.Id, tokenKey);
+
+                CookieOptions cookieOptions = new CookieOptions();
+                cookieOptions.Secure = true;
+                cookieOptions.Expires= DateTime.Now.AddHours(2);
+                Response.Cookies.Append("Key", authToken, cookieOptions);
+
+
                 var ApplicationUser = unitOfWork.AspNetUser.Get(x => x.UserName == model.Username);
                 if (ApplicationUser != null)
                 {
@@ -95,7 +103,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
 
                     unitOfWork.AspNetUser.Update(ApplicationUser);
                     unitOfWork.AspNetUser.Commit();
-                  
+
                 }
                 return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
             }

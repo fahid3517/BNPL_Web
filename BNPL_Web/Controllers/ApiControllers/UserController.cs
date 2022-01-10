@@ -35,15 +35,15 @@ namespace BNPL_Web.Controllers.ApiControllers
 
         [HttpPost]
         [Route("Post")]
-        public  IActionResult Post(UserViewModel model)
+        public IActionResult Post(UserViewModel model)
         {
-            FunctionResult result =  IdentityHelper.createUser(model);
+            FunctionResult result = IdentityHelper.createUser(model);
             if (!result.success)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, result.message);
             }
             model.UserId = result.message;
-           
+
             var response = UserService.Add(model);
             return StatusCode((int)response.Status, response.obj);
         }
@@ -57,9 +57,9 @@ namespace BNPL_Web.Controllers.ApiControllers
                 return StatusCode((int)HttpStatusCode.BadRequest, result.message);
             }
             model.UserId = result.message;
-
-            var response = UserService.AddBackOfficeUserProfile(model);
-            return StatusCode((int)response.Status, response.obj);
+            string Response = "Sucessfully Added";
+            ///var response = UserService.AddBackOfficeUserProfile(model);
+            return StatusCode((int)200, Response);
         }
         [HttpPost]
         [Route("SystemUserProfile")]
@@ -117,20 +117,20 @@ namespace BNPL_Web.Controllers.ApiControllers
                 var response = new AdminLoginResponse();
                 string tokenKey = _configuration.GetValue<string>("Tokens:Key");
 
-            if (!ModelState.IsValid)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
-            }
-
-            // This doesn't count login failures towards lockout only two factor authentication
-            // To enable password failures to trigger lockout, change to shouldLockout: true
-            bool isActive = true;
-            if (!isActive)
-            {
-                ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
-                return StatusCode(StatusCodes.Status403Forbidden, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
-            }
-            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (!ModelState.IsValid)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+                }
+                var pass = IdentityHelper.GetM5Hash(model.Password);
+                // This doesn't count login failures towards lockout only two factor authentication
+                // To enable password failures to trigger lockout, change to shouldLockout: true
+                bool isActive = true;
+                if (!isActive)
+                {
+                    ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
+                    return StatusCode(StatusCodes.Status403Forbidden, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+                }
+                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
 
@@ -140,11 +140,11 @@ namespace BNPL_Web.Controllers.ApiControllers
                         var role = ""; /*_DB.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();*/
                         if (role != null)
                         {
-                            //authToken = new Encryption().GetToken(new AdminAuthToken { UserId = user.Id, RoleId = role.RoleId }, user.Id, tokenKey);
-                            //response = new AdminLoginResponse
-                            //{
-                            //    AccessToken = authToken,
-                            //};
+                            authToken = new Encryption().GetToken(new AdminAuthToken { UserId = user.Id, RoleId = ""}, user.Id, tokenKey);
+                            response = new AdminLoginResponse
+                            {
+                                AccessToken = authToken,
+                            };
 
                             return Ok(response);
                         }
@@ -156,16 +156,16 @@ namespace BNPL_Web.Controllers.ApiControllers
                     }
 
                 }
-               
 
-                    return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
-                
+
+                return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-        
+
         }
     }
 }

@@ -162,13 +162,17 @@
             <div class="col-xl-6">
                    <div class="form-group row">
                     <label for="FirstNameEn" class="col-lg-5 col-form-label">First Name En<span class="text-danger">*</span></label>
-                    <div class="col-lg-7">
+                    <div>
                         <input id="FirstNameEn" name="FirstNameEn" type="text" class="form-control" required>
                     </div>
                    </div>
-                   <div class="form-group row">
+
+
+
+
+                   <div class="form-group col-md-6">
                     <label for="FirstNameAr" class="col-lg-5 col-form-label">First Name Ar<span class="text-danger">*</span></label>
-                    <div class="col-lg-7">
+                    <div class="">
                         <input id="FirstNameAr" name="FirstNameAr" type="text" class="form-control" required>
                     </div>
                    </div>
@@ -195,16 +199,11 @@
                     <div class="col-lg-7">
                         <input id="LastNameAr" name="LastNameAr" type="text" class="form-control" required>
                     </div>
-                   </div>
-                <div class="form-group row">
-                    <label for="UserName" class="col-lg-5 col-form-label">User Name<span class="text-danger">*</span></label>
-                    <div class="col-lg-7">
-                        <input id="UserName" name="UserName" type="text" class="form-control" required>
-
-                    </div>
+                   
                 </div>
               
-                
+
+
             </div>
             <div class="col-xl-6">
             <div class="form-group row">
@@ -216,13 +215,21 @@
               <div class="form-group row">
                 <label for="Gender" class="col-lg-5 col-form-label">Gender<span class="text-danger">*</span></label>
                 <div class="col-lg-7">
-                <input id="Gender" name="Gender" type="text" class="form-control" required>
+                <select id="Gender" name="Gender" type="text" class="form-control" required>
+                    <option value="">Please Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
                  </div>
                  </div>
               <div class="form-group row">
                 <label for="Language" class="col-lg-5 col-form-label">Language<span class="text-danger">*</span></label>
                 <div class="col-lg-7">
-                <input id="Language" name="Language" type="text" class="form-control" required>
+                <select id="Language" name="Language" type="text" class="form-control" required>
+                <option value="">Please Select Language</option>
+                <option value="English">English</option>
+                <option value="Arabic">Arabic</option>
+                </select>
                  </div>
                  </div>
             <div class="form-group row">
@@ -255,7 +262,7 @@
                     <label for="Password" class="col-lg-5 col-form-label">Password<span class="text-danger">*</span></label>
                     <div class="col-lg-7">
                         <input id="Password" name="Password" type="password" class="form-control" required>
-                       @*   <span toggle="#Password" class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>*@
+                                    @*   <span toggle="#Password" class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>*@
                     </div>
                 </div>
             </div>

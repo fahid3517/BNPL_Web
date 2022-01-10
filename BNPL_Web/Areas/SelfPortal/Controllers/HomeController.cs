@@ -1,15 +1,18 @@
-﻿using BNPL_Web.Models;
+﻿using BNPL_Web.Common.ViewModels.Authorization;
+using BNPL_Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace BNPL_Web.Areas.SelfPortal.Controllers
-{[Area("SelfPortal")]
+{
+    [Area("SelfPortal")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,13 +22,17 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
             _logger = logger;
         }
         public IActionResult Index()
-       {
-            if (User.Identity.IsAuthenticated)
+        {
+            string TokenCookie = Request.Cookies["Key"];
+
+            if (true)
             {
+                var handeler = new JwtSecurityTokenHandler();
+                var temp1 = handeler.ReadJwtToken(TokenCookie);
+                var tokenData = JsonConvert.DeserializeObject<AdminAuthToken>(temp1.Claims.FirstOrDefault(x => x.Type.Equals("token"))?.Value);
                 return View();
             }
-            else
-                return RedirectToAction("Login","Account",new { area="SelfPortal"});
+
         }
         public IActionResult Privacy()
         {

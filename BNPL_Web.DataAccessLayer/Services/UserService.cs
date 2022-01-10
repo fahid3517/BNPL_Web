@@ -15,7 +15,7 @@ namespace BNPL_Web.DataAccessLayer.Services
     public class UserService : IUserService
     {
         public IUnitOfWork unitOfWork { get; set; }
-       // private readonly BNPL_Context _db;
+        // private readonly BNPL_Context _db;
         public UserService(IUnitOfWork unitOfWork/*, BNPL_Context _db*/)
         {
             this.unitOfWork = unitOfWork;
@@ -26,13 +26,22 @@ namespace BNPL_Web.DataAccessLayer.Services
             ResponseViewModel response = new ResponseViewModel();
             try
             {
+                var CheckData = unitOfWork.CustomerProfile.Get(x => x.CivilId == value.CivilId);
+                if (CheckData != null)
+                {
+                    response.Message = "Already Exist CivilId";
+                    response.Status = HttpStatusCode.BadRequest;
+                    response.obj = "Already Exist CivilId";
+                    return response;
+                }
+
                 CustomerProfile data = new CustomerProfile();
 
                 data.UserId = value.UserId.ToString();
                 data.RoleId = "DFDFFA39-3048-447A-F78C-08D9D408F6DC";
-                data.FirstNameAr=value.FirstNameAr;
+                data.FirstNameAr = value.FirstNameAr;
                 data.MiddleNameAr = value.LastNameAr;
-                data.LastNameAr=value.LastNameAr;
+                data.LastNameAr = value.LastNameAr;
                 data.FirstNameEn = value.FirstNameEn;
                 data.LastNameEn = value.LastNameEn;
                 data.MiddleNameEn = value.MiddlelNameEn;
@@ -72,8 +81,8 @@ namespace BNPL_Web.DataAccessLayer.Services
                 data.UserId = Guid.Parse(value.UserId.ToString());
                 data.Email = value.Email;
                 data.UserName = value.UserName;
-                data.CreatedAt=DateTime.Now;
-               
+                data.CreatedAt = DateTime.Now;
+
                 unitOfWork.AspNetMembership.Add(data);
                 unitOfWork.AspNetMembership.Commit();
 
@@ -187,11 +196,11 @@ namespace BNPL_Web.DataAccessLayer.Services
             if (UserData != null)
             {
                 var role1 = unitOfWork.AspNetProfile.Get(x => x.Id == Guid.Parse(UserData.ProfileId.ToString()));
-           
+
                 if (role1 != null)
                 {
-                  
-                        return RoleName = role1.ProfileName;
+
+                    return RoleName = role1.ProfileName;
                 }
 
             }

@@ -139,7 +139,7 @@ namespace Project.Utilities
                 Portal = p.Profile.Portal
             });
             //int counbt = _data.Count();
-            return assignPrivilegesViewModels;
+            return _data;
         }
         public static Credentials GetUserCredentialsFromAuthorizationHeader(HttpContext request)
         {

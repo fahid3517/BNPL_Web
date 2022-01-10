@@ -74,6 +74,7 @@ namespace BNPL_Web.DataAccessLayer.Helpers
                 return Convert.ToBase64String(bytes);
             }
         }
+
         public async static Task<FunctionResult> SystemcreateUser(SystemUserModel user)
         {
             HttpContextAccessor context = new HttpContextAccessor();

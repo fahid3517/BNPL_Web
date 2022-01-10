@@ -78,7 +78,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
                 return View(model);
             }
-            var result = unitOfWork.AspNetUser.Get(x => x.UserName == model.Username && x.PasswordHash == pass);
+            var result = unitOfWork.AspNetUser.Get(x => x.Email == model.Email && x.PasswordHash == pass);
             // var result = await _signInManager.PasswordSignInAsync(model.Username, pass, true,false);
           
 
@@ -86,7 +86,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
             {
                 var UserRole = unitOfWork.UserProfile.Get(x => x.UserId == result.Id);
                 ///var authToken = new Encryption().GetToken( tokenKey);
-                var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = result.Id,RoleId= UserRole.ProfileId}, result.Id, tokenKey);
+                var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = result.Id,RoleId= UserRole.ProfileId, UserName = result.UserName}, result.Id, tokenKey);
 
                 CookieOptions cookieOptions = new CookieOptions();
                 cookieOptions.Secure = true;
@@ -94,7 +94,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 Response.Cookies.Append("Key", authToken, cookieOptions);
 
 
-                var ApplicationUser = unitOfWork.AspNetUser.Get(x => x.UserName == model.Username);
+                var ApplicationUser = unitOfWork.AspNetUser.Get(x => x.Email == model.Email);
                 if (ApplicationUser != null)
                 {
                     ApplicationUser.FirstLogin = DateTime.Now;
@@ -122,6 +122,74 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         public ActionResult AccessDenied()
         {
             return Unauthorized();
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult BackOfficeLogin(LoginViewModel model, string? ReturnUrl)
+        {
+            string tokenKey = _configuration.GetValue<string>("Tokens:Key");
+            var pass = IdentityHelper.GetM5Hash(model.Password);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // This doesn't count login failures towards lockout only two factor authentication
+            // To enable password failures to trigger lockout, change to shouldLockout: true
+            bool isActive = true;
+            if (!isActive)
+            {
+                ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
+                return View(model);
+            }
+            var result = unitOfWork.AspNetUser.Get(x => x.Email == model.Email && x.PasswordHash == pass);
+            // var result = await _signInManager.PasswordSignInAsync(model.Username, pass, true,false);
+
+
+            if (result != null)
+            {
+                var UserRole = unitOfWork.UserProfile.Get(x => x.UserId == result.Id);
+                ///var authToken = new Encryption().GetToken( tokenKey);
+                var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = result.Id, RoleId = UserRole.ProfileId, UserName = result.UserName }, result.Id, tokenKey);
+
+                CookieOptions cookieOptions = new CookieOptions();
+                cookieOptions.Secure = true;
+                cookieOptions.Expires = DateTime.Now.AddHours(2);
+                Response.Cookies.Append("Key", authToken, cookieOptions);
+
+
+                var ApplicationUser = unitOfWork.AspNetUser.Get(x => x.Email == model.Email);
+                if (ApplicationUser != null)
+                {
+                    ApplicationUser.FirstLogin = DateTime.Now;
+                    ApplicationUser.LastLogin = DateTime.Now;
+                    ApplicationUser.SuccessFullLogin = DateTime.Now;
+
+                    unitOfWork.AspNetUser.Update(ApplicationUser);
+                    unitOfWork.AspNetUser.Commit();
+
+                }
+                return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
+            }
+            else
+                ModelState.AddModelError(nameof(model.Password), "Invalid login attempt.");
+            return View(model);
+        }
+        [AllowAnonymous]
+        public ActionResult BackOfficeLogin(string? ReturnUrl)
+        {
+
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
+            else
+            {
+                ViewBag.ReturnUrl = ReturnUrl;
+                return View();
+            }
         }
     }
 }

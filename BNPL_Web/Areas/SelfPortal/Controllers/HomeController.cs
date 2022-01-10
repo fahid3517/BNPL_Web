@@ -30,6 +30,9 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 var handeler = new JwtSecurityTokenHandler();
                 var temp1 = handeler.ReadJwtToken(TokenCookie);
                 var tokenData = JsonConvert.DeserializeObject<AdminAuthToken>(temp1.Claims.FirstOrDefault(x => x.Type.Equals("token"))?.Value);
+
+
+                ViewBag.UserName = tokenData.UserName;
                 return View();
             }
             return RedirectToAction("Login", "Account");

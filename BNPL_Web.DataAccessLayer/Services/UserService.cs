@@ -67,14 +67,15 @@ namespace BNPL_Web.DataAccessLayer.Services
             ResponseViewModel response = new ResponseViewModel();
             try
             {
-                //BackOfficeUserProfile data = new BackOfficeUserProfile();
+                AspNetMembership data = new AspNetMembership();
 
-                //data.UserId = value.UserId;
-                //data.RoleId = value.RoleId;
-                //data.FullName = value.UserName;
-
-                //unitOfWork.BackOfficeUserProfile.Add(data);
-                //unitOfWork.BackOfficeUserProfile.Commit();
+                data.UserId = Guid.Parse(value.UserId.ToString());
+                data.Email = value.Email;
+                data.UserName = value.UserName;
+                data.CreatedAt=DateTime.Now;
+               
+                unitOfWork.AspNetMembership.Add(data);
+                unitOfWork.AspNetMembership.Commit();
 
                 response.Message = "Successfully Added";
                 response.obj = "Successfully Added";

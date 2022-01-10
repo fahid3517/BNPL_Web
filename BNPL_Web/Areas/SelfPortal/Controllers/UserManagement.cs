@@ -16,11 +16,6 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         //[MvcCustomAuthorizeAttribute(privilege = EnumPrivilegesName.ADD_BACK_USER_PROFILE)]
         public IActionResult BackOfficeUserProfile()
         {
-            var IsValid = AuthorizationUtility.userHasPrivilege("", EnumPrivilegesName.ADD_BACK_USER_PROFILE);
-            if (!IsValid)
-            {
-                return RedirectToAction("Index", "Home");
-            }
             return View();
         }
         public IActionResult SystemUser()

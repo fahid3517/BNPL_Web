@@ -65,6 +65,52 @@ namespace BNPL_Web.DataAccessLayer.Helpers
                 return new FunctionResult { success = false, message = ex.Message };
             }
         }
+        public static FunctionResult BackOfficeUser(UserViewModel user)
+        {
+            try
+            {
+
+                HttpContextAccessor context = new HttpContextAccessor();
+                UserManager<ApplicationUser> userManager = (UserManager<ApplicationUser>)context.HttpContext.RequestServices.GetService(typeof(UserManager<ApplicationUser>));
+                var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
+
+
+                var appuser = new AspNetUser();
+                appuser.UserName = user.UserName.Trim();
+                appuser.PhoneNumber = user.PhoneNumber;
+                appuser.Email = user.Email;
+                appuser.CreatedBy = user.UserName;
+                appuser.CreatedAt = DateTime.Now;
+                appuser.IsDisable = false;
+                appuser.Id = Guid.NewGuid().ToString();
+
+                string HashPassword = GetM5Hash(user.Password);
+
+                appuser.PasswordHash = HashPassword;
+                unitofwork.AspNetUser.Add(appuser);
+                unitofwork.AspNetUser.Commit();
+
+
+                // IdentityResult result = await userManager.CreateAsync(appuser, user.Password);
+                if (appuser != null)
+                {
+
+
+                    var usesrProfile = new UserProfile();
+                    usesrProfile.UserId = appuser.Id;
+                    usesrProfile.ProfileId = user.RoleId;
+                    unitofwork.UserProfile.Add(usesrProfile);
+                    unitofwork.UserProfile.Commit();
+
+                    return new FunctionResult { success = true, message = appuser.Id };
+                }
+                return new FunctionResult { success = false, message = "Not Registered Successfully" };
+            }
+            catch (Exception ex)
+            {
+                return new FunctionResult { success = false, message = ex.Message };
+            }
+        }
         public static string GetM5Hash(string input)
         {
             using (MD5 md5Hash = MD5.Create())

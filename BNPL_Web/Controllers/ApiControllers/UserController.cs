@@ -63,15 +63,15 @@ namespace BNPL_Web.Controllers.ApiControllers
 
             }
 
-            FunctionResult result = IdentityHelper.createUser(model);
+            FunctionResult result = IdentityHelper.BackOfficeUser(model);
             if (!result.success)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, result.message);
             }
             model.UserId = result.message;
             string Response = "Sucessfully Added";
-            ///var response = UserService.AddBackOfficeUserProfile(model);
-            return StatusCode((int)200, Response);
+            var response = UserService.AddBackOfficeUserProfile(model);
+            return StatusCode((int)response.Status, response.Message);
         }
         [HttpPost]
         [Route("SystemUserProfile")]
@@ -142,11 +142,11 @@ namespace BNPL_Web.Controllers.ApiControllers
                     ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
                     return StatusCode(StatusCodes.Status403Forbidden, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
                 }
-                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
 
-                    var user = _unitOfWork.AspNetUser.Get(x => x.UserName == model.Username);
+                    var user = _unitOfWork.AspNetUser.Get(x => x.UserName == model.Email);
                     if (user != null)
                     {
                         var role = ""; /*_DB.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();*/

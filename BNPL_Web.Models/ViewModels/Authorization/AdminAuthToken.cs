@@ -10,5 +10,6 @@ namespace BNPL_Web.Common.ViewModels.Authorization
     {
         public string UserId { get; set; }
         public string RoleId { get; set; }
+        public string UserName { get; set; }
     }
 }

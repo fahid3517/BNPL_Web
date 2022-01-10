@@ -70,7 +70,7 @@ namespace BNPL_Web.Controllers
                 ModelState.AddModelError("", "Inactive user login attempt.");
                 return View(model);
             }
-            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
 
             if (result.Succeeded)

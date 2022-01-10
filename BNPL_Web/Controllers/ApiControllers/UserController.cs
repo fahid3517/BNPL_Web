@@ -1,4 +1,5 @@
-﻿using BNPL_Web.Common.ViewModels;
+﻿using BNPL_Web.Common.Enums;
+using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.Common.ViewModels.Common;
 using BNPL_Web.DataAccessLayer.Helpers;
@@ -9,7 +10,10 @@ using BNPL_Web.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Project.DataAccessLayer.Utilities;
+using Project.Utilities;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 
 namespace BNPL_Web.Controllers.ApiControllers
@@ -51,6 +55,14 @@ namespace BNPL_Web.Controllers.ApiControllers
         [Route("BackOfficeUserProfile")]
         public IActionResult BackOfficeUserProfile(UserViewModel model)
         {
+
+            string TokenCookie = Request.Cookies["Key"];
+           
+            if (TokenCookie != null)
+            {
+
+            }
+
             FunctionResult result = IdentityHelper.createUser(model);
             if (!result.success)
             {

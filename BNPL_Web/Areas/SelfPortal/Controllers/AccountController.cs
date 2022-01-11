@@ -115,7 +115,6 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                     unitOfWork.AspNetUser.Commit();
 
                 }
-                twilioVerifyClient.StartVerification(0092, CaustomerData.ContractNumber);
                 return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
             }
             else

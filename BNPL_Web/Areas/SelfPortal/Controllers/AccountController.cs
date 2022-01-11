@@ -113,7 +113,8 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                     unitOfWork.AspNetUser.Commit();
 
                 }
-                return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
+               // return RedirectToAction("CusIndex", "Home");
+                return RedirectToAction("Customer", "Home", new { area = "SelfPortal" });
             }
             else
                 ModelState.AddModelError(nameof(model.Password), "Invalid login attempt.");

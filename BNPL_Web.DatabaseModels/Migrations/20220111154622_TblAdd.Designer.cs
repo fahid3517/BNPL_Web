@@ -4,6 +4,7 @@ using BNPL_Web.DatabaseModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BNPL_Web.DatabaseModels.Migrations
 {
     [DbContext(typeof(BNPL_Context))]
-    partial class BNPL_ContextModelSnapshot : ModelSnapshot
+    [Migration("20220111154622_TblAdd")]
+    partial class TblAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,6 +268,10 @@ namespace BNPL_Web.DatabaseModels.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AspNetUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -278,11 +284,9 @@ namespace BNPL_Web.DatabaseModels.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AspNetUserId");
 
                     b.ToTable("OTPVerification");
                 });
@@ -340,6 +344,17 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.Navigation("Profile");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.OTPVerification", b =>
+                {
+                    b.HasOne("BNPL_Web.DatabaseModels.DTOs.AspNetUser", "AspNetUser")
+                        .WithMany()
+                        .HasForeignKey("AspNetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AspNetUser");
                 });
 #pragma warning restore 612, 618
         }

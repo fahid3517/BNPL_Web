@@ -106,7 +106,6 @@ namespace BNPL_Web
             RegisterDependancy(services, ServiceLifetime.Scoped);
 
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {

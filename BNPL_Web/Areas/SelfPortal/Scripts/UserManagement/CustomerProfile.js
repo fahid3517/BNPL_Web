@@ -23,7 +23,7 @@ function Add() {
         toastr.warning("Please Enter Middle Name Ar", { timeOut: 5000 });
         return false;
     }
-   
+
     if (FirstNameEn == "" || FirstNameEn == undefined) {
         toastr.warning("Please Enter First Name En", { timeOut: 5000 });
         return false;
@@ -69,7 +69,7 @@ function Add() {
         return false;
     }
     var User = {
-       // UserName: FullName,
+        // UserName: FullName,
         FirstNameEn: FirstNameEn,
         LastNameEn: LastNameEn,
         MiddlelNameEn: MiddleNameEn,
@@ -93,8 +93,10 @@ function Add() {
         success: function (data) {
             debugger;
             toastr.success("User added successfully", { timeOut: 5000 });
+
+            SendOTP(data.UserId, data.ContractNumber);
             Reset();
-            $('#OTP_Modal').modal('show');
+          
             //location.href = '/Account/Login';
         },
         error: function (data) {
@@ -105,69 +107,44 @@ function Add() {
         }
     });
 }
-function SendOTP() {
-    var Role = {
-        Id: "",
-        RoleName: $("#MobileNumber").val(),
-        allPrivelages: []
-    };
-    debugger;
-    if (Role.RoleName != undefined && Role.RoleName != "") {
-        ShowModalLoader();
-        $.ajax({
-            url: '/api/User/SendOTP',
-            type: 'POST',
-            data: JSON.stringify(Role),
-            contentType: "application/json;charset=utf-8",
-            success: function (data) {
-                toastr.success("Send OTP successfully", { timeOut: 5000 });
-                loadAllRole();
-                HideModalLoader();
-                $('#OTP_Modal').hide();
-                $('#OTPConfirm_Modal').modal('show');
-                $('.modal-backdrop').hide();
+function SendOTP(UserId,Mobile) {
+    $.ajax({
+        url: '/api/User/SendOTP?UserId' + UserId + '&Mobile=' + Mobile,
+        type: 'POST',
+        contentType: "application/json;charset=utf-8",
+        success: function (data) {
+            toastr.success("Send OTP successfully", { timeOut: 5000 });
+            $('#OTPConfirm_Modal').modal('show');
+            
+        },
+        error: function (data) {
+            var response = data.responseText.replace(/"/g, '');
+            toastr.error(response, { timeOut: 5000 });
+            HideModalLoader();
 
-            },
-            error: function (data) {
-                var response = data.responseText.replace(/"/g, '');
-                toastr.error(response, { timeOut: 5000 });
-                HideModalLoader();
-
-            }
-        });
-    }
+        }
+    });
 }
 function VerifyOTP() {
-    var Role = {
-        Id: "",
-        RoleName: $("#OTP").val(),
-        allPrivelages: []
-    };
-    debugger;
-    if (Role.RoleName != undefined && Role.RoleName != "") {
-        ShowModalLoader();
-        $.ajax({
-            url: '/api/User/VerifyOTP',
-            type: 'POST',
-            data: JSON.stringify(Role),
-            contentType: "application/json;charset=utf-8",
-            success: function (data) {
-                toastr.success("Send OTP successfully", { timeOut: 5000 });
-                loadAllRole();
-                HideModalLoader();
-                $('#OTP_Modal').hide();
-                $('#OTPConfirm_Modal').modal('show');
-                $('.modal-backdrop').hide();
+    var UserId = $("#UserId").val();
+    var Number = $("#Number").val();
+    var OTP = $("#OTP").val();
+    $.ajax({
+        url: '/api/User/VerifyOtp?UserId' + UserId + '&Number=' + Number + '&OTP=' + OTP,
+        type: 'POST',
+        contentType: "application/json;charset=utf-8",
+        success: function (data) {
+            toastr.success("Send OTP successfully", { timeOut: 5000 });
+            $('#OTPConfirm_Modal').modal('show');
 
-            },
-            error: function (data) {
-                var response = data.responseText.replace(/"/g, '');
-                toastr.error(response, { timeOut: 5000 });
-                HideModalLoader();
+        },
+        error: function (data) {
+            var response = data.responseText.replace(/"/g, '');
+            toastr.error(response, { timeOut: 5000 });
+            HideModalLoader();
 
-            }
-        });
-    }
+        }
+    });
 }
 function Reset() {
 

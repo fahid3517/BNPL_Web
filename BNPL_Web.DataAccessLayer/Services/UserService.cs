@@ -64,12 +64,8 @@ namespace BNPL_Web.DataAccessLayer.Services
                 unitOfWork.CustomerProfile.Add(data);
                 unitOfWork.CustomerProfile.Commit();
 
-
-                var OTP = GenerateRandomNo();
-
-
                 response.Message = "Successfully Added";
-                response.obj = "Successfully Added";
+                response.obj = data;
                 response.status = HttpStatusCode.OK;
                 return response;
             }
@@ -224,6 +220,79 @@ namespace BNPL_Web.DataAccessLayer.Services
             Random _rdm = new Random();
             return _rdm.Next(_min, _max);
         }
-    
+
+        public ResponseViewModel AddOtp(int OTP, string ContactNo, string UserId)
+        {
+            ResponseViewModel response = new ResponseViewModel();
+            try
+            {
+                var OTPVerfi = new OTPVerification();
+
+                OTPVerfi.Type = "Register OTP";
+                OTPVerfi.PhoneNumber = ContactNo;
+                OTPVerfi.UserId = UserId;
+                OTPVerfi.Code = OTP.ToString();
+
+                //var userTable = unitOfWork.CustomerProfile.Get(x => x.UserId == UserId);
+                //userTable.ContractNumber = ContactNo;
+
+
+                //unitOfWork.CustomerProfile.Update(userTable);
+
+                unitOfWork.OTPVerification.Add(OTPVerfi);
+                unitOfWork.OTPVerification.Commit();
+
+                response.Message = "";
+                response.obj = OTPVerfi.Code;
+                response.status = HttpStatusCode.OK;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = HttpStatusCode.InternalServerError;
+                response.obj = ex.Message;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
+
+        public ResponseViewModel VerifyOtp(string UserId, string ContactNo, string OTP)
+        {
+            ResponseViewModel response = new ResponseViewModel();
+            try
+            {
+
+                var CheckOtp = unitOfWork.OTPVerification.Get(x => x.UserId == UserId && x.Code == OTP && x.PhoneNumber == ContactNo);
+
+
+                if (CheckOtp == null)
+                {
+                    response.Status = HttpStatusCode.BadRequest;
+                    response.obj = "Not Valid Otp";
+                    response.Message = "Not Valid Otp";
+                    return response;
+                }
+
+                var User = unitOfWork.CustomerProfile.Get(x => x.UserId == UserId);
+                if (User != null)
+                {
+                    User.ContractNumber = ContactNo;
+                    unitOfWork.CustomerProfile.Update(User);
+                    unitOfWork.CustomerProfile.Commit();
+                }
+                response.Message = "";
+                response.obj = "";
+                response.status = HttpStatusCode.OK;
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = HttpStatusCode.InternalServerError;
+                response.obj = ex.Message;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
     }
 }

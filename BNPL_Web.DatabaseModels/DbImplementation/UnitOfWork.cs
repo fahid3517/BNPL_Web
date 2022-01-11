@@ -26,12 +26,12 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
         public IRepository<AspNetMembership> AspNetMembership { get; set; }
         public IRepository<CustomerProfile> CustomerProfile { get; set; }
         public IRepository<UserProfile> UserProfile { get; set; }
-
+        public IRepository<OTPVerification> OTPVerification { get; set; }
         public IRepository<SystemUser> SystemUsers { get; set; }
         public UnitOfWork(BNPL_Context BNPL_Context, IRepository<AspNetRole> AspNetRole, IRepository<AspNetUser> AspNetUser
             , IRepository<AspNetProfile> AspNetProfile, IRepository<AspNetProfileRole> AspNetProfileRole
             , IRepository<AspNetMembership> AspNetMembership, IRepository<CustomerProfile> CustomerProfile
-            , IRepository<UserProfile> UserProfile, IRepository<SystemUser> SystemUsers)
+            , IRepository<UserProfile> UserProfile, IRepository<SystemUser> SystemUsers, IRepository<OTPVerification> OTPVerification)
         {
             this.BNPL_Context=BNPL_Context;
             this.AspNetUser=AspNetUser;
@@ -42,6 +42,7 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
             this.CustomerProfile=CustomerProfile;
             this.UserProfile=UserProfile;
             this.SystemUsers = SystemUsers;
+            this.OTPVerification=OTPVerification;
         }
 
     }

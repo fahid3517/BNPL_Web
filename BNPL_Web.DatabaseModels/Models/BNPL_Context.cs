@@ -27,6 +27,7 @@ namespace BNPL_Web.DatabaseModels.Models
         public virtual DbSet<CustomerProfile> CustomerProfiles { get; set; } = null!;
         public virtual DbSet<SystemUser> SystemUsers { get; set; } = null!;
         public virtual DbSet<UserProfile> UserProfiles { get; set; } = null!;
+        public virtual DbSet<OTPVerification> OTPVerification { get; set; } = null!;
 
     }
 }

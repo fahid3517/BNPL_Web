@@ -6,6 +6,7 @@ using BNPL_Web.DataAccessLayer.Helpers;
 using BNPL_Web.DataAccessLayer.IServices;
 using BNPL_Web.DatabaseModels.Authentication;
 using BNPL_Web.DatabaseModels.DbImplementation;
+using BNPL_Web.DatabaseModels.DTOs;
 using BNPL_Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -86,7 +87,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 return View(model);
             }
             var CaustomerData = unitOfWork.CustomerProfile.Get(x => x.CivilId == model.CivilId);
-            if (CaustomerData==null)
+            if (CaustomerData == null)
             {
                 ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
                 return View(model);
@@ -95,17 +96,17 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
 
             var result = unitOfWork.AspNetUser.Get(x => x.Email == CaustomerData.Email && x.PasswordHash == pass);
             // var result = await _signInManager.PasswordSignInAsync(model.Username, pass, true,false);
-          
+
 
             if (result != null)
             {
                 var UserRole = unitOfWork.UserProfile.Get(x => x.UserId == result.Id);
                 ///var authToken = new Encryption().GetToken( tokenKey);
-                var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = result.Id,/*RoleId= UserRole.ProfileId,*/ UserName = result.UserName}, result.Id, tokenKey);
+                var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = result.Id,/*RoleId= UserRole.ProfileId,*/ UserName = result.UserName }, result.Id, tokenKey);
 
                 CookieOptions cookieOptions = new CookieOptions();
                 cookieOptions.Secure = true;
-                cookieOptions.Expires= DateTime.Now.AddHours(2);
+                cookieOptions.Expires = DateTime.Now.AddHours(2);
                 Response.Cookies.Append("Key", authToken, cookieOptions);
 
 
@@ -144,41 +145,15 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 //var statusCode = TwilioClient.GetRestClient().HttpClient
                 //    .LastResponse.StatusCode;
                 #endregion
-                SendSMS();
+
+              
                 return RedirectToAction("Customer", "Home", new { area = "SelfPortal" });
             }
             else
                 ModelState.AddModelError(nameof(model.Password), "Invalid login attempt.");
             return View(model);
         }
-        public bool SendSMS()
-        {
-
-
-            var To = "+923037033013";
-            var text = "Hello";
-            var commandText = "INSERT INTO InsertSms (Body, ToAddress, FromAddress, ChannelID,StatusID, DataCoding, CustomField1, CustomField2) VALUES (@body, @to, @FromAddress, @ChannelID,'SCHEDULED',0,@CustomField1, @CustomField2);";
-            using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
-            {
-                SqlCommand command = new SqlCommand(commandText, connection);
-                command.Parameters.AddWithValue("@to", To);
-
-                command.Parameters.AddWithValue("@body", text);
-
-                command.Parameters.AddWithValue("@FromAddress", AppConfigs.SMS_DevSmsService_FromAddress);
-
-
-
-                command.Parameters.AddWithValue("@ChannelId", AppConfigs.SMS_DevSmsService_ChannelId);
-                var configvalue1 = this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en");
-                command.Parameters.AddWithValue("@CustomField1", this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en"));
-
-                 command.Parameters.AddWithValue("@CustomField2", this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en"));
-
-
-            }
-            return true;
-        }
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
@@ -191,8 +166,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         {
             return Unauthorized();
         }
-
-
+     
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -256,9 +230,9 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
             //else
             //{
             //    ViewBag.ReturnUrl = ReturnUrl;
-                return View();
+            return View();
             //}
         }
-      
+
     }
 }

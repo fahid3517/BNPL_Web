@@ -80,7 +80,7 @@ namespace BNPL_Web
 
             services.AddHttpClient<TwilioVerifyClient>(client =>
             {
-                client.BaseAddress = new Uri("https://api.twilio.com/2022-01-11/Accounts/{SKa4d3d5c0df9f3dbbeabb3a65ddb729b4}/c089399c224231bf782f81a20e745e84.json");
+                client.BaseAddress = new Uri("https://api.twilio.com/2022-01-11/Accounts/SKa4d3d5c0df9f3dbbeabb3a65ddb729b4/c089399c224231bf782f81a20e745e84.json");
                 ///client.BaseAddress = new Uri("https://api.authy.com/");
                 ///client.DefaultRequestHeaders.Add("X-Authy-API-Key", apiKey);
             });

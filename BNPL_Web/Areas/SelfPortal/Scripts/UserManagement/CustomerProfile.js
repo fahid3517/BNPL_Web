@@ -94,7 +94,8 @@ function Add() {
             debugger;
             toastr.success("User added successfully", { timeOut: 5000 });
             Reset();
-            location.href = '/Account/Login';
+            $('#OTP_Modal').modal('show');
+            //location.href = '/Account/Login';
         },
         error: function (data) {
             var response = data.responseText.replace(/"/g, '');
@@ -103,6 +104,70 @@ function Add() {
 
         }
     });
+}
+function SendOTP() {
+    var Role = {
+        Id: "",
+        RoleName: $("#MobileNumber").val(),
+        allPrivelages: []
+    };
+    debugger;
+    if (Role.RoleName != undefined && Role.RoleName != "") {
+        ShowModalLoader();
+        $.ajax({
+            url: '/api/User/SendOTP',
+            type: 'POST',
+            data: JSON.stringify(Role),
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                toastr.success("Send OTP successfully", { timeOut: 5000 });
+                loadAllRole();
+                HideModalLoader();
+                $('#OTP_Modal').hide();
+                $('#OTPConfirm_Modal').modal('show');
+                $('.modal-backdrop').hide();
+
+            },
+            error: function (data) {
+                var response = data.responseText.replace(/"/g, '');
+                toastr.error(response, { timeOut: 5000 });
+                HideModalLoader();
+
+            }
+        });
+    }
+}
+function VerifyOTP() {
+    var Role = {
+        Id: "",
+        RoleName: $("#OTP").val(),
+        allPrivelages: []
+    };
+    debugger;
+    if (Role.RoleName != undefined && Role.RoleName != "") {
+        ShowModalLoader();
+        $.ajax({
+            url: '/api/User/VerifyOTP',
+            type: 'POST',
+            data: JSON.stringify(Role),
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                toastr.success("Send OTP successfully", { timeOut: 5000 });
+                loadAllRole();
+                HideModalLoader();
+                $('#OTP_Modal').hide();
+                $('#OTPConfirm_Modal').modal('show');
+                $('.modal-backdrop').hide();
+
+            },
+            error: function (data) {
+                var response = data.responseText.replace(/"/g, '');
+                toastr.error(response, { timeOut: 5000 });
+                HideModalLoader();
+
+            }
+        });
+    }
 }
 function Reset() {
 

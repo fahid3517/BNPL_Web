@@ -41,6 +41,17 @@ namespace Project.Utilities.SiteMap
                 }
                 html = html + MenuUtility.Sub_Menu_li_ListEnd();
             }
+
+            //Role manegment
+            if (AuthorizationUtility.userHasPrivilegeCategory(privileges, EnumPrivilegeCategory.ROLE_MANAGEMENT))
+            {
+                html = html + MenuUtility.Sub_Menu_li_ListStart("#", "las la-user-circle", "Role");
+                if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_ROLE))
+                {
+                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/RoleManagement/Manage", "Add Role");
+                }
+                html = html + MenuUtility.Sub_Menu_li_ListEnd();
+            }
             return html;
         }
     }

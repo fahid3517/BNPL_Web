@@ -14,6 +14,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace BNPL_Web.Areas.SelfPortal.Controllers
 {
@@ -25,16 +28,14 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork unitOfWork;
-        private readonly TwilioVerifyClient twilioVerifyClient;
         public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration, SignInManager<ApplicationUser> signInManager, TwilioVerifyClient twilioVerifyClient)
+            IConfiguration configuration, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _signInManager = signInManager;
             this.unitOfWork = unitOfWork;
-            this.twilioVerifyClient = twilioVerifyClient;
         }
 
         // GET: /Account/Login
@@ -96,7 +97,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
             {
                 var UserRole = unitOfWork.UserProfile.Get(x => x.UserId == result.Id);
                 ///var authToken = new Encryption().GetToken( tokenKey);
-                var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = result.Id,RoleId= UserRole.ProfileId, UserName = result.UserName}, result.Id, tokenKey);
+                var authToken = new Encryption().GetToken(new AdminAuthToken { UserId = result.Id,/*RoleId= UserRole.ProfileId,*/ UserName = result.UserName}, result.Id, tokenKey);
 
                 CookieOptions cookieOptions = new CookieOptions();
                 cookieOptions.Secure = true;
@@ -115,9 +116,32 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                     unitOfWork.AspNetUser.Commit();
 
                 }
-                twilioVerifyClient.StartVerification(0092, "3320487984");
+                #region SMS
+                //const string accountSid ="AC007478458b6b5c1e6ddff7980bb55130";
+                //const string authTok1en = "c089399c224231bf782f81a20e745e84";
 
-                return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
+                //TwilioClient.Init(accountSid, authTok1en);
+
+                //var message = MessageResource.Create(
+                //    body: "All in the game, yo",
+                //    from: new Twilio.Types.PhoneNumber("+923320487984"),
+                //    to: new Twilio.Types.PhoneNumber("+923069882611")
+                //);
+                // Find your Account Sid and Auth Token at twilio.com/console
+
+                //TwilioClient.Init("AC007478458b6b5c1e6ddff7980bb55130", "c089399c224231bf782f81a20e745e84");
+                //var to = "+923320487984";
+                //var message = MessageResource.Create(
+                //    to,
+                //    from:"+15005550006",
+                //    body: "Ahoy!");
+
+                //// Retrieve the status code of the last response from the HTTP client
+                //var statusCode = TwilioClient.GetRestClient().HttpClient
+                //    .LastResponse.StatusCode;
+                #endregion
+
+                return RedirectToAction("Customer", "Home", new { area = "SelfPortal" });
             }
             else
                 ModelState.AddModelError(nameof(model.Password), "Invalid login attempt.");
@@ -195,13 +219,13 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         public ActionResult BackOfficeLogin(string? ReturnUrl)
         {
 
-            if (User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
-            else
-            {
-                ViewBag.ReturnUrl = ReturnUrl;
+            //if (User.Identity.IsAuthenticated)
+            //    return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
+            //else
+            //{
+            //    ViewBag.ReturnUrl = ReturnUrl;
                 return View();
-            }
+            //}
         }
     }
 }

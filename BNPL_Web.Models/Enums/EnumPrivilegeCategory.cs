@@ -11,7 +11,7 @@ namespace BNPL_Web.Common.Enums
         public const string USER_MANAGEMENT = "User Management";
 
 
-        public const string ROLE_MANAGEMENT = "Role Management";
+        public const string ROLE_MANAGEMENT = "Profile Management";
 
     }
 }

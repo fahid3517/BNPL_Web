@@ -22,6 +22,6 @@ namespace BNPL_Web.Common.Enums
         /// <summary>
         /// Role Management
         /// </summary>
-        public const string ADD_ROLE = "Add Role";
+        public const string ADD_ROLE = "Add Profile";
     }
 }

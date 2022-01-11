@@ -1,7 +1,7 @@
 ﻿
 
 $(function () {
-    LoadKendoDropDown('Role', '-- Please Select Role --', '/api/Roles/GetAllRole');
+    LoadKendoDropDown('Role', '-- Please Select Profile --', '/api/Roles/GetAllRole');
 });
 function Add() {
     var FullName = $("#UserName").val();

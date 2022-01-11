@@ -22,18 +22,18 @@ namespace Project.Utilities.SiteMap
             //User manegment
             if (AuthorizationUtility.userHasPrivilegeCategory(privileges, EnumPrivilegeCategory.USER_MANAGEMENT))
             {
-                html = html + MenuUtility.Sub_Menu_li_ListStart("#", "las la-user-circle", "Profile");
-                if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_CUSTOMER_USER_PROFILE))
-                {
-                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/CustomerProfile", "Add Customer Profile");
-                }
-                if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_SYSTEM_USER_PROFILE))
-                {
-                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/SystemUser", "Add System User Profile");
-                }
+                html = html + MenuUtility.Sub_Menu_li_ListStart("#", "las la-user-circle", "User");
+                //if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_CUSTOMER_USER_PROFILE))
+                //{
+                //    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/CustomerProfile", "Add Customer Profile");
+                //}
+                //if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_SYSTEM_USER_PROFILE))
+                //{
+                //    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/SystemUser", "Add System User Profile");
+                //}
                 if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_BACK_USER_PROFILE))
                 {
-                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/BackOfficeUserProfile", "Add System User Profile");
+                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/BackOfficeUserProfile", "Add User");
                 }
                 if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.MANAGE_USER))
                 {
@@ -45,10 +45,10 @@ namespace Project.Utilities.SiteMap
             //Role manegment
             if (AuthorizationUtility.userHasPrivilegeCategory(privileges, EnumPrivilegeCategory.ROLE_MANAGEMENT))
             {
-                html = html + MenuUtility.Sub_Menu_li_ListStart("#", "las la-user-circle", "Role");
+                html = html + MenuUtility.Sub_Menu_li_ListStart("#", "las la-user-circle", "Profile");
                 if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_ROLE))
                 {
-                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/RoleManagement/Manage", "Add Role");
+                    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/RoleManagement/Manage", "Add Profile");
                 }
                 html = html + MenuUtility.Sub_Menu_li_ListEnd();
             }

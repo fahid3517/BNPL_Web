@@ -1,5 +1,7 @@
 ﻿@model BNPL_Web.Common.ViewModels.AdminLoginViewModel
-@{ Layout = null;}
+@{
+    Layout = null;
+}
 <style>
     .wrapper1 {
         position: relative;
@@ -76,7 +78,15 @@
         });
     </script>
 </head>
-<body class="account-page">
+<body class="">
+     <div class="float-right mr-2">
+           <button class="btn btn-primary bg-primary" style=" color:white;">
+                <a href="/Self/Account/Login" style=" color:white;">Customer Login</a>
+           </button>
+
+                </div>
+    <div class="account-page">
+
 
     <!-- Main Wrapper -->
     <div class="main-wrapper">
@@ -85,42 +95,42 @@
 
                 <!-- Account Logo -->
                 <div class="account-logo">
-                   @* <a href="index.html"><img src="~/assets/img/DOLogo.png" alt="JYA HRMS" style="width:462px"></a>*@
+                        @* <a href="index.html"><img src="~/assets/img/DOLogo.png" alt="JYA HRMS" style="width:462px"></a>*@
                 </div>
                 <!-- /Account Logo -->
 
                 <div class="account-box">
                     <div class="account-wrapper">
-                        <h3 class="account-title">Login</h3>
+                        <h3 class="account-title">Back-Office Login</h3>
                         <p class="account-subtitle">Justify Your Actions</p>
 
                         <!-- Account Form -->
-                        @using (Html.BeginForm("BackOfficeLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }  ,FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
+                            @using (Html.BeginForm("BackOfficeLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
 
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.Email)
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col">
-                                        @Html.LabelFor(m => m.Password)
-                                    </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Email)
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="wrapper1">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                    <span toggle="#Password"  class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>
-                                  </div>
-                            </div>
-                            <div class="form-group text-center">
-                                <button class="btn btn-primary account-btn" type="submit">Login</button>
-                            </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            @Html.LabelFor(m => m.Password)
+                                        </div>
+                                    </div>
+                                    <div class="wrapper1">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        <span toggle="#Password"  class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>
+                                      </div>
+                                </div>
+                                <div class="form-group text-center">
+                                    <button class="btn btn-primary account-btn" type="submit">Login</button>
+                                </div>
 
-                        }
+                            }
                         <!-- /Account Form -->
 
                     </div>
@@ -128,6 +138,7 @@
             </div>
         </div>
     </div>
+     </div>
     <!-- /Main Wrapper -->
 
 

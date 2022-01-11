@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using BNPL_Web.Authentications;
+using BNPL_Web.Authorizations;
 using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Common;
 using BNPL_Web.DataAccessLayer.IServices;
@@ -9,17 +10,22 @@ using BNPL_Web.DatabaseModels.DTOs;
 //using BNPL_Web.DatabaseModels.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace BNPL_Web.DataAccessLayer.Services
 {
     public class UserService : IUserService
     {
-        public IUnitOfWork unitOfWork { get; set; }
+       
+        public IConfiguration Configuration { get; }
+
+        public readonly IUnitOfWork unitOfWork;
         // private readonly BNPL_Context _db;
-        public UserService(IUnitOfWork unitOfWork/*, BNPL_Context _db*/)
+        public UserService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             this.unitOfWork = unitOfWork;
-            //this._db = _db;
+            Configuration = configuration;
         }
         public ResponseViewModel Add(UserViewModel value)
         {
@@ -56,6 +62,10 @@ namespace BNPL_Web.DataAccessLayer.Services
 
                 unitOfWork.CustomerProfile.Add(data);
                 unitOfWork.CustomerProfile.Commit();
+
+
+                var OTP = GenerateRandomNo();
+
 
                 response.Message = "Successfully Added";
                 response.obj = "Successfully Added";
@@ -205,6 +215,40 @@ namespace BNPL_Web.DataAccessLayer.Services
 
             }
             return RoleName;
+        }
+        public int GenerateRandomNo()
+        {
+            int _min = 1000;
+            int _max = 9999;
+            Random _rdm = new Random();
+            return _rdm.Next(_min, _max);
+        }
+        public bool SendSMS()
+        {
+
+            var To = "";
+            var text = "";
+            var commandText = "INSERT INTO InsertSms (Body, ToAddress, FromAddress, ChannelID,StatusID, DataCoding, CustomField1, CustomField2) VALUES (@body, @to, @FromAddress, @ChannelID,'SCHEDULED',0,@CustomField1, @CustomField2);";
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection")))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@to", To);
+
+                command.Parameters.AddWithValue("@body", text);
+
+                command.Parameters.AddWithValue("@FromAddress", AppConfigs.SMS_DevSmsService_FromAddress);
+
+
+
+                command.Parameters.AddWithValue("@ChannelId", AppConfigs.SMS_DevSmsService_ChannelId);
+
+                command.Parameters.AddWithValue("@CustomField1", AppConfigs.Get("SMS_DevSmsService_CustomField1"));
+
+                command.Parameters.AddWithValue("@CustomField2", AppConfigs.Get($"SMS_DevSmsService_CustomField2_{langId}"));
+
+
+            }
+            return true;
         }
     }
 }

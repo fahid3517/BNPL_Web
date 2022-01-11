@@ -16,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -70,13 +72,22 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model, string? ReturnUrl)
         {
-            string tokenKey = _configuration.GetValue<string>("Tokens:Key");
-            var pass = IdentityHelper.GetM5Hash(model.Password);
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            string tokenKey = _configuration.GetValue<string>("Tokens:Key");
+            string HashPassword = "";
+            using (MD5 md5Hash = MD5.Create())
+            {
+                var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
+
+                HashPassword = Convert.ToBase64String(bytes);
+            }
+            //appuser.PasswordHash = HashPassword;
+            var pass = HashPassword;
+
+           
 
             // This doesn't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
@@ -183,13 +194,21 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BackOfficeLogin(AdminLoginViewModel model, string? ReturnUrl)
         {
-            string tokenKey = _configuration.GetValue<string>("Tokens:Key");
-            var pass = IdentityHelper.GetM5Hash(model.Password);
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            string tokenKey = _configuration.GetValue<string>("Tokens:Key");
+            string HashPassword = "";
+            using (MD5 md5Hash = MD5.Create())
+            {
+                var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
+
+                HashPassword = Convert.ToBase64String(bytes);
+            }
+            var pass = HashPassword;
+
+          
 
             // This doesn't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true

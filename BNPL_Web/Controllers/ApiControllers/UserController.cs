@@ -17,6 +17,8 @@ using Project.DataAccessLayer.Utilities;
 using Project.Utilities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace BNPL_Web.Controllers.ApiControllers
 {
@@ -200,7 +202,14 @@ namespace BNPL_Web.Controllers.ApiControllers
                 {
                     return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
                 }
-                var pass = IdentityHelper.GetM5Hash(model.Password);
+                string HashPassword = "";
+                using (MD5 md5Hash = MD5.Create())
+                {
+                    var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
+
+                    HashPassword = Convert.ToBase64String(bytes);
+                }
+                var pass = HashPassword;
                 // This doesn't count login failures towards lockout only two factor authentication
                 // To enable password failures to trigger lockout, change to shouldLockout: true
                 bool isActive = true;

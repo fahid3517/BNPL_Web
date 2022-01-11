@@ -36,9 +36,13 @@ namespace BNPL_Web.DataAccessLayer.Helpers
                 appuser.CreatedAt = DateTime.Now;
                 appuser.IsDisable = false;
                 appuser.Id = Guid.NewGuid().ToString();
-             
-                string HashPassword=  GetM5Hash(user.Password);
+                string HashPassword = "";
+                using (MD5 md5Hash = MD5.Create())
+                {
+                    var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(user.Password));
 
+                    HashPassword= Convert.ToBase64String(bytes);
+                }
                 appuser.PasswordHash = HashPassword;
                 unitofwork.AspNetUser.Add(appuser);
                 unitofwork.AspNetUser.Commit();
@@ -83,7 +87,14 @@ namespace BNPL_Web.DataAccessLayer.Helpers
                 appuser.IsDisable = false;
                 appuser.Id = Guid.NewGuid().ToString();
 
-                string HashPassword = GetM5Hash(user.Password);
+                string HashPassword = "";
+                using (MD5 md5Hash = MD5.Create())
+                {
+                    var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(user.Password));
+
+                    HashPassword = Convert.ToBase64String(bytes);
+                }
+                appuser.PasswordHash = HashPassword;
 
                 appuser.PasswordHash = HashPassword;
                 unitofwork.AspNetUser.Add(appuser);
@@ -110,15 +121,15 @@ namespace BNPL_Web.DataAccessLayer.Helpers
                 return new FunctionResult { success = false, message = ex.Message };
             }
         }
-        public static string GetM5Hash(string input)
-        {
-            using (MD5 md5Hash = MD5.Create())
-            {
-                var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+        //public  string GetM5Hash(string input)
+        //{
+        //    using (MD5 md5Hash = MD5.Create())
+        //    {
+        //        var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 
-                return Convert.ToBase64String(bytes);
-            }
-        }
+        //        return Convert.ToBase64String(bytes);
+        //    }
+        //}
 
         public async static Task<FunctionResult> SystemcreateUser(SystemUserModel user)
         {

@@ -232,7 +232,12 @@
             <div class="form-group row">
                 <label for="TitleId" class="col-lg-5 col-form-label">Title<span class="text-danger">*</span></label>
                 <div class="col-lg-7">
-                    <input id="TitleId" name="TitleId" type="text" class="form-control" required>
+                    <select  class="form-control"  id="TitleId">
+                        <option>Please Select Title</option>
+                        <option>MR's</option>
+                        <option>MRS's</option>
+                        <option>Miss</option>
+                    </select>
                 </div>
             </div>
            </div>
@@ -294,5 +299,5 @@
 
     </div>
 </div>
-<partial name="~/Areas/SelfPortal/Views/OTPModal/_ModalOTPConfirm.cshtml" />;
+<partial name="~/Areas/SelfPortal/Views/OTPModal/_ModalOTPConfirm.cshtml" />
 </body>

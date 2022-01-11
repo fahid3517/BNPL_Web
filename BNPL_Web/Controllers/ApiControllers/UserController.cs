@@ -61,7 +61,7 @@ namespace BNPL_Web.Controllers.ApiControllers
         [HttpPost]
         [Route("SendOTP")]
 
-        public IActionResult SendOTP(string UserId, string Mobile)
+        public IActionResult SendOTP(string? UserId, string? Mobile)
         {
             int OTP = GenerateRandomNo();
             if (SendSMS(OTP, Mobile))
@@ -72,9 +72,9 @@ namespace BNPL_Web.Controllers.ApiControllers
             return StatusCode((int)HttpStatusCode.BadRequest, "");
         }
         [HttpPost]
-        [Route("SendOTP")]
+        [Route("VerifyOtp")]
 
-        public IActionResult VerifyOtp(string UserId, string Number, string OTP)
+        public IActionResult VerifyOtp(string? UserId, string? Number, string? OTP)
         {
 
 

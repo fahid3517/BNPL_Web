@@ -1,4 +1,5 @@
-﻿
+﻿var userId;
+var ContractNumber;
 function Add() {
     var Password = $("#Password").val();
     var Mobile = $("#Mobile").val();
@@ -93,7 +94,11 @@ function Add() {
         success: function (data) {
             debugger;
             toastr.success("User added successfully", { timeOut: 5000 });
-
+            userId = data.UserId;
+            ContractNumber = data.ContractNumber;
+            $("#UserId").val(data.UserId);
+            $("#Number").val(data.ContractNumber);
+            debugger;
             SendOTP(data.UserId, data.ContractNumber);
             Reset();
           
@@ -107,15 +112,20 @@ function Add() {
         }
     });
 }
-function SendOTP(UserId,Mobile) {
+function SendOTP(UserId, Mobile) {
+
+
+
+
     $.ajax({
-        url: '/api/User/SendOTP?UserId' + UserId + '&Mobile=' + Mobile,
+        url: '/api/User/SendOTP?UserId=' + UserId + '&Mobile=' + Mobile,
         type: 'POST',
         contentType: "application/json;charset=utf-8",
         success: function (data) {
+
             toastr.success("Send OTP successfully", { timeOut: 5000 });
             $('#OTPConfirm_Modal').modal('show');
-            
+           
         },
         error: function (data) {
             var response = data.responseText.replace(/"/g, '');
@@ -130,12 +140,13 @@ function VerifyOTP() {
     var Number = $("#Number").val();
     var OTP = $("#OTP").val();
     $.ajax({
-        url: '/api/User/VerifyOtp?UserId' + UserId + '&Number=' + Number + '&OTP=' + OTP,
+        url: '/api/User/VerifyOtp?UserId=' + UserId + '&Number=' + Number + '&OTP=' + OTP,
         type: 'POST',
         contentType: "application/json;charset=utf-8",
         success: function (data) {
-            toastr.success("Send OTP successfully", { timeOut: 5000 });
-            $('#OTPConfirm_Modal').modal('show');
+            toastr.success("Verified successfully", { timeOut: 5000 });
+            $('#OTPConfirm_Modal').modal('hide');
+            location.href = '/Account/Customer';
 
         },
         error: function (data) {

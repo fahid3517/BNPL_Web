@@ -1,4 +1,5 @@
 ﻿using BNPL_Web.Authentications;
+using BNPL_Web.Authorizations;
 using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.DataAccessLayer.Helpers;
@@ -24,15 +25,16 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork unitOfWork;
-
+        private readonly TwilioVerifyClient twilioVerifyClient;
         public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration, SignInManager<ApplicationUser> signInManager)
+            IConfiguration configuration, SignInManager<ApplicationUser> signInManager, TwilioVerifyClient twilioVerifyClient)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _signInManager = signInManager;
             this.unitOfWork = unitOfWork;
+            this.twilioVerifyClient = twilioVerifyClient;
         }
 
         // GET: /Account/Login
@@ -113,6 +115,7 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                     unitOfWork.AspNetUser.Commit();
 
                 }
+                twilioVerifyClient.StartVerification(0092, CaustomerData.ContractNumber);
                 return RedirectToAction("Index", "Home", new { area = "SelfPortal" });
             }
             else

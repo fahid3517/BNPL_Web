@@ -14,6 +14,7 @@ namespace BNPL_Web.DataAccessLayer.IServices
         ResponseViewModel AddBackOfficeUserProfile(UserViewModel value);
         ResponseViewModel SystemUserProfile(SystemUserModel value);
         PaginatedRecordModel<UserViewModel> GetPaginatedRecords(PaginationSearchModel model);
+        //bool SendSMS();
 
 
     }

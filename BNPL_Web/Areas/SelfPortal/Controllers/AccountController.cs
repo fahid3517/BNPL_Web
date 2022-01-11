@@ -3,12 +3,14 @@ using BNPL_Web.Authorizations;
 using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.DataAccessLayer.Helpers;
+using BNPL_Web.DataAccessLayer.IServices;
 using BNPL_Web.DatabaseModels.Authentication;
 using BNPL_Web.DatabaseModels.DbImplementation;
 using BNPL_Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -28,14 +30,16 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IUserService _userService;
         public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration, SignInManager<ApplicationUser> signInManager)
+            IConfiguration configuration, SignInManager<ApplicationUser> signInManager, IUserService userService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _signInManager = signInManager;
             this.unitOfWork = unitOfWork;
+            _userService = userService;
         }
 
         // GET: /Account/Login
@@ -140,12 +144,40 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 //var statusCode = TwilioClient.GetRestClient().HttpClient
                 //    .LastResponse.StatusCode;
                 #endregion
-
+                SendSMS();
                 return RedirectToAction("Customer", "Home", new { area = "SelfPortal" });
             }
             else
                 ModelState.AddModelError(nameof(model.Password), "Invalid login attempt.");
             return View(model);
+        }
+        public bool SendSMS()
+        {
+
+
+            var To = "+923037033013";
+            var text = "Hello";
+            var commandText = "INSERT INTO InsertSms (Body, ToAddress, FromAddress, ChannelID,StatusID, DataCoding, CustomField1, CustomField2) VALUES (@body, @to, @FromAddress, @ChannelID,'SCHEDULED',0,@CustomField1, @CustomField2);";
+            using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@to", To);
+
+                command.Parameters.AddWithValue("@body", text);
+
+                command.Parameters.AddWithValue("@FromAddress", AppConfigs.SMS_DevSmsService_FromAddress);
+
+
+
+                command.Parameters.AddWithValue("@ChannelId", AppConfigs.SMS_DevSmsService_ChannelId);
+                var configvalue1 = this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en");
+                command.Parameters.AddWithValue("@CustomField1", this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en"));
+
+                 command.Parameters.AddWithValue("@CustomField2", this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en"));
+
+
+            }
+            return true;
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

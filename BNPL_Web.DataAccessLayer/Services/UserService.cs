@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Configuration;
+using System.Net;
 using BNPL_Web.Authentications;
 using BNPL_Web.Authorizations;
 using BNPL_Web.Common.ViewModels;
@@ -17,15 +18,15 @@ namespace BNPL_Web.DataAccessLayer.Services
 {
     public class UserService : IUserService
     {
-       
-        public IConfiguration Configuration { get; }
+
+        public IConfiguration _Configuration;
 
         public readonly IUnitOfWork unitOfWork;
         // private readonly BNPL_Context _db;
         public UserService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             this.unitOfWork = unitOfWork;
-            Configuration = configuration;
+            _Configuration = configuration;
         }
         public ResponseViewModel Add(UserViewModel value)
         {
@@ -223,32 +224,6 @@ namespace BNPL_Web.DataAccessLayer.Services
             Random _rdm = new Random();
             return _rdm.Next(_min, _max);
         }
-        public bool SendSMS()
-        {
-
-            var To = "";
-            var text = "";
-            var commandText = "INSERT INTO InsertSms (Body, ToAddress, FromAddress, ChannelID,StatusID, DataCoding, CustomField1, CustomField2) VALUES (@body, @to, @FromAddress, @ChannelID,'SCHEDULED',0,@CustomField1, @CustomField2);";
-            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection")))
-            {
-                SqlCommand command = new SqlCommand(commandText, connection);
-                command.Parameters.AddWithValue("@to", To);
-
-                command.Parameters.AddWithValue("@body", text);
-
-                command.Parameters.AddWithValue("@FromAddress", AppConfigs.SMS_DevSmsService_FromAddress);
-
-
-
-                command.Parameters.AddWithValue("@ChannelId", AppConfigs.SMS_DevSmsService_ChannelId);
-
-                command.Parameters.AddWithValue("@CustomField1", AppConfigs.Get("SMS_DevSmsService_CustomField1"));
-
-                command.Parameters.AddWithValue("@CustomField2", AppConfigs.Get($"SMS_DevSmsService_CustomField2_{langId}"));
-
-
-            }
-            return true;
-        }
+    
     }
 }

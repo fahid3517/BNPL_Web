@@ -2,7 +2,6 @@
 var ContractNumber;
 function Add() {
     var Password = $("#Password").val();
-    var Mobile = $("#Mobile").val();
     var Dob = $("#Dob").val();
     var Email = $("#Email").val();
     var FirstName = $("#FirstNameAr").val();
@@ -45,10 +44,7 @@ function Add() {
         toastr.warning("Please Enter Password", { timeOut: 5000 });
         return false;
     }
-    if (Mobile == "" || Mobile == undefined) {
-        toastr.warning("Please Enter Mobile", { timeOut: 5000 });
-        return false;
-    }
+  
     if (Dob == "" || Dob == undefined) {
         toastr.warning("Please Enter Date Of Birth", { timeOut: 5000 });
         return false;
@@ -81,7 +77,6 @@ function Add() {
         Gender: Gender,
         CivilId: CivilId,
         Password: Password,
-        PhoneNumber: Mobile,
         DateOfBirth: Dob,
         Email: Email,
         Language: Language
@@ -99,8 +94,7 @@ function Add() {
             $("#UserId").val(data.UserId);
             $("#Number").val(data.ContractNumber);
             debugger;
-            SendOTP(data.UserId, data.ContractNumber);
-            Reset();
+            $('#OTPConfirm_Modal').modal('show');
           
             //location.href = '/Account/Login';
         },
@@ -112,20 +106,22 @@ function Add() {
         }
     });
 }
-function SendOTP(UserId, Mobile) {
-
-
-
+function SendOTP() {
+    var number = $("#ContactNumber").val();
+    var UserID = $("#UserId").val();
+    debugger
 
     $.ajax({
-        url: '/api/User/SendOTP?UserId=' + UserId + '&Mobile=' + Mobile,
+        url: '/api/User/SendOTP?UserId=' + UserID + '&Mobile=' + number,
         type: 'POST',
         contentType: "application/json;charset=utf-8",
         success: function (data) {
-
-            toastr.success("Send OTP successfully", { timeOut: 5000 });
+            debugger;
+            $("#VerifyDiv").addClass('d-none');
+           /* toastr.success("Send OTP successfully", { timeOut: 5000 });*/
             $('#OTPConfirm_Modal').modal('show');
-           
+           /* $("#ContactNumber").val('');*/
+            $("#NumberDiv").removeClass("d-none");
         },
         error: function (data) {
             var response = data.responseText.replace(/"/g, '');
@@ -137,16 +133,16 @@ function SendOTP(UserId, Mobile) {
 }
 function VerifyOTP() {
     var UserId = $("#UserId").val();
-    var Number = $("#Number").val();
+    var Number = $("#ContactNumber").val();
     var OTP = $("#OTP").val();
     $.ajax({
         url: '/api/User/VerifyOtp?UserId=' + UserId + '&Number=' + Number + '&OTP=' + OTP,
         type: 'POST',
         contentType: "application/json;charset=utf-8",
         success: function (data) {
-            toastr.success("Verified successfully", { timeOut: 5000 });
+          /*  toastr.success("Verified successfully", { timeOut: 5000 });*/
             $('#OTPConfirm_Modal').modal('hide');
-            location.href = '/Account/Customer';
+            location.href = '/Account/Login';
 
         },
         error: function (data) {

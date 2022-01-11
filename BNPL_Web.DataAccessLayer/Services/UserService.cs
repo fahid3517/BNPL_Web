@@ -55,7 +55,6 @@ namespace BNPL_Web.DataAccessLayer.Services
 
                 data.Language = value.Language;
                 data.Gender = value.Gender;
-                data.ContractNumber = value.PhoneNumber;
                 data.DateOfBirth = value.DateOfBirth;
                 data.Email = value.Email;
                 data.Titile = value.Title;

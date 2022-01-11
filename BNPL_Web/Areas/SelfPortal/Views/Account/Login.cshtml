@@ -1,5 +1,7 @@
 ﻿@model BNPL_Web.Common.ViewModels.LoginViewModel
-@{ Layout = null;}
+@{
+    Layout = null;
+}
 <style>
     .wrapper1 {
         position: relative;
@@ -50,10 +52,12 @@
 
     <script src="~/assets/js/popper.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
+        <!-- toastr -->
+    <link href="~/toastr/toastr.min.css" rel="stylesheet" />
 
     <!-- Custom JS -->
     <script src="~/assets/js/app.js"></script>
-
+        <script src="~/Scripts/UserManagement/CustomerProfile.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.min.js"></script>
@@ -74,28 +78,57 @@
                 }
             });
         });
+        function Verify(){
+             $('#OTPConfirm_Modal').modal('show');
+        }
     </script>
 </head>
 <body>
-      
+    @{
+        var check = ViewBag.Validation;
+        var uid = ViewBag.UserId;
+        if (check == "Invalid")
+        {
+        <p>@check</p>    
+            <script  type="text/javascript">
+           
+            
+                   $(function () {
+                        
+            $('#UserId').val('@uid');
+           
+           
+                       debugger;
+                     
+                       $('#OTPConfirm_Modal').modal('show');
+                        
+                   });
+                </script>
+        }
+    }
+
        <div class="float-right mr-2">
-           <button class="btn btn-primary bg-primary" style=" color:white;">
-                <a href="/Self/Account/BackOfficeLogin" style=" color:white;">Admin Login</a>
+
+                <a href="/Self/Account/BackOfficeLogin" style=" color:white;">
+                    <button class="btn btn-primary bg-primary" style=" color:white;">
+                    Admin Login
            </button>
-                      
+
+                </a>
+
                 </div>
                 <div class="account-page"> 
                         <!-- Main Wrapper -->
     <div class="main-wrapper">
-    
+
         <div class="account-content">
-            
+
             <div class="container">
-               
+
 
                 <!-- Account Logo -->
                 <div class="account-logo">
-                    @*<a href="index.html"><img src="~/assets/img/DOLogo.png" alt="JYA HRMS" style="width:462px"></a>*@
+                        @*<a href="index.html"><img src="~/assets/img/DOLogo.png" alt="JYA HRMS" style="width:462px"></a>*@
                 </div>
                 <!-- /Account Logo -->
 
@@ -105,33 +138,33 @@
                         <p class="account-subtitle">Justify Your Actions</p>
 
                         <!-- Account Form -->
-                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }  ,FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
 
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.CivilId)
-                                @Html.TextBoxFor(m => m.CivilId, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.CivilId, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col">
-                                        @Html.LabelFor(m => m.Password)
+                                    <div class="form-group">
+                                    @Html.LabelFor(m => m.CivilId)
+                                    @Html.TextBoxFor(m => m.CivilId, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.CivilId, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
-                                <div class="wrapper1">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                    <span toggle="#Password"  class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>
-                                  </div>
-                            </div>
-                            <div class="form-group text-center">
-                                <button class="btn btn-primary account-btn" type="submit">Login</button>
-                                <a href="/Self/UserManagement/CustomerProfile">Sign Up</a>
-                            </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                            @Html.LabelFor(m => m.Password)
+                                            </div>
+                                        </div>
+                                        <div class="wrapper1">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                            <span toggle="#Password"  class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>
+                                          </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button class="btn btn-primary account-btn" type="submit">Login</button>
+                                        <a href="/Self/UserManagement/CustomerProfile">Sign Up</a>
+                                    </div>
 
-                        }
+                            }
                         <!-- /Account Form -->
 
                     </div>
@@ -143,7 +176,7 @@
 
                 </div>
 
-
+                <partial name="~/Areas/SelfPortal/Views/OTPModal/_ModalOTPConfirm.cshtml" />;
 
 </body>
 </html>

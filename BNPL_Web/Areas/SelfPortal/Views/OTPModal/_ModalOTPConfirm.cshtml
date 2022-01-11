@@ -13,7 +13,16 @@
             <div class="modal-body">
                 <div id="modalError" style="color:#910e0e; font-weight:bold;"></div>
                 <div id="modalSuccess" style="color:#4ea51f; font-weight:bold;"></div>
-                <form>
+                  <form id="VerifyDiv">
+                    <div class="form-group">
+                        <label for="RoleName"> Enter Number <span class="text-danger">*</span></label>
+                        <input class="form-control" id="ContactNumber" name="OTP" type="text" required>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" type="button" onclick="SendOTP()">Submit</button>
+                    </div>
+                </form>
+                <form id="NumberDiv" class="d-none">
                     <div class="form-group">
                         <label for="RoleName"> OPT <span class="text-danger">*</span></label>
                         <input class="form-control" id="OTP" name="OTP" type="text" required>

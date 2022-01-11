@@ -86,9 +86,21 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
                 return View(model);
             }
+           
             var CaustomerData = unitOfWork.CustomerProfile.Get(x => x.CivilId == model.CivilId);
+           
             if (CaustomerData == null)
             {
+                ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
+                return View(model);
+            }
+            if (CaustomerData.ContractNumber == null)
+            {
+                ViewBag.Validation = "Invalid";
+                ViewBag.UserId = CaustomerData.UserId;
+                /// ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup('" + title + "', '" + body + "');", true);
+
+
                 ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
                 return View(model);
             }
@@ -96,7 +108,6 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
 
             var result = unitOfWork.AspNetUser.Get(x => x.Email == CaustomerData.Email && x.PasswordHash == pass);
             // var result = await _signInManager.PasswordSignInAsync(model.Username, pass, true,false);
-
 
             if (result != null)
             {

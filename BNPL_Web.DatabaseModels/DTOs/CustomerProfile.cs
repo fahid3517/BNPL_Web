@@ -13,6 +13,7 @@ namespace BNPL_Web.DatabaseModels.DTOs
         public string? FirstNameEn { get; set; }
         public string? MiddleNameEn { get; set; }
         public string? LastNameEn { get; set; }
+        public bool? IsVerify { get; set; }
         public string? FirstNameAr { get; set; }
         public string? MiddleNameAr { get; set; }
         public string? LastNameAr { get; set; }

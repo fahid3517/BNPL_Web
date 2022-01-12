@@ -1,5 +1,4 @@
 ﻿using BNPL_Web.Authentications;
-using BNPL_Web.Authorizations;
 using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.DataAccessLayer.Helpers;

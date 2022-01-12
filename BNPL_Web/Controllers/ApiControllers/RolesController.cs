@@ -1,6 +1,5 @@
 ﻿using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Authorization;
-using BNPL_Web.CustomAnnotation;
 using BNPL_Web.DataAccessLayer.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

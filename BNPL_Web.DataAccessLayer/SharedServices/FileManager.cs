@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.DataAccessLayer.Shared
+namespace Project.DataAccessLayer.SharedServices
 {
    public class FileManager: IFileManager
     {

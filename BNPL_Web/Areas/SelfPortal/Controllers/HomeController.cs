@@ -31,8 +31,12 @@ namespace BNPL_Web.Areas.SelfPortal.Controllers
                 var temp1 = handeler.ReadJwtToken(TokenCookie);
                 var tokenData = JsonConvert.DeserializeObject<AdminAuthToken>(temp1.Claims.FirstOrDefault(x => x.Type.Equals("token"))?.Value);
 
-
+                if (tokenData.RoleId==null)
+                {
+                    return RedirectToAction("Customer", "Home");
+                }
                 ViewBag.UserName = tokenData.UserName;
+
                 return View();
             }
             return RedirectToAction("Login", "Account");

@@ -202,12 +202,23 @@
 
             </div>
             <div class="col-xl-6">
-           
+                <div class="form-group row">
+                <label for="TitleId" class="col-lg-5 col-form-label">Title<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                    <select  class="form-control"  id="TitleId">
+                        <option class="form-control">Please Select</option>
+                        <option class="form-control">Mr.</option>
+                        <option class="form-control">Mrs.</option>
+                        <option class="form-control">Miss</option>
+                        <option class="form-control">Ms</option>
+                    </select>
+                </div>
+            </div>
               <div class="form-group row">
                 <label for="Gender" class="col-lg-5 col-form-label">Gender<span class="text-danger">*</span></label>
                 <div class="col-lg-7">
                 <select id="Gender" name="Gender" type="text" class="form-control" required>
-                    <option value="">Please Select Gender</option>
+                    <option value="">Please Select</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                 </select>
@@ -217,7 +228,7 @@
                 <label for="Language" class="col-lg-5 col-form-label">Language<span class="text-danger">*</span></label>
                 <div class="col-lg-7">
                 <select id="Language" name="Language" type="text" class="form-control" required>
-                <option value="">Please Select Language</option>
+                <option value="">Please Select</option>
                 <option value="English">English</option>
                 <option value="Arabic">Arabic</option>
                 </select>
@@ -229,18 +240,7 @@
                     <input id="CivilId" name="CivilId" type="tel" class="form-control" required>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="TitleId" class="col-lg-5 col-form-label">Title<span class="text-danger">*</span></label>
-                <div class="col-lg-7">
-                    <select  class="form-control"  id="TitleId">
-                        <option>Please Select Title</option>
-                        <option>Mr.</option>
-                        <option>Mrs.</option>
-                        <option>Miss</option>
-                        <option>Ms</option>
-                    </select>
-                </div>
-            </div>
+       
            </div>
         </div>
         <div class="row ml-5">
@@ -285,7 +285,7 @@
         </div>
     </div>
     <!--Employee Basic Information form Ends -->
-    <div class="text-right">
+    <div class="text-right" style="margintop:60px;">
         <button class="btn btn-primary" id="basic-button-enab" type="button" onclick="Add()">Save</button>
 
     </div>

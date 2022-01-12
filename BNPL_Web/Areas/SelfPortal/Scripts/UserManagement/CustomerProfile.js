@@ -106,6 +106,7 @@ function Add() {
         }
     });
 }
+
 function SendOTP() {
     var number = $("#ContactNumber").val();
     var UserID = $("#UserId").val();
@@ -122,6 +123,11 @@ function SendOTP() {
             $('#OTPConfirm_Modal').modal('show');
            /* $("#ContactNumber").val('');*/
             $("#NumberDiv").removeClass("d-none");
+            
+            setTimeout(function () {
+                $("#ResendOtp").removeAttr('disabled');
+                ChangeSatefun();
+            }, 5000);
         },
         error: function (data) {
             var response = data.responseText.replace(/"/g, '');
@@ -130,6 +136,11 @@ function SendOTP() {
 
         }
     });
+}
+function ChangeSatefun() {
+    $("#NumberDiv").addClass("d-none");
+    $("#VerifyDiv").removeClass('d-none');
+
 }
 function VerifyOTP() {
     var UserId = $("#UserId").val();

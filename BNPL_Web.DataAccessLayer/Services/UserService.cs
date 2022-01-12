@@ -225,6 +225,7 @@ namespace BNPL_Web.DataAccessLayer.Services
             ResponseViewModel response = new ResponseViewModel();
             try
             {
+              
                 var OTPVerfi = new OTPVerification();
 
                 OTPVerfi.Type = "Register OTP";

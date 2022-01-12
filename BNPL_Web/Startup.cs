@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
+using Project.DataAccessLayer.Shared;
 using Project.DatabaseModel.DbImplementation;
 using System.Configuration;
 using System.Net;
@@ -16,7 +17,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using BNPL_Web.DatabaseModels.Models;
-using Project.DataAccessLayer.SharedServices;
 
 namespace BNPL_Web
 {

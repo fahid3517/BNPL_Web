@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using BNPL_Web.DatabaseModels.Models;
-using BNPL_Web.Authorizations;
+using Project.DataAccessLayer.SharedServices;
 
 namespace BNPL_Web
 {

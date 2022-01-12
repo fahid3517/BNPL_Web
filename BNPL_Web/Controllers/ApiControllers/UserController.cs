@@ -107,11 +107,11 @@ namespace BNPL_Web.Controllers.ApiControllers
 
                 command.Parameters.AddWithValue("@body", text);
 
-                command.Parameters.AddWithValue("@FromAddress", AppConfigs.SMS_DevSmsService_FromAddress);
+                command.Parameters.AddWithValue("@FromAddress", System.Configuration.ConfigurationManager.AppSettings[""]);
 
 
 
-                command.Parameters.AddWithValue("@ChannelId", AppConfigs.SMS_DevSmsService_ChannelId);
+                command.Parameters.AddWithValue("@ChannelId", System.Configuration.ConfigurationManager.AppSettings[""]);
                 var configvalue1 = this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en");
                 command.Parameters.AddWithValue("@CustomField1", this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en"));
 

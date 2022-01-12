@@ -1,4 +1,4 @@
-﻿using BNPL_Web.Authorizations;
+﻿
 using BNPL_Web.Common.Enums;
 using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Authorization;
@@ -116,8 +116,11 @@ namespace BNPL_Web.Controllers.ApiControllers
                 command.Parameters.AddWithValue("@CustomField1", this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en"));
 
                 command.Parameters.AddWithValue("@CustomField2", this._configuration.GetValue<String>("SMS_DevSmsService_CustomField2_en"));
+                connection.Open();
+                command.ExecuteNonQuery();
+                return true;
             }
-            return true;
+            return false;
         }
         [HttpPost]
         [Route("BackOfficeUserProfile")]

@@ -1,7 +1,6 @@
 ﻿using System.Configuration;
 using System.Net;
 using BNPL_Web.Authentications;
-using BNPL_Web.Authorizations;
 using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Common;
 using BNPL_Web.DataAccessLayer.IServices;

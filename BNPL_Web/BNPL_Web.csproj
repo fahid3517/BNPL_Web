@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Authorizations\" />
     <Folder Include="CustomAnnotation\" />
   </ItemGroup>
 

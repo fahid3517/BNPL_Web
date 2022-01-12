@@ -103,7 +103,7 @@ namespace BNPL_Web.Helpers
                 Issuer = "Issuer",
                 Audience = "Audience",
                 SigningCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256),
-                Subject = identity,
+               // Subject = identity,
                 Expires = DateTime.Now.Add(TimeSpan.FromDays(1000)),
                 NotBefore = DateTime.Now
             });

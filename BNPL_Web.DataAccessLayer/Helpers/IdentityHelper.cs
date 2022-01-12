@@ -41,15 +41,15 @@ namespace BNPL_Web.DataAccessLayer.Helpers
                 {
                     var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(user.Password));
 
-                    HashPassword= Convert.ToBase64String(bytes);
+                    HashPassword = Convert.ToBase64String(bytes);
                 }
                 appuser.PasswordHash = HashPassword;
                 unitofwork.AspNetUser.Add(appuser);
                 unitofwork.AspNetUser.Commit();
 
 
-               // IdentityResult result = await userManager.CreateAsync(appuser, user.Password);
-                if (appuser!=null)
+                // IdentityResult result = await userManager.CreateAsync(appuser, user.Password);
+                if (appuser != null)
                 {
 
 
@@ -121,16 +121,6 @@ namespace BNPL_Web.DataAccessLayer.Helpers
                 return new FunctionResult { success = false, message = ex.Message };
             }
         }
-        //public  string GetM5Hash(string input)
-        //{
-        //    using (MD5 md5Hash = MD5.Create())
-        //    {
-        //        var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-        //        return Convert.ToBase64String(bytes);
-        //    }
-        //}
-
         public async static Task<FunctionResult> SystemcreateUser(SystemUserModel user)
         {
             HttpContextAccessor context = new HttpContextAccessor();
@@ -175,120 +165,5 @@ namespace BNPL_Web.DataAccessLayer.Helpers
                 return new FunctionResult { success = false, message = ex.Message };
             }
         }
-
-
-        //public async static Task<bool> IsValidaspnetUser(string userName, string password)
-        //{
-        //    HttpContextAccessor context = new HttpContextAccessor();
-
-        //    try
-        //    {
-        //        UserManager<ApplicationUser> userManager = (UserManager<ApplicationUser>)context.HttpContext.RequestServices.GetService(typeof(UserManager<ApplicationUser>));
-
-        //        var user = await userManager.FindByNameAsync(userName);
-        //        if (user == null)
-        //        {
-        //            return false;
-        //        }
-        //        else
-        //        {
-        //            return await userManager.CheckPasswordAsync(user, password);
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false;
-        //    }
-        //}
-        //public static string GetUserId(string userName)
-        //{
-        //    HttpContextAccessor context = new HttpContextAccessor();
-
-        //    try
-        //    {
-
-        //        UserManager<ApplicationUser> userManager = (UserManager<ApplicationUser>)context.HttpContext.RequestServices.GetService(typeof(UserManager<ApplicationUser>));
-
-        //        var user = userManager.FindByNameAsync(userName).Result;
-        //        if (user == null)
-        //        {
-        //            return null;
-        //        }
-        //        return user.Id;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //public async static Task<FunctionResult> ChangePassword(string userName, string password)
-        //{
-        //    var errorMessage = "";
-        //    HttpContextAccessor context = new HttpContextAccessor();
-
-
-        //    UserManager<ApplicationUser> userManager = (UserManager<ApplicationUser>)context.HttpContext.RequestServices.GetService(typeof(UserManager<ApplicationUser>));
-
-        //    var user = await userManager.FindByNameAsync(userName);
-        //    if (user == null)
-        //    {
-        //        return new FunctionResult { success = false, message = "No Such User Found!" };
-        //    }
-        //    await userManager.RemovePasswordAsync(user);
-        //    var result = await userManager.AddPasswordAsync(user, password);
-
-        //    if (result.Succeeded)
-        //    {
-        //        return new FunctionResult { success = true, message = "Password Reset Successfuly!" };
-        //    }
-        //    foreach (var err in result.Errors)
-        //    {
-        //        errorMessage += err;
-        //    }
-        //    return new FunctionResult { success = false, message = errorMessage };
-        //}
-
-        //public async static Task<FunctionResult> UpdateUser(EmployeeViewModel user)
-        //{
-        //    HttpContextAccessor context = new HttpContextAccessor();
-        //    UserManager<ApplicationUser> userManager = (UserManager<ApplicationUser>)context.HttpContext.RequestServices.GetService(typeof(UserManager<ApplicationUser>));
-        //    var updateUser = await userManager.FindByNameAsync(user.UserName);
-        //    try
-        //    {
-        //        if (updateUser == null)
-        //        {
-        //            return new FunctionResult { success = false, message = "UserName Is Not Exist!" };
-        //        }
-
-        //        updateUser.Email = user.Email;
-        //        updateUser.PhoneNumber = user.Mobile;
-        //        var roles = await userManager.GetRolesAsync(updateUser);
-
-        //        var OldroleName = roles.FirstOrDefault();
-        //        userManager.RemoveFromRoleAsync(updateUser, OldroleName).Wait();
-
-        //        var Role = AuthorizationUtility.getUserRoleNamebyRoleId(user.RoleId);
-        //        var result = await userManager.AddToRoleAsync(updateUser, Role);
-        //        if (result.Succeeded)
-        //        {
-        //            return new FunctionResult { success = true, message = "Success!" };
-        //        }
-        //        else
-        //        {
-        //            String error = "";
-
-        //            foreach(var err in result.Errors)
-        //            {
-        //                error += err;
-        //            }
-        //            return new FunctionResult { success = false, message = error };
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new FunctionResult { success = false, message = ex.Message };
-        //    }
-        //}
     }
 }

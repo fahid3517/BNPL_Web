@@ -23,14 +23,6 @@ namespace Project.Utilities.SiteMap
             if (AuthorizationUtility.userHasPrivilegeCategory(privileges, EnumPrivilegeCategory.USER_MANAGEMENT))
             {
                 html = html + MenuUtility.Sub_Menu_li_ListStart("#", "las la-user-circle", "User");
-                //if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_CUSTOMER_USER_PROFILE))
-                //{
-                //    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/CustomerProfile", "Add Customer Profile");
-                //}
-                //if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_SYSTEM_USER_PROFILE))
-                //{
-                //    html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/SystemUser", "Add System User Profile");
-                //}
                 if (AuthorizationUtility.userHasPrivilege(privileges, EnumPrivilegesName.ADD_BACK_USER_PROFILE))
                 {
                     html = html + MenuUtility.Sub_Menu_li_List_ul("/Self/UserManagement/BackOfficeUserProfile", "Add User");
@@ -43,6 +35,7 @@ namespace Project.Utilities.SiteMap
             }
 
             //Role manegment
+
             if (AuthorizationUtility.userHasPrivilegeCategory(privileges, EnumPrivilegeCategory.ROLE_MANAGEMENT))
             {
                 html = html + MenuUtility.Sub_Menu_li_ListStart("#", "las la-user-circle", "Profile");

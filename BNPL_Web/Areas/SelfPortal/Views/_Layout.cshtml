@@ -96,7 +96,9 @@
 <body>
     <!-- Main Wrapper -->
     <div class="main-wrapper">
-
+        @{
+            var name = ViewBag.UserName;
+        }
         <!-- Header -->
         <partial name="~/Views/Shared/PartialLayout/Layout/_LayoutHeader.cshtml" />
 
@@ -107,7 +109,11 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
-                   @Html.Raw(Project.Utilities.SiteMap.SelfSiteMap.SiteMap(User.Identity.Name));
+                    @{
+                        var Roles = Project.Utilities.SiteMap.SelfSiteMap.SiteMap(@ViewBag.UserName);
+
+                        string resfs = "";
+                    };
                 </div>
             </div>
         </div>

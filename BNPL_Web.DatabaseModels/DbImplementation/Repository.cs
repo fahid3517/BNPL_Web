@@ -1,4 +1,5 @@
 ﻿using BNPL_Web.Common.Interface;
+using BNPL_Web.DatabaseModels.DTOs;
 using BNPL_Web.DatabaseModels.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -102,7 +103,7 @@ namespace Project.DatabaseModel.DbImplementation
         }
         public virtual void Commit()
         {
-            _context.SaveChanges();
+            SaveChanges();
             //try
             //{
             //    SaveChanges();
@@ -128,33 +129,93 @@ namespace Project.DatabaseModel.DbImplementation
         }
         private int SaveChanges()
         {
-            //_context.ChangeTracker.DetectChanges();
+            _context.ChangeTracker.DetectChanges();
 
-            //// Get all Added/Deleted/Modified entities (not Unmodified or Detached)
-            //foreach (var ent in _context.ChangeTracker.Entries().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified).ToList())
-            //{
-            //    // For each changed record, get the audit record entries and add them
-            //    foreach (AuditLog audit in GetAuditRecordsForChange(ent))
-            //    {
-            //        _context.AuditLogs.Add(audit);
-            //    }
-            //}
-
-            ////Log newly added many-to-many relations
-            //foreach (AuditLog relationshipAuditLog in GetAddedRelationshipAuditLogs())
-            //{
-            //    _context.AuditLogs.Add(relationshipAuditLog);
-            //}
-
-            ////Log deleted many-to-many relations
-            //foreach (AuditLog relationshipAuditLog in GetDeletedRelationshipAuditLogs())
-            //{
-            //    _context.AuditLogs.Add(relationshipAuditLog);
-            //}
+            // Get all Added/Deleted/Modified entities (not Unmodified or Detached)
+            foreach (var ent in _context.ChangeTracker.Entries().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified).ToList())
+            {
+                var auditLog = new AuditLog();
+                // For each changed record, get the audit record entries and add them
+                foreach (AuditLog audit in GetAuditRecordsForChange(ent))
+                {
+                    _context.AuditLog.Add(auditLog);
+                    //auditLog.CreatedBy = audit.CreatedBy;
+                    //audit.CreatedOn = DateTime.Now;
+                    //audit.ColumnName += audit.ColumnName + "/";
+                    //auditLog.EntityId += audit.EntityId;
+                    //audit.OriginalValue +=audit.OriginalValue+"/";
+                    //audit.NewValue += audit.NewValue + "/";
+                    //audit.EventType =audit.EventType;    
+                }
+                
+            }
 
             // Call the original SaveChanges(), which will save both the changes made and the audit records
             return _context.SaveChanges();
         }
+        private List<AuditLog> GetAuditRecordsForChange(EntityEntry dbEntry)
+        {
+            List<AuditLog> result = new List<AuditLog>();
 
+            string tableName = dbEntry.Entity.GetType().Name;
+
+            var keyName = dbEntry.Metadata.FindPrimaryKey().Properties.Select(x => x.Name).Single();
+            string entityId = dbEntry.Entity.GetType().GetProperty(keyName).GetValue(dbEntry.Entity, null).ToString();
+
+            string createdBy = "";/* httpContextAccessor.HttpContext.User.Identity.Name;*/
+
+            if (dbEntry.State == EntityState.Added)
+            {
+                result.Add(new AuditLog()
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedBy = createdBy,
+                    CreatedOn = currentTimeStamp,
+                    EventType = "Add", // Added
+                    TableName = tableName,
+                    EntityId = entityId,
+                    ColumnName = "All",
+                    NewValue = dbEntry.CurrentValues.ToObject().ToString()
+                });
+            }
+            else if (dbEntry.State == EntityState.Deleted)
+            {
+                result.Add(new AuditLog()
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedBy = createdBy,
+                    CreatedOn = currentTimeStamp,
+                    EventType = "Delete", // Deleted
+                    TableName = tableName,
+                    EntityId = entityId,
+                    ColumnName = "*ALL",
+                    OriginalValue = dbEntry.OriginalValues.ToObject().ToString()
+                });
+            }
+            else if (dbEntry.State == EntityState.Modified)
+            {
+                foreach (var v in dbEntry.Properties)
+                {
+                    // For updates, we only want to capture the columns that actually changed
+                    if (!object.Equals(v.OriginalValue, v.CurrentValue))
+                    {
+                        result.Add(new AuditLog()
+                        {
+                            Id = Guid.NewGuid(),
+                            CreatedBy = createdBy,
+                            CreatedOn = currentTimeStamp,
+                            EventType = "Edit",    // Modified
+                            TableName = tableName,
+                            EntityId = entityId,
+                            ColumnName = v.Metadata.Name,
+                            OriginalValue = v.OriginalValue == null ? "" : v.OriginalValue.ToString(),
+                            NewValue = v.CurrentValue == null ? "" : v.CurrentValue.ToString()
+                        });
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }

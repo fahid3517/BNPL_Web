@@ -11,6 +11,7 @@ using BNPL_Web.Common.ViewModels.Common;
 using BNPL_Web.DataAccessLayer.IServices;
 using BNPL_Web.DatabaseModels.DbImplementation;
 using BNPL_Web.DatabaseModels.DTOs;
+using BNPL_Web.DatabaseModels.Models;
 
 namespace BNPL_Web.DataAccessLayer.Services
 {
@@ -23,6 +24,7 @@ namespace BNPL_Web.DataAccessLayer.Services
         }
         public ResponseViewModel Activate(RolesViewModel value)
         {
+            //unitOfWork.AspNetProfileRole.Get(x =>x.role)
             throw new NotImplementedException();
         }
 
@@ -34,30 +36,31 @@ namespace BNPL_Web.DataAccessLayer.Services
                 string message = "";
                 if (!value.Id.Equals(""))
                 {
-                    var role = unitOfWork.AspNetProfile.GetMany(a => a.ProfileId.ToString() == value.Id).FirstOrDefault();
-                    List<AspNetProfileRoles> priviliges = unitOfWork.AspNetProfileRoles.GetMany(p => p.RoleId == role.ProfileId.ToString()).ToList();
+                    var role = unitOfWork.AspNetProfile.GetMany(a => a.Id.ToString() == value.Id).FirstOrDefault();
+                    List<AspNetProfileRole> priviliges = unitOfWork.AspNetProfileRole.GetMany(p => p.RoleId.ToString() == role.Id.ToString()).ToList();
 
                     foreach (var privilege in priviliges)
                     {
-                        unitOfWork.AspNetProfileRoles.Delete(privilege);
+                        unitOfWork.AspNetProfileRole.Delete(privilege);
                     }
 
-                    unitOfWork.AspNetProfileRoles.Commit();
+                    unitOfWork.AspNetProfileRole.Commit();
 
                     foreach (var privilege in value.allPrivelages)
                     {
                         long id = 0;
                         long.TryParse(privilege.Value, out id);
-                        AspNetRoles a = unitOfWork.AspNetRoles.GetById(id);
-                        var temp = new AspNetProfileRoles()
+                        AspNetRole a = unitOfWork.AspNetRole.GetById(id);
+                        var temp = new AspNetProfileRole()
                         {
-                            ProfileId = a.Id.ToString(),
-                            RoleId = role.ProfileId.ToString(), 
+                            ProfileId = a.Id,
+                            RoleId = role.Id,
+
                         };
-                        unitOfWork.AspNetProfileRoles.Add(temp);
+                        unitOfWork.AspNetProfileRole.Add(temp);
                     }
                     message = "Role Updated Successfully.";
-                    unitOfWork.AspNetProfileRoles.Commit();
+                    unitOfWork.AspNetProfileRole.Commit();
 
 
                 }
@@ -68,22 +71,22 @@ namespace BNPL_Web.DataAccessLayer.Services
                     role.ProfileName = value.RoleName;
                     role.Description = value.RoleName.ToUpper();
 
-
+                    unitOfWork.AspNetProfile.Add(role);
+                    unitOfWork.AspNetProfile.Commit();
 
                     foreach (var privilege in value.allPrivelages)
                     {
                         long id = 0;
                         long.TryParse(privilege.Value, out id);
-                        AspNetProfile a = unitOfWork.AspNetProfile.GetById(id);
-                        var temp = new AspNetProfileRoles()
+                        AspNetRole a = unitOfWork.AspNetRole.GetById(id);
+                        var temp = new AspNetProfileRole()
                         {
-                            RoleId = a.ProfileId.ToString(),
-                            ProfileId = role.ProfileId.ToString()
+                            ProfileId = a.Id,
+                            RoleId = role.Id,
                         };
-                        ///role..Add(temp);
+                        unitOfWork.AspNetProfileRole.Add(temp);
                     }
                     message = "Role Added Successfully.";
-                    unitOfWork.AspNetProfile.Add(role);
                     unitOfWork.AspNetProfile.Commit();
                 }
 
@@ -108,6 +111,8 @@ namespace BNPL_Web.DataAccessLayer.Services
                 response.obj = ex.GetBaseException().Message;
                 return response;
             }
+            return response;
+
         }
 
         public ResponseViewModel AssignViewsToRole(AssignPrivilegesViewModel[] value)
@@ -116,27 +121,27 @@ namespace BNPL_Web.DataAccessLayer.Services
 
             try
             {
-                string RoleId = value[0].RoleId;
-                List<AspNetProfileRoles> _data = unitOfWork.AspNetProfileRoles.GetMany(p => p.RoleId == RoleId).ToList();
+                Guid RoleId = (Guid)value[0].RoleId;
+                List<AspNetProfileRole> _data = unitOfWork.AspNetProfileRole.GetMany(p => p.RoleId == RoleId).ToList();
                 if (_data.Count() > 0)
                 {
                     foreach (var data in _data)
                     {
-                        unitOfWork.AspNetProfileRoles.Delete(data);
+                        unitOfWork.AspNetProfileRole.Delete(data);
                     }
                 }
 
                 for (int i = 0; i < value.Length; i++)
                 {
-                    AspNetProfileRoles db_role_privileges = new AspNetProfileRoles();
+                    AspNetProfileRole db_role_privileges = new AspNetProfileRole();
 
-                    db_role_privileges.RoleId = value[i].RoleId;
-                    db_role_privileges.ProfileId = value[i].PrivilegeId.ToString();
+                    db_role_privileges.RoleId = (Guid)value[i].RoleId;
+                    db_role_privileges.ProfileId = value[i].PrivilegeId;
 
-                    unitOfWork.AspNetProfileRoles.Add(db_role_privileges);
+                    unitOfWork.AspNetProfileRole.Add(db_role_privileges);
 
                 }
-                unitOfWork.AspNetProfileRoles.Commit();
+                unitOfWork.AspNetProfileRole.Commit();
                 response.Status = HttpStatusCode.Created;
                 response.Message = "Privileges Assign Successfully!";
                 return response;
@@ -151,23 +156,23 @@ namespace BNPL_Web.DataAccessLayer.Services
 
         }
 
-        public ResponseViewModel Delete(string Id)
+        public ResponseViewModel Delete(Guid Id)
         {
 
             ResponseViewModel response = new ResponseViewModel();
             try
             {
 
-                var role = unitOfWork.AspNetProfile.GetMany(a => a.ProfileId.Equals(Id)).FirstOrDefault();
+                var role = unitOfWork.AspNetProfile.GetMany(a => a.Id.ToString() == Id.ToString()).FirstOrDefault();
                 if (role != null)
                 {
-                    var role_Priviliges = unitOfWork.AspNetProfileRoles.GetMany(x => x.RoleId == role.ProfileId.ToString());
+                    var role_Priviliges = unitOfWork.AspNetProfileRole.GetMany(x => x.RoleId == Guid.Parse(role.Id.ToString()));
                     foreach (var privilege in role_Priviliges)
                     {
-                        unitOfWork.AspNetProfileRoles.Delete(privilege);
+                        unitOfWork.AspNetProfileRole.Delete(privilege);
 
                     }
-                    unitOfWork.AspNetProfileRoles.Commit();
+                    unitOfWork.AspNetProfileRole.Commit();
                     unitOfWork.AspNetProfile.Delete(role);
                     unitOfWork.AspNetProfile.Commit();
                 }
@@ -200,23 +205,23 @@ namespace BNPL_Web.DataAccessLayer.Services
         {
             ResponseViewModel response = new ResponseViewModel();
             AssignPrivilegesViewModel model = new AssignPrivilegesViewModel();
-            //IEnumerable<RolesModel> Roles = unitOfWork.AspNetRole.GetAll().Select(p => new RolesModel()
-            //{
-            //    RoleId = p.Id,
-            //    Name = p.Name
-            //});
+            IEnumerable<RolesModel> Roles = unitOfWork.AspNetProfile.GetAll().Select(p => new RolesModel()
+            {
+                RoleId = p.Id,
+                Name = p.ProfileName
+            });
 
-            //IEnumerable<PrivilegesModel> Privileges = unitOfWork.Privilages.GetAll().Select(p => new PrivilegesModel()
-            //{
-            //    PrivilegeId = p.Id,
-            //    Name = p.Privilege,
-            //    Category = p.Category,
-            //    Portal = p.Portal
-            //});
+            IEnumerable<PrivilegesModel> Privileges = unitOfWork.AspNetRole.GetAll().Select(p => new PrivilegesModel()
+            {
+                PrivilegeId = p.Id,
+                Name = p.Privilege,
+                Category = p.Category,
+                Portal = p.Portal
+            });
 
 
-            //model.Roles = Roles;
-            //model.Privileges = Privileges;
+            model.Roles = Roles;
+            model.Privileges = Privileges;
 
             response.Status = HttpStatusCode.OK;
             response.obj = model;
@@ -228,13 +233,13 @@ namespace BNPL_Web.DataAccessLayer.Services
             try
             {
 
-                //IEnumerable<RolesModel> Roles = unitOfWork.AspNetRole.GetAll().Select(p => new RolesModel()
-                //{
-                //    Id = p.Id,
-                //    Name = p.Name
-                //}).ToList();
+                IEnumerable<RolesModel> Roles = unitOfWork.AspNetProfile.GetAll().Select(p => new RolesModel()
+                {
+                    Id = p.Id.ToString(),
+                    Name = p.ProfileName
+                }).ToList();
                 response.Status = HttpStatusCode.OK;
-               // response.obj = Roles;
+                response.obj = Roles;
                 return response;
             }
             catch (Exception ex)
@@ -251,15 +256,16 @@ namespace BNPL_Web.DataAccessLayer.Services
             ResponseViewModel response = new ResponseViewModel();
             try
             {
-                //IEnumerable<AssignPrivilegesViewModel> _data = unitOfWork.RolePrivilages.GetMany(p => p.RoleId == id, "Privilege").Select(p => new AssignPrivilegesViewModel()
-                //{
-                //    RoleId = p.RoleId,
-                //    PrivilegeId = p.PrivilegeId,
-                //    Category = p.Privilege.Category,
-                //    Portal = p.Privilege.Portal
-                //});
+                var data = unitOfWork.AspNetProfileRole.GetAll();
+                IEnumerable<AssignPrivilegesViewModel> _data = unitOfWork.AspNetProfileRole.GetMany(p => p.RoleId == Guid.Parse(id.ToString()), "Profile").Select(p => new AssignPrivilegesViewModel()
+                {
+                    RoleId = p.RoleId,
+                    PrivilegeId =p.ProfileId,
+                    Category = p.Profile.Category,
+                    Portal = "Main"
+                }).ToList();
                 response.Status = HttpStatusCode.OK;
-                //response.obj = _data;
+                response.obj = _data;
                 return response;
             }
             catch (Exception ex)
@@ -281,19 +287,19 @@ namespace BNPL_Web.DataAccessLayer.Services
             ResponseViewModel response = new ResponseViewModel();
             try
             {
-                //var _dbvalue = unitOfWork.AspNetRole.Get(p => p.Id == value.Id);
-                //if (_dbvalue == null)
-                //{
-                //    response.Status = HttpStatusCode.BadRequest;
-                //    response.obj = "Not Exist";
-                //    response.Message = "Not Exist";
-                //    return response;
-                //}
+                var _dbvalue = unitOfWork.AspNetProfile.Get(p => p.Id.ToString() == value.Id);
+                if (_dbvalue == null)
+                {
+                    response.Status = HttpStatusCode.BadRequest;
+                    response.obj = "Not Exist";
+                    response.Message = "Not Exist";
+                    return response;
+                }
 
-                //_dbvalue.Name = value.RoleName;
+                _dbvalue.ProfileName = value.RoleName;
 
-                //unitOfWork.AspNetRole.Update(_dbvalue);
-               // unitOfWork.AspNetRole.Commit();
+                unitOfWork.AspNetProfile.Update(_dbvalue);
+                unitOfWork.AspNetProfile.Commit();
 
                 response.Status = HttpStatusCode.OK;
                 response.Message = "Updated";

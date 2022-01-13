@@ -4,7 +4,7 @@
 
 namespace BNPL_Web.DatabaseModels.Migrations
 {
-    public partial class _5 : Migration
+    public partial class tbl4321 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

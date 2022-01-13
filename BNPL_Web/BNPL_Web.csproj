@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\SelfPortal\Views\Home\" />
+    <Folder Include="Authorizations\" />
     <Folder Include="CustomAnnotation\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>

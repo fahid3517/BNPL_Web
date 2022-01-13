@@ -1,0 +1,27 @@
+﻿<!-- Add Role Modal -->
+<div id="OTP_Modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Number</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalError" style="color:#910e0e; font-weight:bold;"></div>
+                <div id="modalSuccess" style="color:#4ea51f; font-weight:bold;"></div>
+                <form>
+                    <div class="form-group">
+                        <label for="RoleName">Mobile Number <span class="text-danger">*</span></label>
+                        <input class="form-control" id="MobileNumber" name="MobileNumber" type="text" required>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" type="button" onclick="SendOTP()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Role Modal -->

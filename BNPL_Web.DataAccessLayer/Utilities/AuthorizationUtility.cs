@@ -16,27 +16,29 @@ namespace Project.Utilities
 {
     public static class AuthorizationUtility
     {
-        public static bool userHasPrivilege(string userName, string privilege)
+        public static bool userHasPrivilege(string Id, string privilege)
         {
-            if (!String.IsNullOrEmpty(userName))
+            if (!String.IsNullOrEmpty(Id))
             {
                 HttpContextAccessor context = new HttpContextAccessor();
                 var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
 
-                var user = unitofwork.AspNetUser.Get(x => x.UserName == userName);
-                //AspNetRoles privilegeDb = unitofwork.Privilages.Get(a => a.Privilege == privilege);
+               
+                AspNetRole privilegeDb = unitofwork.AspNetRole.Get(a => a.Privilege == privilege);
 
                 //Get Role of user
-                var aspnet_Role = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles.Role.DbRolePrivileges");
-                if (aspnet_Role != null)
+                var aspnet = unitofwork.AspNetUser.Get(x => x.Id == Id);
+                var UserRole = unitofwork.UserProfile.Get(x => x.UserId == aspnet.Id);
+                var RoleClaims = unitofwork.AspNetProfileRole.GetMany(x => x.RoleId ==Guid.Parse(UserRole.ProfileId.ToString()));
+                if (aspnet != null)
                 {
-                    //foreach (RolePrivilages emp_privilege in aspnet_Role.Role.DbRolePrivileges)
-                    //{
-                    //    //if (emp_privilege.PrivilegeId.Equals(privilegeDb.Id))
-                    //    {
-                    //        return true;
-                    //    }
-                    //}
+                    foreach (var emp_privilege in RoleClaims)
+                    {
+                        if (emp_privilege.ProfileId.Equals(privilegeDb.Id))
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
             return false;
@@ -116,28 +118,28 @@ namespace Project.Utilities
         }
         public static IEnumerable<AssignPrivilegesViewModel> Getuserivilege(string userName)
         {
-            IEnumerable<AssignPrivilegesViewModel> assignPrivilegesViewModels= new List<AssignPrivilegesViewModel>();
-            //HttpContextAccessor context = new HttpContextAccessor();
-            //var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
-            //string RoleId = "";
-            //var user = unitofwork.AspNetUser.Get(x => x.UserName == userName, "AspNetUserRoles");
+            IEnumerable<AssignPrivilegesViewModel> assignPrivilegesViewModels = new List<AssignPrivilegesViewModel>();
+            HttpContextAccessor context = new HttpContextAccessor();
+            var unitofwork = (UnitOfWork)context.HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
+            string RoleId = "";
+            var user = unitofwork.AspNetUser.Get(x => x.UserName == userName);
 
-            //var privilage = unitofwork.BNPL_Context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();
+            var privilage = unitofwork.UserProfile.Get(x => x.UserId == user.Id);
 
-            //if (privilage != null)
-            //{
-            //    RoleId = privilage.RoleId;
-            //}
-            //IEnumerable<AssignPrivilegesViewModel> _data = unitofwork.RolePrivilages.GetMany(p => p.RoleId == RoleId, "Privilege").Select(p => new AssignPrivilegesViewModel()
-            //{
-            //    RoleId = p.RoleId,
-            //    Name = p.Privilege.Privilege,
-            //    PrivilegeId = p.PrivilegeId,
-            //    Category = p.Privilege.Category,
-            //    Portal = p.Privilege.Portal
-            //});
+            if (privilage != null)
+            {
+                RoleId = privilage.ProfileId;
+            }
+            IEnumerable<AssignPrivilegesViewModel> _data = unitofwork.AspNetProfileRole.GetMany(p => p.RoleId ==Guid.Parse(RoleId.ToString()), "Profile").Select(p => new AssignPrivilegesViewModel()
+            {
+                RoleId = p.RoleId,
+                Name = p.Profile.Privilege,
+                PrivilegeId = p.Profile.Id,
+                Category = p.Profile.Category,
+                Portal = p.Profile.Portal
+            });
             //int counbt = _data.Count();
-            return assignPrivilegesViewModels;
+            return _data;
         }
         public static Credentials GetUserCredentialsFromAuthorizationHeader(HttpContext request)
         {

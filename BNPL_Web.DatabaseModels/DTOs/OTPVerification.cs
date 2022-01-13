@@ -4,17 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BNPL_Web.DatabaseModels.Authentication;
-using BNPL_Web.DatabaseModels.DbImplementation;
 
 namespace BNPL_Web.DatabaseModels.DTOs
 {
-    public class BackOfficeUserProfile
+    public class OTPVerification
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Code { get; set; }
         public string UserId { get; set; }
-        public string RoleId { get; set; }
-        public string FullName { get; set; }
     }
 }

@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
-using Project.DataAccessLayer.Shared;
 using Project.DatabaseModel.DbImplementation;
 using System.Configuration;
 using System.Net;
@@ -17,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using BNPL_Web.DatabaseModels.Models;
+using Project.DataAccessLayer.SharedServices;
 
 namespace BNPL_Web
 {
@@ -75,7 +75,14 @@ namespace BNPL_Web
             // services.AddTransient<IAuthorizationMiddlewareResultHandler, ApiCustomAuthorizeAttribute>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(typeof(IFileManager), typeof(FileManager));
+            //var apiKey = Configuration["Twilio:"];
 
+            //services.AddHttpClient<TwilioVerifyClient>(client =>
+            //{
+            //    client.BaseAddress = new Uri("https://api.twilio.com/2022-01-11/Accounts/{SKa4d3d5c0df9f3dbbeabb3a65ddb729b4}/c089399c224231bf782f81a20e745e84.json");
+            //    ///client.BaseAddress = new Uri("https://api.authy.com/");
+            //    ///client.DefaultRequestHeaders.Add("X-Authy-API-Key", apiKey);
+            //});
             //IdentityConfig(services);
 
             services.ConfigureApplicationCookie(options =>
@@ -91,13 +98,13 @@ namespace BNPL_Web
          RegisterDependancy(services, ServiceLifetime.Scoped);
             services.AddMvc();
             services.AddDbContext<BNPL_Context>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<BNPL_Context>()
                 .AddDefaultTokenProviders();
+            RegisterDependancy(services, ServiceLifetime.Scoped);
 
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -117,7 +124,7 @@ namespace BNPL_Web
 
             app.UseRouting();
             app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthorization();
             //Area Routing
             app.UseEndpoints(endpoints =>
             {

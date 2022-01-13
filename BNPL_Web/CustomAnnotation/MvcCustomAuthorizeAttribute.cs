@@ -21,15 +21,8 @@ namespace Project.Web.CustomeAnnotations
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if (string.IsNullOrEmpty(privilege))
-            {
-                if (!context.HttpContext.User.Identity.IsAuthenticated)
-                {
-                    context.Result = new ForbidResult();
-                }
-                return;
-            }
-            else if (context.HttpContext.User.Identity.IsAuthenticated && AuthorizationUtility.userHasPrivilege(context.HttpContext.User.Identity.Name, privilege))
+
+            if (AuthorizationUtility.userHasPrivilege(context.HttpContext.User.Identity.Name, privilege))
             {
                 return;
             }

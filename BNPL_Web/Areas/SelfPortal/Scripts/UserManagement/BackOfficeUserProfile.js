@@ -1,7 +1,7 @@
 ﻿
 
 $(function () {
-    LoadKendoDropDown('Role', '-- Please Select Role --', '/api/Roles/GetAllRole');
+    LoadKendoDropDown('Role', '-- Please Select Profile --', '/api/Roles/GetAllRole');
 });
 function Add() {
     var FullName = $("#UserName").val();
@@ -44,6 +44,7 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         success: function (data) {
             toastr.success("User added successfully", { timeOut: 5000 });
+            location.href = '/UserManagement/Manage';
         },
         error: function (data) {
             var response = data.responseText.replace(/"/g, '');

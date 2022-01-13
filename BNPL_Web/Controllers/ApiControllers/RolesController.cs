@@ -1,6 +1,5 @@
 ﻿using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Authorization;
-using BNPL_Web.CustomAnnotation;
 using BNPL_Web.DataAccessLayer.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -57,7 +56,7 @@ namespace BNPL_Web.Controllers.ApiControllers
         }
         [Route("Delete")]
         [HttpDelete]
-        public IActionResult Delete(string Id)
+        public IActionResult Delete(Guid Id)
         {
             var response = service.Delete(Id);
             return StatusCode((int)response.Status, response.obj);

@@ -1,98 +1,304 @@
-﻿<script src="~/Scripts/UserManagement/CustomerProfile.js"></script>
-
+﻿
+@{
+    Layout = null;
+}
 <style>
-	.toggle-password {
-		position: relative;
-		cursor: pointer;
-		font-size: 18px !important;
-	}
+    .toggle-password {
+        position: relative;
+        cursor: pointer;
+        font-size: 18px !important;
+    }
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="~/assets/css/EmployeeForm.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js" integrity="sha512-6Jym48dWwVjfmvB0Hu3/4jn4TODd6uvkxdi9GNbBHwZ4nGcRxJUCaTkL3pVY6XUQABqFo3T58EMXFQztbjvAFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<form id="form-1">
-	<!--Employee Basic Information form starts -->
-	<div class="card-title">
-		<div class="card-title mt-3 ml-2">
-			Customer Basic Information
-		</div>
-		<hr style="margin-top: -1rem;" />
-		<br />
-		<div class="row ml-2">
-			<div class="col-xl-6">
-				<div class="form-group row">
-					<label for="UserName" class="col-lg-5 col-form-label">User Name<span class="text-danger">*</span></label>
-					<div class="col-lg-7">
-						<input id="UserName" name="UserName" type="text" class="form-control" required>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js" integrity="sha512-6Jym48dWwVjfmvB0Hu3/4jn4TODd6uvkxdi9GNbBHwZ4nGcRxJUCaTkL3pVY6XUQABqFo3T58EMXFQztbjvAFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>*@
+<style>
+    .wrapper1 {
+        position: relative;
+    }
 
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-6">
-				<div class="form-group row">
-					<label for="Role" class="col-lg-5 col-form-label">Role<span class="text-danger">*</span></label>
-					<div class="defaultDropdown  col-lg-7">
-						<input id="Role" name="Role" style="width: 100%; z-index: 4;" required data-required-msg="The Role field is required" />
-						<span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" data-for="Role" role="alert" style="display:none;"></span>
-						<span id="RoleError" style="color:#910e0e"></span>
-					</div>
+    input {
+        padding-left: 48px;
+    }
 
-				</div>
-			</div>
-		</div>
-		<div class="row ml-2">
-			<div class="col-xl-6">
-				<div class="form-group row">
-					<label for="Email" class="col-lg-5 col-form-label">Email<span class="text-danger">*</span></label>
-					<div class="col-lg-7">
-						<input id="Email" name="Dob" type="email" class="form-control" required>
-						<span id="Email" style="color:#910e0e"></span>
-					</div>
-				</div>
-			</div>
+    .toggle-password {
+        position: relative;
+        right: 9px;
+        bottom: 28px;
+        cursor: pointer;
+    }
+</style>
 
-			<div class="col-xl-6">
-				<div class="form-group row">
-					<label for="Password" class="col-lg-5 col-form-label">Password<span class="text-danger">*</span></label>
-					<div class="col-lg-7">
-						<input id="Password" name="Password" type="password" class="form-control" required>
-						@*   <span toggle="#Password" class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>*@
-					</div>
-				</div>
-			</div>
 
-		</div>
-	</div>
-	<div class="row ml-2">
-		<div class="col-xl-6">
-			<div class="form-group row">
-				<label for="Mobile" class="col-lg-5 col-form-label">Mobile<span class="text-danger">*</span></label>
-				<div class="col-lg-7">
-					<input id="Mobile" name="Mobile" type="tel" class="form-control" required>
-				</div>
-			</div>
-		</div>
-		<div class="col-xl-6">
-			<div class="form-group row">
-				<label for="Dob" class="col-lg-5 col-form-label">Date of Birth<span class="text-danger">*</span></label>
-				<div class="col-lg-7">
-					<input id="Dob" name="Dob" type="date" class="form-control" onchange="DateOfBirthCheck(this.id)" required>
-					<span id="DobError" style="color:#910e0e"></span>
-				</div>
-			</div>
-		</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-	</div>
+    <title>Login - BNPL</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
-	<div class="row">
-		<div class="col-xl-6">
-		</div>
-	</div>
-	<!--Employee Basic Information form Ends -->
-	<div class="text-right">
-		<button class="btn btn-primary" id="basic-button-enab" type="button" onclick="Add()">Save</button>
+    <meta name="keywords" content="">
+    <meta name="author" content="Hamza Saeed">
+    <meta name="robots" content="noindex, nofollow">
 
-	</div>
+    <link href="~/Bundle/kendostylebundle.min.css" />
+    <script src="~/Bundle/commonbundle.min.js"></script>
+    <script src="~/Bundle/kendobundle.min.js"></script>
+    <!-- Bundle Files -->
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/DOLogo.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+
+    <!-- Datatable CSS -->
+    <link rel="stylesheet" href="~/assets/css/dataTables.bootstrap4.min.css" />
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
+
+    <!-- Lineawesome CSS -->
+    <link rel="stylesheet" href="~/assets/css/line-awesome.min.css">
+    <link href="~/assets/line-awesome-1.3.0/1.3.0/css/line-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custome CSS -->
+    <link rel="stylesheet" href="~/assets/css/custome.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/assets/css/style.css">
+
+    <!-- Kendo UI -->
+    <link rel="stylesheet" href="~/kendo/kendo.common.min.css" />
+    <link rel="stylesheet" href="~/kendo/kendo.default.min.css" />
+    <link rel="stylesheet" href="~/kendo/kendo.default.mobile.min.css" />
+    <link href="~/defaultKendoStyleOverride.css" rel="stylesheet" />
+
+    <!-- Scroll -->
+    <link href="~/assets/css/scrollbar.css" rel="stylesheet" />
+
+    <!-- toastr -->
+    <link href="~/toastr/toastr.min.css" rel="stylesheet" />
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+
+
+    <script src="~/assets/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+
+
+    <!-- Datatable JS -->
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Form Validation JS -->
+    <script src="~/Scripts/Views/ValidateForm.js"></script>
+
+    <!-- Slimscroll JS -->
+    <script src="~/assets/js/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/assets/js/app.js"></script>
+
+    <!-- Mask JS -->
+
+    <script src="~/assets/js/jquery.maskedinput.min.js"></script>
+    <script src="~/assets/js/mask.js"></script>
+
+
+    <!-- Kendo UI -->
+    <script src="~/Scripts/kendo/kendo.ui.core.min.js"></script>
+
+    <!-- toastr -->
+    <script src="~/toastr/toastr.min.js"></script>
+
+    <!-- Moment JS -->
+    <script src="~/assets/js/moment.min.js"></script>
+    <script src="~/Scripts/UserManagement/CustomerProfile.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        $(document).ready(function () {
+            $(".toggle-password").click(function () {
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    $(".toggle-password").removeClass("fa fa-eye-slash");
+                    $(".toggle-password").addClass("fa fa-eye");
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                    //$(".toggle-password").removeClass("fa fa-eye");
+                    $(".toggle-password").addClass("fa fa-eye-slash"); 
+                }
+            });
+        });
+    </script>
+</head>
+<body class="account-page">
+
+    <!-- Main Wrapper -->
+       <div class="page-wrapper">
+            <!-- Page Content -->
+            <div id="content" class="content container-fluid">
+            <form id="form-1">
+    <!--Employee Basic Information form starts -->
+    <div class="card-title">
+        <div class="card-title mt-3 ml-2">
+            Customer Basic Information
+        </div>
+         </div>
+        <hr style="margin-top: -1rem;" />
+        <br />
+        <div class="row ml-5">
+            <div class="col-xl-6">
+                   <div class="form-group row">
+                    <label for="FirstNameEn" class="col-lg-5 col-form-label">First Name En<span class="text-danger">*</span></label>
+                    <div>
+                        <input id="FirstNameEn" name="FirstNameEn" type="text" class="form-control" required>
+                    </div>
+                   </div>
+                   <div class="form-group row">
+                    <label for="FirstNameAr" class="col-lg-5 col-form-label">First Name Ar<span class="text-danger">*</span></label>
+                    <div class="">
+                        <input id="FirstNameAr" name="FirstNameAr" type="text" class="form-control" required>
+                    </div>
+                   </div>
+                     <div class="form-group row">
+                    <label for="MiddleNameEn" class="col-lg-5 col-form-label">Middle Name En<span class="text-danger">*</span></label>
+                    <div class="col-lg-7">
+                        <input id="MiddleNameEn" name="MiddleNameEn" type="text" class="form-control" required>
+                    </div>
+                   </div>
+                    <div class="form-group row">
+                    <label for="MiddleNameAr" class="col-lg-5 col-form-label">Middle Name Ar<span class="text-danger">*</span></label>
+                    <div class="col-lg-7">
+                        <input id="MiddleNameAr" name="MiddleNameAr" type="text" class="form-control" required>
+                    </div>
+                   </div>
+                    <div class="form-group row">
+                    <label for="LastNameEn" class="col-lg-5 col-form-label">Last Name En<span class="text-danger">*</span></label>
+                    <div class="col-lg-7">
+                        <input id="LastNameEn" name="LastNameEn" type="text" class="form-control" required>
+                    </div>
+                   </div>
+                   <div class="form-group row">
+                    <label for="LastNameAr" class="col-lg-5 col-form-label">Last Name Ar<span class="text-danger">*</span></label>
+                    <div class="col-lg-7">
+                        <input id="LastNameAr" name="LastNameAr" type="text" class="form-control" required>
+                    </div>
+                   
+                </div>
+              
+
+
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group row">
+                <label for="TitleId" class="col-lg-5 col-form-label">Title<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                    <select  class="form-control"  id="TitleId">
+                        <option class="form-control">Please Select</option>
+                        <option class="form-control">Mr.</option>
+                        <option class="form-control">Mrs.</option>
+                        <option class="form-control">Miss</option>
+                        <option class="form-control">Ms</option>
+                    </select>
+                </div>
+            </div>
+              <div class="form-group row">
+                <label for="Gender" class="col-lg-5 col-form-label">Gender<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                <select id="Gender" name="Gender" type="text" class="form-control" required>
+                    <option value="">Please Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                 </div>
+                 </div>
+              <div class="form-group row">
+                <label for="Language" class="col-lg-5 col-form-label">Language<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                <select id="Language" name="Language" type="text" class="form-control" required>
+                <option value="">Please Select</option>
+                <option value="English">English</option>
+                <option value="Arabic">Arabic</option>
+                </select>
+                 </div>
+                 </div>
+            <div class="form-group row">
+                <label for="CivilId" class="col-lg-5 col-form-label">Civil Id<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                    <input id="CivilId" name="CivilId" type="tel" class="form-control" required>
+                </div>
+            </div>
+       
+           </div>
+        </div>
+        <div class="row ml-5">
+            <div class="col-xl-6">
+                <div class="form-group row">
+                    <label for="Email" class="col-lg-5 col-form-label">Email<span class="text-danger">*</span></label>
+                    <div class="col-lg-7">
+                        <input id="Email" name="Dob" type="email" class="form-control" required>
+                        <span id="Email" style="color:#910e0e"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6">
+                <div class="form-group row">
+                    <label for="Password" class="col-lg-5 col-form-label">Password<span class="text-danger">*</span></label>
+                    <div class="col-lg-7">
+                        <input id="Password" name="Password" type="password" class="form-control" required>
+                                    @*   <span toggle="#Password" class="text-primary text-20 pull-right fa fa-eye-slash font-weight-bold field-icon toggle-password"></span>*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+   
+    <div class="row ml-5">
+
+        <div class="col-xl-6">
+            <div class="form-group row">
+                <label for="Dob" class="col-lg-5 col-form-label">Date of Birth<span class="text-danger">*</span></label>
+                <div class="col-lg-7">
+                    <input id="Dob" name="Dob" type="date" class="form-control" required>
+                    <span id="DobError" style="color:#910e0e"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+        </div>
+    </div>
+    <!--Employee Basic Information form Ends -->
+    <div class="text-right" style="margintop:60px;">
+        <button class="btn btn-primary" id="basic-button-enab" type="button" onclick="Add()">Save</button>
+
+    </div>
+    
+      <a href="/Self/Account/Login" style=" color:white;">
+                    <button class="btn btn-primary bg-primary" type="button" style=" color:white;">
+                     Existing Account
+           </button>
+                    
+                </a>
 </form>
 
+    </div>
+</div>
+<partial name="~/Areas/SelfPortal/Views/OTPModal/_ModalOTPConfirm.cshtml" />
+</body>

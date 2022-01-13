@@ -1,4 +1,6 @@
-﻿using BNPL_Web.Common.ViewModels;
+﻿
+using BNPL_Web.Common.Enums;
+using BNPL_Web.Common.ViewModels;
 using BNPL_Web.Common.ViewModels.Authorization;
 using BNPL_Web.Common.ViewModels.Common;
 using BNPL_Web.DataAccessLayer.Helpers;
@@ -9,8 +11,14 @@ using BNPL_Web.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using Project.DataAccessLayer.Utilities;
+using Project.Utilities;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace BNPL_Web.Controllers.ApiControllers
 {
@@ -35,42 +43,118 @@ namespace BNPL_Web.Controllers.ApiControllers
 
         [HttpPost]
         [Route("Post")]
-        public async Task<IActionResult> Post(UserViewModel model)
+        public IActionResult Post(UserViewModel model)
         {
-            FunctionResult result = await IdentityHelper.createUser(model);
-            if (!result.success)
-            {
-                return StatusCode((int)HttpStatusCode.BadRequest, result.message);
-            }
-            model.UserId = result.message;
-           
-            var response = UserService.Add(model);
-            return StatusCode((int)response.Status, response.obj);
-        }
-        [HttpPost]
-        [Route("BackOfficeUserProfile")]
-        public async Task<IActionResult> BackOfficeUserProfile(UserViewModel model)
-        {
-            FunctionResult result = await IdentityHelper.createUser(model);
+            FunctionResult result = IdentityHelper.createUser(model);
             if (!result.success)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, result.message);
             }
             model.UserId = result.message;
 
-            var response = UserService.AddBackOfficeUserProfile(model);
+            var response = UserService.Add(model);
+            if (response.Status == HttpStatusCode.OK)
+            {
+                int OTP = GenerateRandomNo();
+
+            }
             return StatusCode((int)response.Status, response.obj);
         }
         [HttpPost]
-        [Route("SystemUserProfile")]
-        public async Task<IActionResult> SystemUserProfile(UserViewModel model)
+        [Route("SendOTP")]
+
+        public IActionResult SendOTP(string? UserId, string? Mobile)
         {
-            FunctionResult result = await IdentityHelper.createUser(model);
+            int OTP = GenerateRandomNo();
+            if (SendSMS(OTP, Mobile))
+            {
+                var response1 = UserService.AddOtp(OTP, Mobile, UserId);
+                return StatusCode((int)response1.Status, response1.obj);
+            }
+            return StatusCode((int)HttpStatusCode.BadRequest, "");
+        }
+        [HttpPost]
+        [Route("VerifyOtp")]
+
+        public IActionResult VerifyOtp(string? UserId, string? Number, string? OTP)
+        {
+
+
+            var response1 = UserService.VerifyOtp(UserId, Number, OTP);
+            return StatusCode((int)response1.Status, response1.obj);
+        }
+
+
+        public int GenerateRandomNo()
+        {
+            int _min = 1000;
+            int _max = 9999;
+            Random _rdm = new Random();
+            return _rdm.Next(_min, _max);
+        }
+
+        public bool SendSMS(int OtpCode, string ContactNumber)
+        {
+
+            var To = ContactNumber;
+            var text = "Hye Verification Code is" + OtpCode;
+
+            var commandText = "INSERT INTO InsertSms (Body, ToAddress, FromAddress, ChannelID,StatusID, DataCoding, CustomField1, CustomField2) VALUES (@body, @to, @FromAddress, @ChannelID,'SCHEDULED',0,@CustomField1, @CustomField2);";
+            using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("SMSConnection")))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+                command.Parameters.AddWithValue("@to", To);
+
+                command.Parameters.AddWithValue("@body", text);
+
+                command.Parameters.AddWithValue("@FromAddress", this._configuration.GetValue<String>("AppSettings:SMS_DevSmsService_FromAddress"));
+
+
+
+                command.Parameters.AddWithValue("@ChannelId", this._configuration.GetValue<String>("AppSettings:SMS_DevSmsService_ChannelId"));
+                var configvalue1 = this._configuration.GetValue<String>("AppSettings:SMS_DevSmsService_CustomField2_en");
+                command.Parameters.AddWithValue("@CustomField1", this._configuration.GetValue<String>("AppSettings:SMS_DevSmsService_CustomField1"));
+
+                command.Parameters.AddWithValue("@CustomField2", this._configuration.GetValue<String>("AppSettings:'SMS_DevSmsService_CustomField2_en'"));
+                connection.Open();
+                command.ExecuteNonQuery();
+                return true;
+            }
+            return false;
+        }
+        [HttpPost]
+        [Route("BackOfficeUserProfile")]
+
+        public IActionResult BackOfficeUserProfile(UserViewModel model)
+        {
+
+            string TokenCookie = Request.Cookies["Key"];
+
+            if (TokenCookie != null)
+            {
+
+            }
+
+            FunctionResult result = IdentityHelper.BackOfficeUser(model);
             if (!result.success)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, result.message);
             }
             model.UserId = result.message;
+            string Response = "Sucessfully Added";
+            var response = UserService.AddBackOfficeUserProfile(model);
+            return StatusCode((int)response.Status, response.Message);
+        }
+        [HttpPost]
+        [Route("SystemUserProfile")]
+        public async Task<IActionResult> SystemUserProfile(SystemUserModel model)
+        {
+            FunctionResult result = await IdentityHelper.SystemcreateUser(model);
+            if (!result.success)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest, result.message);
+            }
+            model.UserId = result.Respoinsemessage;
 
             var response = UserService.SystemUserProfile(model);
             return StatusCode((int)response.Status, response.obj);
@@ -109,7 +193,7 @@ namespace BNPL_Web.Controllers.ApiControllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(AdminLoginViewModel model)
         {
             try
             {
@@ -117,34 +201,41 @@ namespace BNPL_Web.Controllers.ApiControllers
                 var response = new AdminLoginResponse();
                 string tokenKey = _configuration.GetValue<string>("Tokens:Key");
 
-            if (!ModelState.IsValid)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
-            }
+                if (!ModelState.IsValid)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+                }
+                string HashPassword = "";
+                using (MD5 md5Hash = MD5.Create())
+                {
+                    var bytes = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
 
-            // This doesn't count login failures towards lockout only two factor authentication
-            // To enable password failures to trigger lockout, change to shouldLockout: true
-            bool isActive = true;
-            if (!isActive)
-            {
-                ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
-                return StatusCode(StatusCodes.Status403Forbidden, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
-            }
-            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
+                    HashPassword = Convert.ToBase64String(bytes);
+                }
+                var pass = HashPassword;
+                // This doesn't count login failures towards lockout only two factor authentication
+                // To enable password failures to trigger lockout, change to shouldLockout: true
+                bool isActive = true;
+                if (!isActive)
+                {
+                    ModelState.AddModelError(nameof(model.Password), "Inactive user login attempt.");
+                    return StatusCode(StatusCodes.Status403Forbidden, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+                }
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
 
-                    var user = _unitOfWork.AspNetUser.Get(x => x.UserName == model.Username);
+                    var user = _unitOfWork.AspNetUser.Get(x => x.UserName == model.Email);
                     if (user != null)
                     {
                         var role = ""; /*_DB.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault();*/
                         if (role != null)
                         {
-                            //authToken = new Encryption().GetToken(new AdminAuthToken { UserId = user.Id, RoleId = role.RoleId }, user.Id, tokenKey);
-                            //response = new AdminLoginResponse
-                            //{
-                            //    AccessToken = authToken,
-                            //};
+                            authToken = new Encryption().GetToken(new AdminAuthToken { UserId = user.Id, RoleId = "" }, user.Id, tokenKey);
+                            response = new AdminLoginResponse
+                            {
+                                AccessToken = authToken,
+                            };
 
                             return Ok(response);
                         }
@@ -156,16 +247,17 @@ namespace BNPL_Web.Controllers.ApiControllers
                     }
 
                 }
-               
 
-                    return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
-                
+
+                return StatusCode(StatusCodes.Status400BadRequest, ModelState.Values.SelectMany(v => v.Errors.Select(z => z.ErrorMessage)));
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-        
+
         }
+
     }
 }

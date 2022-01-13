@@ -12,9 +12,11 @@ namespace BNPL_Web.DataAccessLayer.IServices
     {
         ResponseViewModel Add(UserViewModel value);
         ResponseViewModel AddBackOfficeUserProfile(UserViewModel value);
-        ResponseViewModel SystemUserProfile(UserViewModel value);
+        ResponseViewModel SystemUserProfile(SystemUserModel value);
         PaginatedRecordModel<UserViewModel> GetPaginatedRecords(PaginationSearchModel model);
-
-
+        //bool SendSMS();
+        ResponseViewModel AddOtp(int OTP,string ContactNo,string UserId);
+        ResponseViewModel VerifyOtp(string UserId, string ContactNo, string OTP);
+        
     }
 }

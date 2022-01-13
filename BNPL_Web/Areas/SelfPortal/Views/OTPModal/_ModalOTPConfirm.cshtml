@@ -1,0 +1,39 @@
+﻿<!-- Add Role Modal -->
+<div id="OTPConfirm_Modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Verify OTP</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input type="hidden" id="Number"/>
+                <input type="hidden" id="UserId"/>
+            </div>
+            <div class="modal-body">
+                <div id="modalError" style="color:#910e0e; font-weight:bold;"></div>
+                <div id="modalSuccess" style="color:#4ea51f; font-weight:bold;"></div>
+                  <form id="VerifyDiv">
+                    <div class="form-group">
+                        <label for="RoleName"> Enter Number <span class="text-danger">*</span></label>
+                        <input class="form-control" id="ContactNumber" name="OTP" type="text" required>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" type="button" onclick="SendOTP()">Submit</button>
+                    </div>
+                </form>
+                <form id="NumberDiv" class="d-none">
+                    <div class="form-group">
+                        <label for="RoleName"> OPT <span class="text-danger">*</span></label>
+                        <input class="form-control" id="OTP" name="OTP" type="text" required>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" type="button" onclick="VerifyOTP()">Submit</button>
+                        <button id="ResendOtp" oncllick="ChangeSatefun()"  class="btn btn-primary submit-btn ml-2" disabled type="button">Resend</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Role Modal -->

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BNPL_Web.DatabaseModels.Models
 {
-    public class BNPL_Context:DbContext
+    public class BNPL_Context : DbContext
     {
         public BNPL_Context(DbContextOptions<BNPL_Context> options) : base(options)
         {
@@ -19,14 +19,16 @@ namespace BNPL_Web.DatabaseModels.Models
         {
             base.OnModelCreating(modelBuilder);
         }
-
         public virtual DbSet<AspNetMembership> AspNetMemberships { get; set; } = null!;
         public virtual DbSet<AspNetProfile> AspNetProfiles { get; set; } = null!;
-        public virtual DbSet<AspNetProfileRoles> AspNetProfileRoles { get; set; } = null!;
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; } = null!;
-        public virtual DbSet<ApplicationUser> AspNetUsers { get; set; } = null!;
+        public virtual DbSet<AspNetProfileRole> AspNetProfileRoles { get; set; } = null!;
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; } = null!;
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; } = null!;
         public virtual DbSet<CustomerProfile> CustomerProfiles { get; set; } = null!;
-        public virtual DbSet<SystemUsersProfile> SystemUsers { get; set; } = null!;
-        public virtual DbSet<UserProfiles> UserProfiles { get; set; } = null!;
+        public virtual DbSet<SystemUser> SystemUsers { get; set; } = null!;
+        public virtual DbSet<UserProfile> UserProfiles { get; set; } = null!;
+        public virtual DbSet<OTPVerification> OTPVerification { get; set; } = null!;
+        public virtual DbSet<AuditLog> AuditLog { get;set; } = null!;
+
     }
 }

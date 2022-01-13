@@ -85,7 +85,6 @@ namespace BNPL_Web
                        ClockSkew = TimeSpan.FromMinutes(0)
                    };
                });
-
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddScoped<ISmsService, SmsService>();

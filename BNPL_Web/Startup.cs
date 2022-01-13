@@ -23,6 +23,7 @@ using CorePush.Google;
 using CorePush.Apple;
 using BNPL_Web.Notification.Models;
 using Microsoft.OpenApi.Models;
+using BNPL_Web.smsService;
 
 namespace BNPL_Web
 {
@@ -87,6 +88,7 @@ namespace BNPL_Web
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            services.AddScoped<ISmsService, SmsService>();
             // services.AddTransient<IAuthorizationMiddlewareResultHandler, ApiCustomAuthorizeAttribute>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(typeof(IFileManager), typeof(FileManager));
@@ -98,16 +100,6 @@ namespace BNPL_Web
             // Configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("FcmNotification");
             services.Configure<FcmNotificationSetting>(appSettingsSection);
-            //var apiKey = Configuration["Twilio:"];
-
-            //services.AddHttpClient<TwilioVerifyClient>(client =>
-            //{
-            //    client.BaseAddress = new Uri("https://api.twilio.com/2022-01-11/Accounts/{SKa4d3d5c0df9f3dbbeabb3a65ddb729b4}/c089399c224231bf782f81a20e745e84.json");
-            //    ///client.BaseAddress = new Uri("https://api.authy.com/");
-            //    ///client.DefaultRequestHeaders.Add("X-Authy-API-Key", apiKey);
-            //});
-            //IdentityConfig(services);
-
             services.ConfigureApplicationCookie(options =>
             {
                 //Cookie settings
@@ -143,12 +135,7 @@ namespace BNPL_Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //// Enable middleware to serve generated Swagger as a JSON endpoint
-            //app.UseSwagger();
-            //// Enable the SwaggerUI
-            //app.UseSwaggerUI(c => {
-            //    c.SwaggerEndpoint(url: "/swagger/V1/swagger.json", name: "My API V1");
-            //});
+           
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -204,13 +191,7 @@ namespace BNPL_Web
                  Path.Combine(Directory.GetCurrentDirectory(), @"Areas/SelfPortal/Scripts")),
                 RequestPath = new PathString("/Scripts"),
             });
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    ServeUnknownFileTypes = true, // this was needed as IIS would not serve extensionless URLs from the directory without it
-            //    FileProvider = new PhysicalFileProvider(
-            //    Path.Combine(Directory.GetCurrentDirectory(), @"UploadedFiles")),
-            //    RequestPath = new PathString("/UploadedFiles"),
-            //});
+           
             app.UseStaticFiles(new StaticFileOptions()
             {
                 ServeUnknownFileTypes = true, // this was needed as IIS would not serve extensionless URLs from the directory without it
@@ -218,28 +199,9 @@ namespace BNPL_Web
                Path.Combine(Directory.GetCurrentDirectory(), @"Areas/SelfPortal/Scripts")),
                 RequestPath = new PathString("/Viwes"),
             });
-            //  ApplicationDbInitializer.SeedUsers(userManager, roleManager);
         }
 
 
-       // private void IdentityConfig(IServiceCollection services)
-       // {
-
-       //     services.AddIdentity<ApplicationUser, IdentityRole>(
-       //options =>
-       //{
-       //    options.SignIn.RequireConfirmedAccount = false;
-       //    options.Password.RequireDigit = true;
-       //    options.Password.RequireLowercase = true;
-       //    options.Password.RequireNonAlphanumeric = true;
-       //    options.Password.RequireUppercase = true;
-       //    options.Password.RequiredLength = 6;
-       //    options.Password.RequiredUniqueChars = 1;
-       //    Other options go here
-       //})
-       //.AddEntityFrameworkStores<IdentityService>();
-
-       // }
         private void RegisterDependancy(IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
             var typesFromAssemblies = Assembly.Load("BNPL_Web.DataAccessLayer").GetTypes().Where(x => x.Name.EndsWith("Service") && !x.IsInterface);

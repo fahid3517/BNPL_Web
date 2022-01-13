@@ -48,6 +48,7 @@
   <ItemGroup>
     <Folder Include="Areas\SelfPortal\Views\Home\" />
     <Folder Include="CustomAnnotation\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

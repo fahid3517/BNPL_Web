@@ -17,6 +17,12 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using BNPL_Web.DatabaseModels.Models;
 using Project.DataAccessLayer.SharedServices;
+using BNPL_Web.Notification.Interface;
+using BNPL_Web.Notification.Service;
+using CorePush.Google;
+using CorePush.Apple;
+using BNPL_Web.Notification.Models;
+using Microsoft.OpenApi.Models;
 
 namespace BNPL_Web
 {
@@ -47,13 +53,22 @@ namespace BNPL_Web
                     await context.Response.WriteAsync("Some custom error message if required");
                 };
             });
+            // Register the swagger generator
+            //services.AddSwaggerGen(c => {
+            //    c.SwaggerDoc(name: "V1", new OpenApiInfo { Title = "My API", Version = "V1" });
+            //});
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiDB", Version = "v1" });
+            });
             services.AddAuthentication(sharedOptions =>
             {
                 sharedOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 sharedOptions.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
                 sharedOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
+
                .AddJwtBearer(options =>
                {
                    var keyByteArray = Encoding.ASCII.GetBytes(this.Configuration.GetValue<String>("Tokens:Key"));
@@ -75,6 +90,14 @@ namespace BNPL_Web
             // services.AddTransient<IAuthorizationMiddlewareResultHandler, ApiCustomAuthorizeAttribute>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(typeof(IFileManager), typeof(FileManager));
+
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddHttpClient<FcmSender>();
+            services.AddHttpClient<ApnSender>();
+
+            // Configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection("FcmNotification");
+            services.Configure<FcmNotificationSetting>(appSettingsSection);
             //var apiKey = Configuration["Twilio:"];
 
             //services.AddHttpClient<TwilioVerifyClient>(client =>
@@ -111,6 +134,8 @@ namespace BNPL_Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApiDB v1"));
             }
             else
             {
@@ -118,6 +143,12 @@ namespace BNPL_Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            //// Enable middleware to serve generated Swagger as a JSON endpoint
+            //app.UseSwagger();
+            //// Enable the SwaggerUI
+            //app.UseSwaggerUI(c => {
+            //    c.SwaggerEndpoint(url: "/swagger/V1/swagger.json", name: "My API V1");
+            //});
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

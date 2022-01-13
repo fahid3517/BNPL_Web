@@ -48,6 +48,7 @@
   <ItemGroup>
     <Folder Include="Authorizations\" />
     <Folder Include="CustomAnnotation\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

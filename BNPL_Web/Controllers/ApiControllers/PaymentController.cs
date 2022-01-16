@@ -19,19 +19,22 @@ namespace BNPL_Web.Controllers.ApiControllers
         }
         [HttpPost]
         [Route("SendReq")]
-        public async Task<IActionResult> SendReq(CardPaymentRequest model)
+        public async Task<IActionResult> SendReq(/*CardPaymentRequest model,string Cardnumber,string Cvv,DateTime ExpireDate*/)
         {
-            //CardPaymentRequest paymentRequest = new CardPaymentRequest();
-            //RequestSource source1 = new RequestSource();
-            //source1.type = "token";
-            //source1.token = "tok_x4rvacoh45gulkx4hbhddnaaey";
+            CardPaymentRequest paymentRequest = new CardPaymentRequest();
+            RequestSource source1 = new RequestSource();
+            source1.type = "token";
+            source1.token = "tok_as7kgchlfqte5owcfcw4gx2ya4";
 
-            //paymentRequest.source = source1;
-            //paymentRequest.currency = "USD";
-            //paymentRequest.amount = 0;
+            paymentRequest.source = source1;
+            paymentRequest.currency = "USD";
+            paymentRequest.amount = 0;
+            string cardnumber = "";
+            string Cvv = "";
+            DateTime dater = DateTime.Now;
             try
             {
-                var respnose = await service.SendRequestAsync(HttpMethod.Post, "https://api.sandbox.checkout.com/payments", model);
+                var respnose = await service.SendRequestAsync(HttpMethod.Post, paymentRequest, cardnumber, dater);
 
             }
             catch (Exception ex)

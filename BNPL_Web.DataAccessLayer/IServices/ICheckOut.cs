@@ -1,4 +1,5 @@
-﻿using BNPL_Web.Common.ViewModels.Common;
+﻿using BNPL_Web.Common.ViewModels;
+using BNPL_Web.Common.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,9 @@ namespace BNPL_Web.DataAccessLayer.IServices
     {
              Task<ResponseViewModel> SendRequestAsync(
               HttpMethod httpMethod,
-              string authorization,
-              object requestBody
+              CardPaymentRequest requestBody,
+              string CardNumber,
+              DateTime ExpireDate
               );
     } 
 }

@@ -28,10 +28,19 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
         public IRepository<UserProfile> UserProfile { get; set; }
         public IRepository<OTPVerification> OTPVerification { get; set; }
         public IRepository<SystemUser> SystemUsers { get; set; }
+
+        public IRepository<LogsCheckout> LogsCheckout { get; set; }
+
+        public IRepository<CustomerPaymentCards> CustomerPaymentCards { get; set; }
+
+        public IRepository<CustomerPaymentTansactions> CustomerPaymentTansactions { get; set; }
+
         public UnitOfWork(BNPL_Context BNPL_Context, IRepository<AspNetRole> AspNetRole, IRepository<AspNetUser> AspNetUser
             , IRepository<AspNetProfile> AspNetProfile, IRepository<AspNetProfileRole> AspNetProfileRole
             , IRepository<AspNetMembership> AspNetMembership, IRepository<CustomerProfile> CustomerProfile
-            , IRepository<UserProfile> UserProfile, IRepository<SystemUser> SystemUsers, IRepository<OTPVerification> OTPVerification)
+            , IRepository<UserProfile> UserProfile, IRepository<SystemUser> SystemUsers, IRepository<OTPVerification> OTPVerification
+            , IRepository<CustomerPaymentCards> CustomerPaymentCards, IRepository<LogsCheckout> LogsCheckout
+            , IRepository<CustomerPaymentTansactions> CustomerPaymentTansactions)
         {
             this.BNPL_Context=BNPL_Context;
             this.AspNetUser=AspNetUser;
@@ -43,6 +52,9 @@ namespace BNPL_Web.DatabaseModels.DbImplementation
             this.UserProfile=UserProfile;
             this.SystemUsers = SystemUsers;
             this.OTPVerification=OTPVerification;
+            this.CustomerPaymentCards = CustomerPaymentCards;
+            this.CustomerPaymentTansactions = CustomerPaymentTansactions;
+            this.LogsCheckout = LogsCheckout;
         }
 
     }

@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace BNPL_Web.DatabaseModels.DTOs
 {
-    public class CusPaymentCards
+    public class CustomerPaymentCards
     {
         [Key]
         public Guid Id { get; set; }
-        public string? UserId { get; set; }
-        public string? CustomerId { get; set; }
+        public string? CheckoutCustomerId { get; set; }
+        public string? CivilId { get; set; }
         public string? CardNumber { get; set; }
         public string? Token { get; set; }
         public bool? IsDefault { get; set; }
         public DateTime? ExpiryDate { get; set; }
-        public string? CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

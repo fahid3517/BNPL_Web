@@ -4,6 +4,7 @@ using BNPL_Web.DatabaseModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BNPL_Web.DatabaseModels.Migrations
 {
     [DbContext(typeof(BNPL_Context))]
-    partial class BNPL_ContextModelSnapshot : ModelSnapshot
+    [Migration("20220116082509_PaymentTableAdd")]
+    partial class PaymentTableAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,7 +221,7 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.ToTable("AuditLogs");
                 });
 
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.CustomerPaymentCards", b =>
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.CustomerCards", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -228,14 +230,11 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.Property<string>("CardNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CheckoutCustomerId")
+                    b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CivilId")
+                    b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("datetime2");
@@ -246,16 +245,23 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerPaymentCards");
+                    b.ToTable("CustomerCards");
                 });
 
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.CustomerPaymentTansactions", b =>
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.CustomerPayments", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("Amount")
                         .HasColumnType("bigint");
@@ -263,52 +269,37 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.Property<bool>("Approved")
                         .HasColumnType("bit");
 
-                    b.Property<string>("AuthCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CardNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CheckoutActionId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CheckoutCustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CheckoutPaymentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CivilId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ResponseCode")
+                    b.Property<string>("CustomerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ResponseSummary")
+                    b.Property<string>("PaymentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("auth_code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("response_code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("response_summary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerPaymentTansactions");
+                    b.ToTable("CustomerPayments");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.CustomerProfile", b =>
@@ -382,41 +373,36 @@ namespace BNPL_Web.DatabaseModels.Migrations
                     b.ToTable("CustomerProfiles");
                 });
 
-            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.LogsCheckout", b =>
+            modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.CusTransactionsLogs", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CivilId")
-                        .IsRequired()
+                    b.Property<long?>("Amount")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CardNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DataObj")
-                        .IsRequired()
+                    b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ErrorMsg")
-                        .IsRequired()
+                    b.Property<string>("PaymentId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ExceptionObj")
-                        .IsRequired()
+                    b.Property<string>("TransactionId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Success")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("LogsCheckout");
+                    b.ToTable("CusTransactionsLogs");
                 });
 
             modelBuilder.Entity("BNPL_Web.DatabaseModels.DTOs.OTPVerification", b =>

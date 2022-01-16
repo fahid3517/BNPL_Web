@@ -12,6 +12,7 @@ namespace BNPL_Web.Common.ViewModels
         public string currency { get; set; }
         public long amount { get; set; }
         public Metadata metadata { get; set; }
+        public Customer1 customer { get; set; }
     }
     public class RequestSource
     {
@@ -23,6 +24,12 @@ namespace BNPL_Web.Common.ViewModels
         public string udf1 { get; set; }
         public string coupon_code { get; set; }
         public string partner_id { get; set; }
+    }
+    public class Customer1
+    {
+        public string name { get; set; }
+        public string id { get; set; }
+        public string email { get; set; }
     }
     
 }

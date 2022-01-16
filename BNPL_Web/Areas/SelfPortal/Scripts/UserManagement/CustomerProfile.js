@@ -1,6 +1,33 @@
 ﻿var userId;
 var ContractNumber;
 
+$(function () {
+    $.ajax({
+        url: '/api/Payment/CustomerCardVerification',
+        type: 'POST',
+        contentType: "application/json;charset=utf-8",
+        success: function (data) {
+            debugger;
+            toastr.success("User added successfully", { timeOut: 5000 });
+            userId = data.UserId;
+            ContractNumber = data.ContractNumber;
+            $("#UserId").val(data.UserId);
+            $("#Number").val(data.ContractNumber);
+            debugger;
+            $('#OTPConfirm_Modal').modal('show');
+
+            //location.href = '/Account/Login';
+        },
+        error: function (data) {
+            var response = data.responseText.replace(/"/g, '');
+            toastr.error(response, { timeOut: 5000 });
+            HideModalLoader();
+
+        }
+    });
+
+});
+
 function Add() {
     var Password = $("#Password").val();
     var Dob = $("#Dob").val();

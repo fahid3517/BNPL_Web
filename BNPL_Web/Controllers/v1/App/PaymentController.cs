@@ -7,8 +7,8 @@ using RestSharp;
 
 namespace BNPL_Web.Controllers.v1.App
 {
-    [ApiVersion("1")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+  
+    [Route("api/Payment")]
     [ApiController]
     public class PaymentController : ControllerBase
     {
@@ -20,16 +20,18 @@ namespace BNPL_Web.Controllers.v1.App
         }
         [HttpPost]
         [Route("CustomerCardVerification")]
-        public async Task<IActionResult> CustomerCardVerification(CardPaymentRequest model,string CivilId,string cardNumber,DateTime ExpireDate)
+        public async Task<IActionResult> CustomerCardVerification(/*CardPaymentRequest model,string CivilId,string cardNumber,DateTime ExpireDate*/)
         {
+            CardPaymentRequest model = new CardPaymentRequest();
             RequestSource source1 = new RequestSource();
             source1.type = "token";
+            source1.token = "tok_baccjljiy23u3bfhqt2y7p3ci4";
             model.source=source1;
             model.currency = "USD";
             model.amount = 0;
             try
             {
-                var respnose = await service.CardVerificationRequestAsync(HttpMethod.Post, model,CivilId, cardNumber, ExpireDate);
+                var respnose = await service.CardVerificationRequestAsync(HttpMethod.Post, model,"", "", DateTime.Now);
             }
             catch (Exception ex)
             {

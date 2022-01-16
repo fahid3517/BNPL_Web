@@ -194,7 +194,6 @@ namespace BNPL_Web.DataAccessLayer.Services
                     #endregion
                     using (var client = new HttpRequestMessage())
                     {
-
                         CardPaymentRequest request = new CardPaymentRequest();
                         RequestSource source = new RequestSource();
                         source.type = "token";
@@ -203,9 +202,16 @@ namespace BNPL_Web.DataAccessLayer.Services
                         request.currency = "USD";
                         request.amount = Amount;
 
-                      
+                        Customer1 customer1 = new Customer1();
 
-
+                        customer1.id = "cus_hgvuhfnyd6de3cswvtagm2lzii";
+                        var ParentCustomerData = unitOfWork.CustomerProfile.Get(x => x.CivilId == CivilId);
+                        if (ParentCustomerData != null)
+                        {
+                            customer1.name = ParentCustomerData.FullName;
+                            customer1.email = ParentCustomerData.Email;
+                        }
+                        request.customer = customer1;
                         client.Headers.TryAddWithoutValidation("Authorization", "sk_test_adc5580d-5f3c-4e27-90f4-5de80c404629");
                         client.Method = HttpMethod.Post;
                         client.RequestUri = new Uri("https://api.sandbox.checkout.com/payments");
@@ -237,16 +243,6 @@ namespace BNPL_Web.DataAccessLayer.Services
                             return response;
                         }
                         var check = await data.Content.ReadAsStringAsync();
-
-                        CardPaymentResponse response1 = new CardPaymentResponse();
-                        Customer customer = new Customer();
-                        customer.id = "cus_hgvuhfnyd6de3cswvtagm2lzii";
-                        var ParentCustomerData = unitOfWork.CustomerProfile.Get(x => x.CivilId == CivilId);
-                        if(ParentCustomerData != null)
-                        {
-                            customer.name = ParentCustomerData.FullName;
-                            customer.email=ParentCustomerData.Email;
-                        }
 
                         CardPaymentResponse ActualData = JsonConvert.DeserializeObject<CardPaymentResponse>(check);
 

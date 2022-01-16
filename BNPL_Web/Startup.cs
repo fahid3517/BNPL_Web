@@ -24,6 +24,11 @@ using CorePush.Apple;
 using BNPL_Web.Notification.Models;
 using Microsoft.OpenApi.Models;
 using BNPL_Web.smsService;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 
 namespace BNPL_Web
 {
@@ -58,10 +63,47 @@ namespace BNPL_Web
             //services.AddSwaggerGen(c => {
             //    c.SwaggerDoc(name: "V1", new OpenApiInfo { Title = "My API", Version = "V1" });
             //});
-
+            services.AddApiVersioning(o =>
+            {
+                o.ReportApiVersions = true;
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(2, 0);
+            });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiDB", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger  Documentation", Version = "v1" });
+                c.SwaggerDoc("App-v1", new OpenApiInfo { Title = "Swagger Admin Documentation", Version = "v1" });
+
+                c.OperationFilter<RemoveVersionFromParameter>();
+                c.DocumentFilter<ReplaceVersionWithExactValueInPath>();
+
+                // Ensure the routes are added to the right Swagger doc
+                c.DocInclusionPredicate((docName, apiDesc) =>
+                {
+                    if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo))
+                    {
+                        return false;
+                    }
+
+                    if (methodInfo.DeclaringType.FullName.Contains("Admin"))
+                    {
+                        IEnumerable<ApiVersion> versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(a => a.Versions);
+
+                        return versions.Any(v => $"App-v{v.ToString()}" == docName);
+                    }
+                    else
+                    {
+                        IEnumerable<ApiVersion> versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(a => a.Versions);
+
+                        return versions.Any(v => $"v{v.ToString()}" == docName);
+                    }
+                });
             });
             services.AddAuthentication(sharedOptions =>
             {
@@ -125,8 +167,9 @@ namespace BNPL_Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApiDB v1"));
+               // app.UseSwagger();
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApiDB v1"));
+                
             }
             else
             {
@@ -142,6 +185,14 @@ namespace BNPL_Web
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Admin Documentation V1");
+                c.SwaggerEndpoint("/swagger/App-v1/swagger.json", "Swagger Mobile App Documentation V1");
+            });
+
             //Area Routing
             app.UseEndpoints(endpoints =>
             {
@@ -214,6 +265,27 @@ namespace BNPL_Web
                     continue;
                 }
                 services.Add(new ServiceDescriptor(interfaceType, type, lifetime));
+            }
+        }
+        public class RemoveVersionFromParameter : IOperationFilter
+        {
+            public void Apply(OpenApiOperation operation, OperationFilterContext context)
+            {
+                var versionParameter = operation.Parameters.Single(p => p.Name == "version");
+                operation.Parameters.Remove(versionParameter);
+            }
+        }
+
+        public class ReplaceVersionWithExactValueInPath : IDocumentFilter
+        {
+            public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+            {
+                var paths = new OpenApiPaths();
+                foreach (var path in swaggerDoc.Paths)
+                {
+                    paths.Add(path.Key.Replace("v{version}", swaggerDoc.Info.Version), path.Value);
+                }
+                swaggerDoc.Paths = paths;
             }
         }
     }

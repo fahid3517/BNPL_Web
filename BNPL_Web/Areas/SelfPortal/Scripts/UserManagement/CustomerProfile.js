@@ -110,7 +110,7 @@ function Add() {
         Language: Language
     }
     $.ajax({
-        url: '/api/User/Post',
+        url: '/api/v1/Customer/CustomerRegister',
         type: 'POST',
         data: JSON.stringify(User),
         contentType: "application/json;charset=utf-8",
@@ -141,7 +141,7 @@ function SendOTP() {
     debugger
 
     $.ajax({
-        url: '/api/User/SendOTP?UserId=' + UserID + '&Mobile=' + number,
+        url: '/api/v1/Customer/OtpSend?UserId=' + UserID + '&Mobile=' + number,
         type: 'POST',
         contentType: "application/json;charset=utf-8",
         success: function (data) {
@@ -175,7 +175,7 @@ function VerifyOTP() {
     var Number = $("#ContactNumber").val();
     var OTP = $("#OTP").val();
     $.ajax({
-        url: '/api/User/VerifyOtp?UserId=' + UserId + '&Number=' + Number + '&OTP=' + OTP,
+        url: '/api/v1/Customer/OtpVerify?UserId=' + UserId + '&Number=' + Number + '&OTP=' + OTP,
         type: 'POST',
         contentType: "application/json;charset=utf-8",
         success: function (data) {

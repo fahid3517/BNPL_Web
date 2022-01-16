@@ -104,115 +104,14 @@ namespace Project.DatabaseModel.DbImplementation
         public virtual void Commit()
         {
             SaveChanges();
-            //try
-            //{
-            //    SaveChanges();
-            //}
-            //catch (DbEntityValidationException dbEx)
-            //{
-            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
-            //    {
-            //        //foreach (var validationError in validationErrors.ValidationErrors)
-            //        //{
-            //        //    Logger.Instance.Write(EnumLogLevel.Error, "Class: " + validationErrors.Entry.Entity.GetType().FullName +
-            //        //        ", Property: " + validationError.PropertyName + ", Error: " + validationError.ErrorMessage);
-            //        //}
-            //    }
-            //    throw;
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Logger.Instance.Write(EnumLogLevel.Error, ex.InnerException.Message, ex);
-            //    throw;
-            //}
+            
 
         }
         private int SaveChanges()
         {
-            _context.ChangeTracker.DetectChanges();
-
-            // Get all Added/Deleted/Modified entities (not Unmodified or Detached)
-            foreach (var ent in _context.ChangeTracker.Entries().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified).ToList())
-            {
-                var auditLog = new AuditLogs();
-                // For each changed record, get the audit record entries and add them
-                foreach (AuditLogs audit in GetAuditRecordsForChange(ent))
-                {
-                    _context.AuditLogs.Add(auditLog);
-                    //auditLog.CreatedBy = audit.CreatedBy;
-                    //audit.CreatedOn = DateTime.Now;
-                    //audit.ColumnName += audit.ColumnName + "/";
-                    //auditLog.EntityId += audit.EntityId;
-                    //audit.OriginalValue +=audit.OriginalValue+"/";
-                    //audit.NewValue += audit.NewValue + "/";
-                    //audit.EventType =audit.EventType;    
-                }
-                
-            }
-
             // Call the original SaveChanges(), which will save both the changes made and the audit records
             return _context.SaveChanges();
         }
-        private List<AuditLogs> GetAuditRecordsForChange(EntityEntry dbEntry)
-        {
-            List<AuditLogs> result = new List<AuditLogs>();
-
-            string tableName = dbEntry.Entity.GetType().Name;
-
-            var keyName = dbEntry.Metadata.FindPrimaryKey().Properties.Select(x => x.Name).Single();
-            string entityId = dbEntry.Entity.GetType().GetProperty(keyName).GetValue(dbEntry.Entity, null).ToString();
-
-            string createdBy = "";/* httpContextAccessor.HttpContext.User.Identity.Name;*/
-
-            if (dbEntry.State == EntityState.Added)
-            {
-                result.Add(new AuditLogs()
-                {
-                    Id = Guid.NewGuid(),
-                    CreatedBy = createdBy,
-                    CreatedAt = currentTimeStamp,
-                    EventType = "Add", // Added
-                    TableName = tableName,
-                    Columns = "All",
-                    NewValue = dbEntry.CurrentValues.ToObject().ToString()
-                });
-            }
-            else if (dbEntry.State == EntityState.Deleted)
-            {
-                result.Add(new AuditLogs()
-                {
-                    Id = Guid.NewGuid(),
-                    CreatedBy = createdBy,
-                    CreatedAt = currentTimeStamp,
-                    EventType = "Delete", // Deleted
-                    TableName = tableName,
-                    Columns = "*ALL",
-                   PreviousValue= dbEntry.OriginalValues.ToObject().ToString()
-                });
-            }
-            else if (dbEntry.State == EntityState.Modified)
-            {
-                foreach (var v in dbEntry.Properties)
-                {
-                    // For updates, we only want to capture the columns that actually changed
-                    if (!object.Equals(v.OriginalValue, v.CurrentValue))
-                    {
-                        result.Add(new AuditLogs()
-                        {
-                            Id = Guid.NewGuid(),
-                            CreatedBy = createdBy,
-                            CreatedAt = currentTimeStamp,
-                            EventType = "Edit",    // Modified
-                            TableName = tableName,
-                            Columns = v.Metadata.Name,
-                            PreviousValue = v.OriginalValue == null ? "" : v.OriginalValue.ToString(),
-                            NewValue = v.CurrentValue == null ? "" : v.CurrentValue.ToString()
-                        });
-                    }
-                }
-            }
-
-            return result;
-        }
+        
     }
 }

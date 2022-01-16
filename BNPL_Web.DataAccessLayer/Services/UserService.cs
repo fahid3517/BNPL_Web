@@ -27,7 +27,7 @@ namespace BNPL_Web.DataAccessLayer.Services
             this.unitOfWork = unitOfWork;
             _Configuration = configuration;
         }
-        public ResponseViewModel Add(UserViewModel value)
+        public ResponseViewModel Add(CustomerViewModel value)
         {
             ResponseViewModel response = new ResponseViewModel();
             try

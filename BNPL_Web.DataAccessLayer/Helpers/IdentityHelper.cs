@@ -19,7 +19,7 @@ namespace BNPL_Web.DataAccessLayer.Helpers
     public static class IdentityHelper
     {
 
-        public static FunctionResult createUser(UserViewModel user)
+        public static FunctionResult createUser(CustomerViewModel user)
         {
             try
             {

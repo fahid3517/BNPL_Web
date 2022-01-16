@@ -45,48 +45,48 @@ namespace BNPL_Web.Controllers.ApiControllers
         }
 
 
-        [HttpPost]
-        [Route("Post")]
-        public IActionResult Post(UserViewModel model)
-        {
-            FunctionResult result = IdentityHelper.createUser(model);
-            if (!result.success)
-            {
-                return StatusCode((int)HttpStatusCode.BadRequest, result.message);
-            }
-            model.UserId = result.message;
+        //[HttpPost]
+        //[Route("Post")]
+        //public IActionResult Post(UserViewModel model)
+        //{
+        //    FunctionResult result = IdentityHelper.createUser(model);
+        //    if (!result.success)
+        //    {
+        //        return StatusCode((int)HttpStatusCode.BadRequest, result.message);
+        //    }
+        //    model.UserId = result.message;
 
-            var response = UserService.Add(model);
-            if (response.Status == HttpStatusCode.OK)
-            {
-                int OTP =_smsservice.GenerateRandomNo();
+        //    var response = UserService.Add(model);
+        //    if (response.Status == HttpStatusCode.OK)
+        //    {
+        //        int OTP =_smsservice.GenerateRandomNo();
 
-            }
-            return StatusCode((int)response.Status, response.obj);
-        }
-        [HttpPost]
-        [Route("SendOTP")]
+        //    }
+        //    return StatusCode((int)response.Status, response.obj);
+        //}
+        //[HttpPost]
+        //[Route("SendOTP")]
 
-        public IActionResult SendOTP(string? UserId, string? Mobile)
-        {
-            int OTP = _smsservice.GenerateRandomNo();
-            if (_smsservice.SendSMS(OTP, Mobile))
-            {
-                var response1 = UserService.AddOtp(OTP, Mobile, UserId);
-                return StatusCode((int)response1.Status, response1.obj);
-            }
-            return StatusCode((int)HttpStatusCode.BadRequest, "");
-        }
-        [HttpPost]
-        [Route("VerifyOtp")]
+        //public IActionResult SendOTP(string? UserId, string? Mobile)
+        //{
+        //    int OTP = _smsservice.GenerateRandomNo();
+        //    if (_smsservice.SendSMS(OTP, Mobile))
+        //    {
+        //        var response1 = UserService.AddOtp(OTP, Mobile, UserId);
+        //        return StatusCode((int)response1.Status, response1.obj);
+        //    }
+        //    return StatusCode((int)HttpStatusCode.BadRequest, "");
+        //}
+        //[HttpPost]
+        //[Route("VerifyOtp")]
 
-        public IActionResult VerifyOtp(string? UserId, string? Number, string? OTP)
-        {
+        //public IActionResult VerifyOtp(string? UserId, string? Number, string? OTP)
+        //{
 
 
-            var response1 = UserService.VerifyOtp(UserId, Number, OTP);
-            return StatusCode((int)response1.Status, response1.obj);
-        }
+        //    var response1 = UserService.VerifyOtp(UserId, Number, OTP);
+        //    return StatusCode((int)response1.Status, response1.obj);
+        //}
 
 
 

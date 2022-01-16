@@ -17,13 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\v1\Admin\**" />
     <Compile Remove="Controllers\WebApiControllers\**" />
-    <Content Remove="Controllers\v1\Admin\**" />
     <Content Remove="Controllers\WebApiControllers\**" />
-    <EmbeddedResource Remove="Controllers\v1\Admin\**" />
     <EmbeddedResource Remove="Controllers\WebApiControllers\**" />
-    <None Remove="Controllers\v1\Admin\**" />
     <None Remove="Controllers\WebApiControllers\**" />
   </ItemGroup>
 
@@ -55,6 +51,7 @@
 
   <ItemGroup>
     <Folder Include="Authorizations\" />
+    <Folder Include="Controllers\v1\Admin\" />
     <Folder Include="CustomAnnotation\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>

@@ -28,7 +28,10 @@ namespace BNPL_Web.DatabaseModels.Models
         public virtual DbSet<SystemUser> SystemUsers { get; set; } = null!;
         public virtual DbSet<UserProfile> UserProfiles { get; set; } = null!;
         public virtual DbSet<OTPVerification> OTPVerification { get; set; } = null!;
-        public virtual DbSet<AuditLog> AuditLog { get;set; } = null!;
+        public virtual DbSet<AuditLogs> AuditLogs { get;set; } = null!;
+        public virtual DbSet<CusPaymentCards> CusPaymentCards { get; set; } = null!;
+        public virtual DbSet<CusTransactionsLogs> CusTransactionsLogs { get; set; } = null!;
+
 
     }
 }

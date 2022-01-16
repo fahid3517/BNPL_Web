@@ -47,7 +47,7 @@ namespace BNPL_Web.DataAccessLayer.Services
                     client.Method = HttpMethod.Post;
                     client.RequestUri = new Uri("https://api.sandbox.checkout.com/payments");
                     client.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody), System.Text.Encoding.UTF8,
-                            MediaTypeNames.Application.Json);
+                            "application/json");
                     var data = await _httpClient.SendAsync(client);
                     if (data.StatusCode == HttpStatusCode.Unauthorized)
                     {

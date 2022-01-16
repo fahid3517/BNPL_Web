@@ -43,7 +43,7 @@ namespace BNPL_Web.DataAccessLayer.Services
 
                 CustomerProfile data = new CustomerProfile();
 
-                data.UserId = value.UserId.ToString();
+                data.CivilId = value.CivilId.ToString();
                 
                 data.FirstNameAr = value.FirstNameAr;
                 data.MiddleNameAr = value.LastNameAr;

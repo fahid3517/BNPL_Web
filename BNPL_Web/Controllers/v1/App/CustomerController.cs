@@ -63,12 +63,12 @@ namespace BNPL_Web.Controllers.v1.App
         [HttpPost]
         [Route("OtpSend")]
 
-        public IActionResult OtpSend(string? CivilID, string? Mobile)
+        public IActionResult OtpSend(OTPRequest model)
         {
             int OTP = _smsservice.GenerateRandomNo();
-            if (_smsservice.SendSMS(OTP, Mobile))
+            if (_smsservice.SendSMS(OTP, model.Mobile))
             {
-                var response1 = UserService.AddOtp(OTP, Mobile, CivilID);
+                var response1 = UserService.AddOtp(OTP, model.Mobile, model.CivilID);
                 return StatusCode((int)response1.Status, response1.obj);
             }
             return StatusCode((int)HttpStatusCode.BadRequest, "");
@@ -76,11 +76,11 @@ namespace BNPL_Web.Controllers.v1.App
         [HttpPost]
         [Route("OtpVerify")]
 
-        public IActionResult OtpVerify(string? CivilID, string? Number, string? OTP)
+        public IActionResult OtpVerify(OTPVerificationRequest model)
         {
 
 
-            var response1 = UserService.VerifyOtp(CivilID, Number, OTP);
+            var response1 = UserService.VerifyOtp(model.CivilID, model.Number, model.OTP);
             return StatusCode((int)response1.Status, response1.obj);
         }
         [HttpPost]

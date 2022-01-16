@@ -19,7 +19,7 @@ namespace BNPL_Web.DataAccessLayer.IServices
          );
         ResponseViewModel GetAllCustomerCard(string CivilId);
         Task<ResponseViewModel> CutomerPayment(
-        string cardnumber, long Amount,string CivilId
+        string cardnumber, long Amount,string CivilId,string Currency
          );
     }
 }

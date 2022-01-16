@@ -8,15 +8,7 @@ $(function () {
         contentType: "application/json;charset=utf-8",
         success: function (data) {
             debugger;
-            toastr.success("User added successfully", { timeOut: 5000 });
-            userId = data.UserId;
-            ContractNumber = data.ContractNumber;
-            $("#UserId").val(data.UserId);
-            $("#Number").val(data.ContractNumber);
-            debugger;
-            $('#OTPConfirm_Modal').modal('show');
-
-            //location.href = '/Account/Login';
+           
         },
         error: function (data) {
             var response = data.responseText.replace(/"/g, '');
@@ -119,7 +111,7 @@ function Add() {
             toastr.success("User added successfully", { timeOut: 5000 });
             userId = data.UserId;
             ContractNumber = data.ContractNumber;
-            $("#UserId").val(data.UserId);
+            $("#UserId").val(data.CivilId);
             $("#Number").val(data.ContractNumber);
             debugger;
             $('#OTPConfirm_Modal').modal('show');

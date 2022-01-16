@@ -173,7 +173,7 @@ namespace BNPL_Web.DataAccessLayer.Services
                 return response;
             }
         }
-        public async Task<ResponseViewModel> CutomerPayment(string CardNumber, long Amount, string CivilId)
+        public async Task<ResponseViewModel> CutomerPayment(string CardNumber, long Amount, string CivilId,string Currency)
         {
             ResponseViewModel response = new ResponseViewModel();
             try
@@ -181,10 +181,25 @@ namespace BNPL_Web.DataAccessLayer.Services
                 var CustomerCardData = unitOfWork.CustomerPaymentCards.Get(x => x.CardNumber == CardNumber);
                 if (CustomerCardData != null)
                 {
+                    Customer1 customer1 = new Customer1();
+
+                    //customer1.id = "cus_hgvuhfnyd6de3cswvtagm2lzii";
+                    var ParentCustomerData = unitOfWork.CustomerProfile.Get(x => x.CivilId == CivilId);
+                    if (ParentCustomerData != null)
+                    {
+                        customer1.name = ParentCustomerData.FullName;
+                        customer1.email = ParentCustomerData.Email;
+                    }
+                    else
+                    {
+                        response.Message = "CivilId Not Valid";
+                        response.Status = HttpStatusCode.BadRequest;
+                        return response;
+                    }
                     #region InitialLogs
                     var logs = new LogsCheckout();
 
-                    logs.CivilId = "0c34ae5d-fbaa-4e3e-bc26-fc883a72ed9e";
+                    logs.CivilId = CivilId;
                     logs.CreatedAt = DateTime.Now;
                     logs.DataObj = CardNumber + "/" + Amount;
                     logs.Type = "Card Verification Request";
@@ -199,18 +214,10 @@ namespace BNPL_Web.DataAccessLayer.Services
                         source.type = "token";
                         source.token = CustomerCardData.Token;
                         request.source = source;
-                        request.currency = "USD";
+                        request.currency = Currency;
                         request.amount = Amount;
 
-                        Customer1 customer1 = new Customer1();
-
-                        customer1.id = "cus_hgvuhfnyd6de3cswvtagm2lzii";
-                        var ParentCustomerData = unitOfWork.CustomerProfile.Get(x => x.CivilId == CivilId);
-                        if (ParentCustomerData != null)
-                        {
-                            customer1.name = ParentCustomerData.FullName;
-                            customer1.email = ParentCustomerData.Email;
-                        }
+                        
                         request.customer = customer1;
                         client.Headers.TryAddWithoutValidation("Authorization", "sk_test_adc5580d-5f3c-4e27-90f4-5de80c404629");
                         client.Method = HttpMethod.Post;

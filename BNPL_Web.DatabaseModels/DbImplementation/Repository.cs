@@ -134,11 +134,11 @@ namespace Project.DatabaseModel.DbImplementation
             // Get all Added/Deleted/Modified entities (not Unmodified or Detached)
             foreach (var ent in _context.ChangeTracker.Entries().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified).ToList())
             {
-                var auditLog = new AuditLog();
+                var auditLog = new AuditLogs();
                 // For each changed record, get the audit record entries and add them
-                foreach (AuditLog audit in GetAuditRecordsForChange(ent))
+                foreach (AuditLogs audit in GetAuditRecordsForChange(ent))
                 {
-                    _context.AuditLog.Add(auditLog);
+                    _context.AuditLogs.Add(auditLog);
                     //auditLog.CreatedBy = audit.CreatedBy;
                     //audit.CreatedOn = DateTime.Now;
                     //audit.ColumnName += audit.ColumnName + "/";
@@ -153,9 +153,9 @@ namespace Project.DatabaseModel.DbImplementation
             // Call the original SaveChanges(), which will save both the changes made and the audit records
             return _context.SaveChanges();
         }
-        private List<AuditLog> GetAuditRecordsForChange(EntityEntry dbEntry)
+        private List<AuditLogs> GetAuditRecordsForChange(EntityEntry dbEntry)
         {
-            List<AuditLog> result = new List<AuditLog>();
+            List<AuditLogs> result = new List<AuditLogs>();
 
             string tableName = dbEntry.Entity.GetType().Name;
 
@@ -166,30 +166,28 @@ namespace Project.DatabaseModel.DbImplementation
 
             if (dbEntry.State == EntityState.Added)
             {
-                result.Add(new AuditLog()
+                result.Add(new AuditLogs()
                 {
                     Id = Guid.NewGuid(),
                     CreatedBy = createdBy,
-                    CreatedOn = currentTimeStamp,
+                    CreatedAt = currentTimeStamp,
                     EventType = "Add", // Added
                     TableName = tableName,
-                    EntityId = entityId,
-                    ColumnName = "All",
+                    Columns = "All",
                     NewValue = dbEntry.CurrentValues.ToObject().ToString()
                 });
             }
             else if (dbEntry.State == EntityState.Deleted)
             {
-                result.Add(new AuditLog()
+                result.Add(new AuditLogs()
                 {
                     Id = Guid.NewGuid(),
                     CreatedBy = createdBy,
-                    CreatedOn = currentTimeStamp,
+                    CreatedAt = currentTimeStamp,
                     EventType = "Delete", // Deleted
                     TableName = tableName,
-                    EntityId = entityId,
-                    ColumnName = "*ALL",
-                    OriginalValue = dbEntry.OriginalValues.ToObject().ToString()
+                    Columns = "*ALL",
+                   PreviousValue= dbEntry.OriginalValues.ToObject().ToString()
                 });
             }
             else if (dbEntry.State == EntityState.Modified)
@@ -199,16 +197,15 @@ namespace Project.DatabaseModel.DbImplementation
                     // For updates, we only want to capture the columns that actually changed
                     if (!object.Equals(v.OriginalValue, v.CurrentValue))
                     {
-                        result.Add(new AuditLog()
+                        result.Add(new AuditLogs()
                         {
                             Id = Guid.NewGuid(),
                             CreatedBy = createdBy,
-                            CreatedOn = currentTimeStamp,
+                            CreatedAt = currentTimeStamp,
                             EventType = "Edit",    // Modified
                             TableName = tableName,
-                            EntityId = entityId,
-                            ColumnName = v.Metadata.Name,
-                            OriginalValue = v.OriginalValue == null ? "" : v.OriginalValue.ToString(),
+                            Columns = v.Metadata.Name,
+                            PreviousValue = v.OriginalValue == null ? "" : v.OriginalValue.ToString(),
                             NewValue = v.CurrentValue == null ? "" : v.CurrentValue.ToString()
                         });
                     }

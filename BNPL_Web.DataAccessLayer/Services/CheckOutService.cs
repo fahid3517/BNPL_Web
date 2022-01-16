@@ -29,6 +29,16 @@ namespace BNPL_Web.DataAccessLayer.Services
             ResponseViewModel response = new ResponseViewModel();
             try
             {
+                var CustomerData = unitOfWork.CustomerProfile.Get(x => x.CivilId == CivilId);
+                if (CustomerData != null)
+                {
+                    response.Message = "Invalid CivilId";
+                    response.obj= "Invalid CivilId";
+                    response.Status = HttpStatusCode.BadRequest;
+                    return response;
+
+                }
+
                 #region InitialLogs
                 var logs = new LogsCheckout();
 
@@ -52,25 +62,25 @@ namespace BNPL_Web.DataAccessLayer.Services
                     if (data.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         response.Message = "UnAuthorized Request";
-                        response.status = HttpStatusCode.Unauthorized;
+                        response.Status = HttpStatusCode.Unauthorized;
                         return response;
                     }
                     if (data.StatusCode == HttpStatusCode.UnprocessableEntity)
                     {
                         response.Message = "UnProcessible Entity";
-                        response.status = HttpStatusCode.UnprocessableEntity;
+                        response.Status = HttpStatusCode.UnprocessableEntity;
                         return response;
                     }
                     if (data.StatusCode == HttpStatusCode.TooManyRequests)
                     {
                         response.Message = "Too Many Request";
-                        response.status = HttpStatusCode.TooManyRequests;
+                        response.Status = HttpStatusCode.TooManyRequests;
                         return response;
                     }
                     if (data.StatusCode == HttpStatusCode.BadGateway)
                     {
                         response.Message = "Bad Gateway Request";
-                        response.status = HttpStatusCode.BadGateway;
+                        response.Status = HttpStatusCode.BadGateway;
                         return response;
                     }
                     var check = await data.Content.ReadAsStringAsync();

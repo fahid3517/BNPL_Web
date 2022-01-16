@@ -21,25 +21,26 @@ namespace BNPL_Web.Controllers.v1.App
         }
         [HttpPost]
         [Route("CustomerCardVerification")]
-        public async Task<IActionResult> CustomerCardVerification(CardPaymentRequest model,string CivilId,string cardNumber,DateTime ExpireDate)
+        public async Task<IActionResult> CustomerCardVerification(CardVerificationRequest model1)
         {
-            
 
+            CardPaymentRequest model = new CardPaymentRequest();
             RequestSource source1 = new RequestSource();
             source1.type = "token";
-            source1.token = model.source.token;
+            source1.token = model1.Token;
             model.source=source1;
             model.currency = "USD";
             model.amount = 0;
             try
             {
-                var respnose = await service.CardVerificationRequestAsync(HttpMethod.Post, model,"", "", DateTime.Now);
+                var respnose = await service.CardVerificationRequestAsync(HttpMethod.Post, model, model1.CivilId, model1.CardNumber, DateTime.Now);
+                return StatusCode((int)respnose.Status, respnose.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "");
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
-            return StatusCode(StatusCodes.Status201Created, "");
+           
         }
         [HttpGet]
         [Route("GetAllCustomerCard")]
@@ -48,28 +49,29 @@ namespace BNPL_Web.Controllers.v1.App
             try
             {
                 var respnose = service.GetAllCustomerCard(CivilId);
+                return StatusCode((int)respnose.Status, respnose.obj);
             }
             catch (Exception ex)
             {
                 var response = ex.Message;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            return StatusCode(StatusCodes.Status201Created, "");
+            
         }
         [HttpPost]
         [Route("CustomerPayment")]
-        public IActionResult CustomerPayment(string Cardnumber, long Amount,string CivilId)
+        public IActionResult CustomerPayment(CustomerPaymentRequest model)
         {
             try
             {
-                var respnose = service.CutomerPayment(Cardnumber,Amount,CivilId);
+                var respnose = service.CutomerPayment(model.Cardnumber, (long)model.Amount,model.CivilId,model.Currency);
+                return StatusCode((int)respnose.Status, respnose.Result);
             }
             catch (Exception ex)
             {
                 var response = ex.Message;
                 return StatusCode(StatusCodes.Status400BadRequest, response);
             }
-            return StatusCode(StatusCodes.Status201Created, "");
         }
     }
 }

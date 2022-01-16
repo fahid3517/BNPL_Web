@@ -4,6 +4,7 @@ using BNPL_Web.DatabaseModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BNPL_Web.DatabaseModels.Migrations
 {
     [DbContext(typeof(BNPL_Context))]
-    partial class BNPL_ContextModelSnapshot : ModelSnapshot
+    [Migration("20220116114124_Change")]
+    partial class Change
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

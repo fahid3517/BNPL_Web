@@ -10,11 +10,16 @@ namespace BNPL_Web.DataAccessLayer.IServices
 {
     public interface ICheckOut
     {
-             Task<ResponseViewModel> SendRequestAsync(
-              HttpMethod httpMethod,
-              CardPaymentRequest requestBody,
-              string CardNumber,
-              DateTime ExpireDate
-              );
-    } 
+        Task<ResponseViewModel> CardVerificationRequestAsync(
+         HttpMethod httpMethod,
+         CardPaymentRequest requestBody,
+         string CivilId,
+         string CardNumber,
+         DateTime ExpireDate
+         );
+        ResponseViewModel GetAllCustomerCard(string CivilId);
+        Task<ResponseViewModel> CutomerPayment(
+        string cardnumber, long Amount,string CivilId
+         );
+    }
 }

@@ -15,7 +15,7 @@ using System.Text;
 using System.Net;
 using BNPL_Web.Helpers;
 
-namespace BNPL_Web.Controllers.ApiControllers.Admin
+namespace BNPL_Web.Controllers.v1.App
 {
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]

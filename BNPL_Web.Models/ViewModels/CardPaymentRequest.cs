@@ -24,4 +24,5 @@ namespace BNPL_Web.Common.ViewModels
         public string coupon_code { get; set; }
         public string partner_id { get; set; }
     }
+    
 }

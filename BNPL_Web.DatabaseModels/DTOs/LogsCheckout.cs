@@ -9,7 +9,6 @@ namespace BNPL_Web.DatabaseModels.DTOs
 {
     public class LogsCheckout
     {
-        [Key]
         public Guid Id { get; set; }
         public string? DataObj { get; set; }
         public bool? Success { get; set; }
